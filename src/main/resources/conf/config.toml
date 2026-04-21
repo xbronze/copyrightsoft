@@ -1,0 +1,17 @@
+[cryptoMaterial]
+certPath = "."
+
+[network]
+peers=["192.168.1.107:20200"]
+
+[account]
+keyStoreDir = "."
+accountAddress = ""
+accountFileFormat = "pem"
+password = ""
+accountFile = "sdk.key"
+
+[threadPool]
+channelProcessorThreadSize = "1"
+receiptProcessorThreadSize = "1"
+maxBlockingQueueSize = "102400"

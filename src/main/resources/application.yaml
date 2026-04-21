@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: copyrightsoft
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.100:3356/soft_copyright?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: xu880410@
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+fisco:
+  bcos:
+    cert-path: classpath:conf/
+    group-id: group0
+    contract-address: 0x6849f21d1e455e9f0712b1e99fa4fcd23758e8f1
+
+minio:
+  endpoint: http://192.168.1.100:9050
+  access-key: minioadmin
+  secret-key: miniopassword
+  bucket-name: copyright-files
+
+
