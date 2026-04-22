@@ -4,6 +4,7 @@ import cn.blockchain.copyrightsoft.dto.ApplyCopyrightRequest;
 import cn.blockchain.copyrightsoft.dto.QueryResult;
 import cn.blockchain.copyrightsoft.service.CopyrightService;
 import cn.blockchain.copyrightsoft.utils.Result;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +28,7 @@ public class CopyrightController {
             ApplyCopyrightRequest request = new ApplyCopyrightRequest();
             request.setSoftwareName(softwareName);
             request.setDescription(description);
-            
+
             String txHash = copyrightService.applyCopyright(file, request);
             return Result.success("版权存证成功", txHash);
         } catch (Exception e) {
@@ -60,6 +61,20 @@ public class CopyrightController {
             return Result.success(result);
         } catch (Exception e) {
             log.error("查询失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/my-records")
+    public Result<Page<QueryResult>> getMyRecords(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) String keyword) {
+        try {
+            Page<QueryResult> result = copyrightService.getMyRecords(page, size, keyword);
+            return Result.success(result);
+        } catch (Exception e) {
+            log.error("获取版权记录列表失败", e);
             return Result.error(e.getMessage());
         }
     }

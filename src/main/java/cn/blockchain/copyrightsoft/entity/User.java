@@ -4,32 +4,26 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-/**
- * @author: xbronze
- * @date: 2026-04-21 09:40
- * @description: TODO
- */
 @Data
-@TableName("copyright_records")
-public class CopyrightRecord {
+@TableName("users")
+public class User {
 
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private String fileHash;
+    private String username;
 
-    private String softwareName;
+    private String password;
 
-    private String ownerAddress;
+    private String email;
 
-    private String description;
+    private String phone;
 
-    private String txHash;
+    private String nickname;
 
-    private Long blockNumber;
+    private String role;
 
-    // 添加用户ID字段
-    private Long userId;
+    private Integer status;
 
     @TableLogic
     private Integer deleted;

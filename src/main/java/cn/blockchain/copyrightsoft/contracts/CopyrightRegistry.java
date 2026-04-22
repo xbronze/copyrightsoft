@@ -1,4 +1,4 @@
-package cn.blockchain.copyrightsoft;
+package cn.blockchain.copyrightsoft.contracts;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

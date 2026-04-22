@@ -15,5 +15,7 @@ public class QueryResult {
     private Long timestamp;
     private Long fileSize;
     private String fileType;
+    // 添加用户ID字段
+    private Long userId;
     private LocalDateTime createTime;
 }

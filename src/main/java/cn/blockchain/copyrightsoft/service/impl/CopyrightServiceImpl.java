@@ -1,6 +1,6 @@
 package cn.blockchain.copyrightsoft.service.impl;
 
-import cn.blockchain.copyrightsoft.CopyrightRegistry;
+import cn.blockchain.copyrightsoft.contracts.CopyrightRegistry;
 import cn.blockchain.copyrightsoft.dto.ApplyCopyrightRequest;
 import cn.blockchain.copyrightsoft.dto.QueryResult;
 import cn.blockchain.copyrightsoft.entity.CopyrightRecord;
@@ -8,21 +8,26 @@ import cn.blockchain.copyrightsoft.entity.FileStorage;
 import cn.blockchain.copyrightsoft.mapper.CopyrightRecordMapper;
 import cn.blockchain.copyrightsoft.mapper.FileStorageMapper;
 import cn.blockchain.copyrightsoft.service.CopyrightService;
+import cn.blockchain.copyrightsoft.service.AuthService;
 import cn.blockchain.copyrightsoft.utils.FileHashUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,6 +39,9 @@ public class CopyrightServiceImpl implements CopyrightService {
     private final FileStorageMapper fileStorageMapper;
     private final MinioClient minioClient;
 
+    @Autowired
+    private AuthService authService;
+
     @Value("${minio.bucket-name}")
     private String bucketName;
 
@@ -41,10 +49,10 @@ public class CopyrightServiceImpl implements CopyrightService {
     private String contractAddress;
 
     public CopyrightServiceImpl(Client client,
-                                CryptoKeyPair cryptoKeyPair,
-                                CopyrightRecordMapper recordMapper,
-                                FileStorageMapper fileStorageMapper,
-                                MinioClient minioClient) {
+                               CryptoKeyPair cryptoKeyPair,
+                               CopyrightRecordMapper recordMapper,
+                               FileStorageMapper fileStorageMapper,
+                               MinioClient minioClient) {
         this.client = client;
         this.cryptoKeyPair = cryptoKeyPair;
         this.recordMapper = recordMapper;
@@ -185,6 +193,9 @@ public class CopyrightServiceImpl implements CopyrightService {
             record.setOwnerAddress(receipt.getFrom());
             record.setTxHash(receipt.getTransactionHash());
             record.setBlockNumber(receipt.getBlockNumber().longValue());
+            // 设置当前用户ID
+            Long userId = authService.getCurrentUserId();
+            record.setUserId(userId != null ? userId : 0L); // 如果无法获取用户ID，设置为0
             recordMapper.insert(record);
 
             log.info("版权存证成功, 文件哈希: {}, 交易哈希: {}", fileHash, receipt.getTransactionHash());
@@ -218,6 +229,31 @@ public class CopyrightServiceImpl implements CopyrightService {
         return convertToQueryResult(record);
     }
 
+    @Override
+    public Page<QueryResult> getMyRecords(Integer page, Integer size, String keyword) {
+        Long userId = authService.getCurrentUserId();
+
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CopyrightRecord::getUserId, userId);
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            wrapper.like(CopyrightRecord::getSoftwareName, keyword);
+        }
+
+        wrapper.orderByDesc(CopyrightRecord::getCreatedAt);
+
+        Page<CopyrightRecord> recordPage = new Page<>(page, size);
+        Page<CopyrightRecord> resultPage = recordMapper.selectPage(recordPage, wrapper);
+
+        Page<QueryResult> queryResultPage = new Page<>(page, size, resultPage.getTotal());
+        List<QueryResult> queryResults = resultPage.getRecords().stream()
+                .map(this::convertToQueryResult)
+                .collect(Collectors.toList());
+        queryResultPage.setRecords(queryResults);
+
+        return queryResultPage;
+    }
+
     private QueryResult convertToQueryResult(CopyrightRecord record) {
         QueryResult result = new QueryResult();
         result.setId(record.getId());
@@ -229,6 +265,7 @@ public class CopyrightServiceImpl implements CopyrightService {
         result.setBlockNumber(record.getBlockNumber());
         result.setCreatedAt(record.getCreatedAt());
         result.setUpdatedAt(record.getUpdatedAt());
+        result.setUserId(record.getUserId());
         return result;
     }
 }

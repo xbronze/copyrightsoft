@@ -12,6 +12,7 @@ public class QueryResult {
     private String ownerAddress;
     private String txHash;
     private Long blockNumber;
+    private Long userId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

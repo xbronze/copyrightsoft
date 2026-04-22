@@ -10,6 +10,10 @@ spring:
     url: jdbc:mysql://192.168.1.100:3356/soft_copyright?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: xu880410@
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 mybatis-plus:
   configuration:
@@ -34,4 +38,12 @@ minio:
   secret-key: miniopassword
   bucket-name: copyright-files
 
+# JWT配置
+jwt:
+  secret: defaultSecretKeyForCopyrightSystem2026MustBeLongEnough
+  expiration: 86400000  # 24小时
 
+logging:
+  level:
+    cn.blockchain.copyrightsoft: debug
+    org.fisco.bcos: debug
