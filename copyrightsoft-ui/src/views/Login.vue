@@ -89,12 +89,17 @@ const handleLogin = async () => {
       loading.value = true
       try {
         const res = await login(loginForm)
-        // 使用 Pinia store 保存用户信息
-        userStore.login(res.data.token, res.data.username, res.data.userId)
+        // 使用 Pinia store 保存用户信息（包含角色）
+        userStore.login(res.data.token, res.data.username, res.data.userId, res.data.role)
 
         ElMessage.success('登录成功！')
-        // 跳转到首页
-        router.push('/')
+
+        // 根据角色跳转到不同页面
+        if (res.data.role === 'ADMIN') {
+          router.push('/admin/dashboard')
+        } else {
+          router.push('/')
+        }
       } catch (error) {
         console.error('登录失败:', error)
         ElMessage.error(error.message || '登录失败')

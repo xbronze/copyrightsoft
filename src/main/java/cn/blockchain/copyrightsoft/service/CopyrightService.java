@@ -14,4 +14,6 @@ public interface CopyrightService {
     QueryResult queryById(Long id);
 
     Page<QueryResult> getMyRecords(Integer page, Integer size, String keyword);
+
+    Page<QueryResult> getAllCopyrights(Integer page, Integer size, String keyword);
 }

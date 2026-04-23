@@ -8,6 +8,21 @@
         </div>
       </template>
 
+      <!-- 管理员快捷入口 -->
+      <div v-if="userStore.isAdmin" class="admin-quick-access">
+        <el-alert
+            title="管理员模式"
+            type="success"
+            :closable="false"
+            show-icon
+        >
+          <template #default>
+            <el-button type="primary" @click="$router.push('/admin/dashboard')">
+              进入管理后台
+            </el-button>
+          </template>
+        </el-alert>
+      </div>
       <div class="features">
         <el-row :gutter="20">
           <el-col :span="8">
@@ -68,6 +83,9 @@
 
 <script setup>
 import { Upload, Search, Document } from '@element-plus/icons-vue'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 </script>
 
 <style scoped>

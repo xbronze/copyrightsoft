@@ -64,6 +64,21 @@ const routes = [
         meta: { requiresAuth: true }
       }
     ]
+  },
+  // 管理员路由
+  {
+    path: '/admin',
+    name: 'admin',
+    redirect: '/admin/dashboard',
+    meta: { requiresAuth: true, requiresAdmin: true },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'admin-dashboard',
+        component: () => import('../views/admin/AdminDashboard.vue'),
+        meta: { requiresAuth: true, requiresAdmin: true }
+      }
+    ]
   }
 ]
 
@@ -75,10 +90,14 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+  const role = localStorage.getItem('role')
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
 
   if (requiresAuth && !token) {
     next('/login')
+  } else if (requiresAdmin && role !== 'ADMIN') {
+    next('/')
   } else {
     next()
   }

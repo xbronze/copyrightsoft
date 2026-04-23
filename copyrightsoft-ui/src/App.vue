@@ -2,7 +2,7 @@
 import { RouterView, useRouter, useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { ArrowDown, User, Document, SwitchButton } from '@element-plus/icons-vue'
+import { ArrowDown, User, Document, SwitchButton, Management } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -10,6 +10,7 @@ const userStore = useUserStore()
 
 const isLoggedIn = computed(() => userStore.isAuthenticated)
 const username = computed(() => userStore.username)
+const isAdmin = computed(() => userStore.isAdmin)
 
 const handleLogout = () => {
   userStore.logout()
@@ -21,17 +22,63 @@ const handleUserCommand = (command) => {
     router.push('/profile/info')
   } else if (command === 'logout') {
     handleLogout()
+  } else if (command === 'admin') {
+    router.push('/admin/dashboard')
   }
 }
 
 // 判断是否在个人中心页面
 const isProfilePage = computed(() => route.path.startsWith('/profile'))
+// 判断是否在管理员页面
+const isAdminPage = computed(() => route.path.startsWith('/admin'))
 </script>
 
 <template>
   <div id="app">
-    <el-container v-if="!isProfilePage">
-      <!-- 普通页面的头部导航 -->
+    <!-- 管理员页面布局 -->
+    <el-container v-if="isAdminPage">
+      <el-aside width="250px" class="admin-sidebar">
+        <div class="sidebar-header">
+          <h2 @click="$router.push('/')" class="sidebar-logo">版权系统管理</h2>
+        </div>
+
+        <el-menu
+          :default-active="route.path"
+          class="sidebar-menu"
+          :router="true"
+        >
+          <el-menu-item index="/admin/dashboard">
+            <el-icon><Management /></el-icon>
+            <span>管理后台</span>
+          </el-menu-item>
+        </el-menu>
+
+        <div class="sidebar-footer">
+          <el-button type="danger" @click="handleLogout" style="width: 100%">
+            <el-icon><SwitchButton /></el-icon>
+            退出登录
+          </el-button>
+        </div>
+      </el-aside>
+
+      <el-container>
+        <el-header class="admin-header">
+          <div class="admin-header-content">
+            <span class="welcome-text">管理员：{{ username }}</span>
+            <el-button @click="$router.push('/')" size="small">
+              返回前台
+            </el-button>
+          </div>
+        </el-header>
+
+        <el-main class="admin-main">
+          <RouterView />
+        </el-main>
+      </el-container>
+    </el-container>
+
+    <!-- 普通页面的头部导航 -->
+    <el-container v-else-if="!isProfilePage">
       <el-header>
         <div class="header-content">
           <div class="left-section">
@@ -66,6 +113,10 @@ const isProfilePage = computed(() => route.path.startsWith('/profile'))
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
+                    <el-dropdown-item v-if="isAdmin" command="admin">
+                      <el-icon><Management /></el-icon>
+                      管理后台
+                    </el-dropdown-item>
                     <el-dropdown-item command="profile">
                       <el-icon><Document /></el-icon>
                       个人信息
@@ -262,6 +313,82 @@ html, body {
   margin: 0;
   color: #909399;
 }
+
+/* 管理员页面布局 */
+.admin-sidebar {
+  background-color: #304156;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.admin-sidebar .sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar .sidebar-logo {
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: center;
+}
+
+.admin-sidebar .sidebar-menu {
+  flex: 1;
+  border-right: none;
+  background-color: transparent;
+}
+
+.admin-sidebar .sidebar-menu .el-menu-item {
+  color: #bfcbd9;
+}
+
+.admin-sidebar .sidebar-menu .el-menu-item:hover {
+  background-color: #263445 !important;
+  color: #fff;
+}
+
+.admin-sidebar .sidebar-menu .el-menu-item.is-active {
+  background-color: #409EFF !important;
+  color: #fff;
+}
+
+.admin-sidebar .sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-header {
+  background-color: #fff;
+  border-bottom: 1px solid #e4e7ed;
+  height: 60px !important;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.admin-header-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header .welcome-text {
+  font-size: 16px;
+  color: #303133;
+}
+
+.admin-main {
+  background-color: #f5f7fa;
+  padding: 0;
+}
+
+// ... existing code ...
+
 
 /* 个人中心页面布局 */
 .profile-layout {

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -238,6 +239,30 @@ public class CopyrightServiceImpl implements CopyrightService {
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             wrapper.like(CopyrightRecord::getSoftwareName, keyword);
+        }
+
+        wrapper.orderByDesc(CopyrightRecord::getCreatedAt);
+
+        Page<CopyrightRecord> recordPage = new Page<>(page, size);
+        Page<CopyrightRecord> resultPage = recordMapper.selectPage(recordPage, wrapper);
+
+        Page<QueryResult> queryResultPage = new Page<>(page, size, resultPage.getTotal());
+        List<QueryResult> queryResults = resultPage.getRecords().stream()
+                .map(this::convertToQueryResult)
+                .collect(Collectors.toList());
+        queryResultPage.setRecords(queryResults);
+
+        return queryResultPage;
+    }
+
+    @Override
+    public Page<QueryResult> getAllCopyrights(Integer page, Integer size, String keyword) {
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+
+        if (StringUtils.hasText(keyword)) {
+            wrapper.like(CopyrightRecord::getSoftwareName, keyword)
+                    .or()
+                    .like(CopyrightRecord::getFileHash, keyword);
         }
 
         wrapper.orderByDesc(CopyrightRecord::getCreatedAt);

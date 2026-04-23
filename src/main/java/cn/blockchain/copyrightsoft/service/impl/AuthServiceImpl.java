@@ -6,10 +6,16 @@ import cn.blockchain.copyrightsoft.mapper.UserMapper;
 import cn.blockchain.copyrightsoft.service.AuthService;
 import cn.blockchain.copyrightsoft.utils.JwtUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -149,5 +155,82 @@ public class AuthServiceImpl implements AuthService {
         // 更新密码
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userMapper.updateById(user);
+    }
+
+    @Override
+    public Page<User> getAllUsers(Integer page, Integer size, String keyword) {
+        Page<User> userPage = new Page<>(page, size);
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+
+        if (StringUtils.hasText(keyword)) {
+            wrapper.like(User::getUsername, keyword)
+                    .or()
+                    .like(User::getNickname, keyword)
+                    .or()
+                    .like(User::getEmail, keyword);
+        }
+
+        wrapper.ne(User::getRole, "ADMIN")
+                .orderByDesc(User::getCreatedAt);
+
+        return userMapper.selectPage(userPage, wrapper);
+    }
+
+    @Override
+    public void updateUserStatus(Long userId, Integer status) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        if ("ADMIN".equals(user.getRole())) {
+            throw new RuntimeException("不能修改管理员状态");
+        }
+        user.setStatus(status);
+        userMapper.updateById(user);
+    }
+
+    @Override
+    public String resetUserPassword(Long userId) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        if ("ADMIN".equals(user.getRole())) {
+            throw new RuntimeException("不能重置管理员密码");
+        }
+
+        String newPassword = generateRandomPassword(8);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userMapper.updateById(user);
+
+        return newPassword;
+    }
+
+    @Override
+    public Map<String, Object> getStatistics() {
+        Map<String, Object> statistics = new HashMap<>();
+
+        long totalUsers = userMapper.selectCount(
+                new LambdaQueryWrapper<User>().ne(User::getRole, "ADMIN")
+        );
+
+        statistics.put("totalUsers", totalUsers);
+        statistics.put("activeUsers", userMapper.selectCount(
+                new LambdaQueryWrapper<User>()
+                        .ne(User::getRole, "ADMIN")
+                        .eq(User::getStatus, 1)
+        ));
+
+        return statistics;
+    }
+
+    private String generateRandomPassword(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            password.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return password.toString();
     }
 }
