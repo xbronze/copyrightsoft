@@ -90,7 +90,14 @@ const handleLogin = async () => {
       try {
         const res = await login(loginForm)
         // 使用 Pinia store 保存用户信息（包含角色）
-        userStore.login(res.data.token, res.data.username, res.data.userId, res.data.role)
+        userStore.login(
+          res.data.token,
+          res.data.username,
+          res.data.userId,
+          res.data.role,
+          res.data.accountType,
+          res.data.enterpriseId
+        )
 
         ElMessage.success('登录成功！')
 

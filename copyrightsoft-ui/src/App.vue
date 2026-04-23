@@ -10,7 +10,20 @@ const userStore = useUserStore()
 
 const isLoggedIn = computed(() => userStore.isAuthenticated)
 const username = computed(() => userStore.username)
-const isAdmin = computed(() => userStore.isAdmin)
+const normalizedRole = computed(() => (userStore.role === 'USER' ? 'INDIVIDUAL_DEVELOPER' : userStore.role))
+const isAdmin = computed(() => normalizedRole.value === 'ADMIN')
+const subjectText = computed(() => {
+  if (userStore.accountType === 'ENTERPRISE') {
+    return '企业开发者'
+  }
+  if (normalizedRole.value === 'AUDITOR') {
+    return '审核人员'
+  }
+  if (normalizedRole.value === 'ADMIN') {
+    return '管理员'
+  }
+  return '个人开发者'
+})
 
 const handleLogout = () => {
   userStore.logout()
@@ -24,6 +37,8 @@ const handleUserCommand = (command) => {
     handleLogout()
   } else if (command === 'admin') {
     router.push('/admin/dashboard')
+  } else if (command === 'audit') {
+    router.push('/audit/review')
   }
 }
 
@@ -31,15 +46,16 @@ const handleUserCommand = (command) => {
 const isProfilePage = computed(() => route.path.startsWith('/profile'))
 // 判断是否在管理员页面
 const isAdminPage = computed(() => route.path.startsWith('/admin'))
+const isAuditPage = computed(() => route.path.startsWith('/audit'))
 </script>
 
 <template>
   <div id="app">
     <!-- 管理员页面布局 -->
-    <el-container v-if="isAdminPage">
+    <el-container v-if="isAdminPage || isAuditPage">
       <el-aside width="250px" class="admin-sidebar">
         <div class="sidebar-header">
-          <h2 @click="$router.push('/')" class="sidebar-logo">版权系统管理</h2>
+          <h2 @click="$router.push('/')" class="sidebar-logo">{{ isAuditPage ? '版权审核台' : '版权系统管理' }}</h2>
         </div>
 
         <el-menu
@@ -47,9 +63,13 @@ const isAdminPage = computed(() => route.path.startsWith('/admin'))
           class="sidebar-menu"
           :router="true"
         >
-          <el-menu-item index="/admin/dashboard">
+          <el-menu-item v-if="isAdmin" index="/admin/dashboard">
             <el-icon><Management /></el-icon>
             <span>管理后台</span>
+          </el-menu-item>
+          <el-menu-item v-if="normalizedRole === 'AUDITOR' || normalizedRole === 'ADMIN'" index="/audit/review">
+            <el-icon><Document /></el-icon>
+            <span>审核工作台</span>
           </el-menu-item>
         </el-menu>
 
@@ -64,7 +84,7 @@ const isAdminPage = computed(() => route.path.startsWith('/admin'))
       <el-container>
         <el-header class="admin-header">
           <div class="admin-header-content">
-            <span class="welcome-text">管理员：{{ username }}</span>
+            <span class="welcome-text">{{ isAuditPage ? '审核员' : subjectText }}：{{ username }}</span>
             <el-button @click="$router.push('/')" size="small">
               返回前台
             </el-button>
@@ -116,6 +136,10 @@ const isAdminPage = computed(() => route.path.startsWith('/admin'))
                     <el-dropdown-item v-if="isAdmin" command="admin">
                       <el-icon><Management /></el-icon>
                       管理后台
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="normalizedRole === 'AUDITOR' || isAdmin" command="audit">
+                      <el-icon><Document /></el-icon>
+                      审核工作台
                     </el-dropdown-item>
                     <el-dropdown-item command="profile">
                       <el-icon><Document /></el-icon>
@@ -186,7 +210,7 @@ const isAdminPage = computed(() => route.path.startsWith('/admin'))
       <el-container>
         <el-header class="profile-header">
           <div class="profile-header-content">
-            <span class="welcome-text">欢迎，{{ username }}</span>
+            <span class="welcome-text">欢迎，{{ subjectText }} {{ username }}</span>
             <el-button @click="$router.push('/')" size="small">
               返回首页
             </el-button>
@@ -386,9 +410,6 @@ html, body {
   background-color: #f5f7fa;
   padding: 0;
 }
-
-// ... existing code ...
-
 
 /* 个人中心页面布局 */
 .profile-layout {

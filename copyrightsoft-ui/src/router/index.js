@@ -24,7 +24,7 @@ const routes = [
     path: '/apply',
     name: 'apply',
     component: () => import('../views/ApplyCopyright.vue'),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, developerOnly: true }
   },
   {
     path: '/query-hash',
@@ -61,7 +61,7 @@ const routes = [
         path: 'records',
         name: 'profile-records',
         component: () => import('../views/profile/MyRecords.vue'),
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, developerOnly: true }
       }
     ]
   },
@@ -79,6 +79,20 @@ const routes = [
         meta: { requiresAuth: true, requiresAdmin: true }
       }
     ]
+  },
+  {
+    path: '/audit',
+    name: 'audit',
+    redirect: '/audit/review',
+    meta: { requiresAuth: true, requiresAuditor: true },
+    children: [
+      {
+        path: 'review',
+        name: 'audit-review',
+        component: () => import('../views/audit/AuditReview.vue'),
+        meta: { requiresAuth: true, requiresAuditor: true }
+      }
+    ]
   }
 ]
 
@@ -90,13 +104,20 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  const role = localStorage.getItem('role')
+  const rawRole = localStorage.getItem('role')
+  const role = rawRole === 'USER' ? 'INDIVIDUAL_DEVELOPER' : rawRole
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
+  const requiresAuditor = to.matched.some(record => record.meta.requiresAuditor)
+  const developerOnly = to.matched.some(record => record.meta.developerOnly)
 
   if (requiresAuth && !token) {
     next('/login')
   } else if (requiresAdmin && role !== 'ADMIN') {
+    next('/')
+  } else if (requiresAuditor && !['AUDITOR', 'ADMIN'].includes(role)) {
+    next('/')
+  } else if (developerOnly && !['INDIVIDUAL_DEVELOPER', 'ENTERPRISE_DEVELOPER'].includes(role)) {
     next('/')
   } else {
     next()

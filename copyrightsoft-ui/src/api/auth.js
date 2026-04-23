@@ -16,6 +16,14 @@ export function register(userData) {
   })
 }
 
+export function registerEnterprise(userData) {
+  return request({
+    url: '/auth/register/enterprise',
+    method: 'post',
+    data: userData
+  })
+}
+
 export function getUserInfo() {
   return request({
     url: '/auth/info',

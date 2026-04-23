@@ -1,19 +1,22 @@
 package cn.blockchain.copyrightsoft;
 
 import cn.blockchain.copyrightsoft.dto.QueryResult;
+import cn.blockchain.copyrightsoft.entity.Enterprise;
 import cn.blockchain.copyrightsoft.entity.User;
+import cn.blockchain.copyrightsoft.mapper.EnterpriseMapper;
 import cn.blockchain.copyrightsoft.service.AuthService;
 import cn.blockchain.copyrightsoft.service.CopyrightService;
 import cn.blockchain.copyrightsoft.utils.Result;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -27,7 +30,7 @@ public class AdminController {
     private CopyrightService copyrightService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private EnterpriseMapper enterpriseMapper;
 
     @GetMapping("/users")
     public Result<Page<User>> getUsers(
@@ -51,6 +54,28 @@ public class AdminController {
             return Result.success("用户状态更新成功");
         } catch (Exception e) {
             log.error("更新用户状态失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PutMapping("/users/{id}/role")
+    public Result<String> updateUserRole(@PathVariable Long id,
+                                         @RequestParam String role,
+                                         @RequestParam(required = false) Long enterpriseId) {
+        try {
+            authService.updateUserRole(id, role, enterpriseId);
+            return Result.success("用户角色更新成功");
+        } catch (IllegalArgumentException e) {
+            log.warn("更新用户角色参数错误: {}", e.getMessage());
+            return Result.error(400, e.getMessage());
+        } catch (NoSuchElementException e) {
+            log.warn("更新用户角色资源不存在: {}", e.getMessage());
+            return Result.error(404, e.getMessage());
+        } catch (IllegalStateException e) {
+            log.warn("更新用户角色状态冲突: {}", e.getMessage());
+            return Result.error(409, e.getMessage());
+        } catch (Exception e) {
+            log.error("更新用户角色失败", e);
             return Result.error(e.getMessage());
         }
     }
@@ -87,6 +112,25 @@ public class AdminController {
             return Result.success(statistics);
         } catch (Exception e) {
             log.error("获取统计数据失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/enterprises")
+    public Result<List<Enterprise>> getEnterprises(@RequestParam(required = false) String keyword) {
+        try {
+            LambdaQueryWrapper<Enterprise> wrapper = new LambdaQueryWrapper<>();
+            if (StringUtils.hasText(keyword)) {
+                wrapper.like(Enterprise::getName, keyword)
+                        .or()
+                        .like(Enterprise::getLicenseNo, keyword);
+            }
+            wrapper.eq(Enterprise::getStatus, 1)
+                    .orderByDesc(Enterprise::getCreatedAt)
+                    .last("limit 20");
+            return Result.success(enterpriseMapper.selectList(wrapper));
+        } catch (Exception e) {
+            log.error("获取企业列表失败", e);
             return Result.error(e.getMessage());
         }
     }

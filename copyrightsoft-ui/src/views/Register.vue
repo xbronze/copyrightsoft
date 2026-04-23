@@ -14,6 +14,13 @@
         label-width="80px"
         class="register-form"
       >
+        <el-form-item label="主体类型" prop="accountType">
+          <el-radio-group v-model="registerForm.accountType">
+            <el-radio label="INDIVIDUAL">个人</el-radio>
+            <el-radio label="ENTERPRISE">企业</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
         <el-form-item label="用户名" prop="username">
           <el-input
             v-model="registerForm.username"
@@ -66,6 +73,24 @@
           />
         </el-form-item>
 
+        <el-form-item
+          v-if="registerForm.accountType === 'ENTERPRISE'"
+          label="企业名称"
+          prop="enterpriseName"
+        >
+          <el-input
+            v-model="registerForm.enterpriseName"
+            placeholder="请输入企业名称"
+          />
+        </el-form-item>
+
+        <el-form-item v-if="registerForm.accountType === 'ENTERPRISE'" label="统一信用代码">
+          <el-input
+            v-model="registerForm.enterpriseLicenseNo"
+            placeholder="请输入统一社会信用代码（可选）"
+          />
+        </el-form-item>
+
         <el-form-item>
           <el-button
             type="primary"
@@ -90,22 +115,28 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { register } from '@/api/auth'
+import { register, registerEnterprise } from '@/api/auth'
 
 const router = useRouter()
 const registerFormRef = ref(null)
 const loading = ref(false)
 
 const registerForm = reactive({
+  accountType: 'INDIVIDUAL',
   username: '',
   password: '',
   confirmPassword: '',
   email: '',
   phone: '',
-  nickname: ''
+  nickname: '',
+  enterpriseName: '',
+  enterpriseLicenseNo: ''
 })
 
 const registerRules = {
+  accountType: [
+    { required: true, message: '请选择主体类型', trigger: 'change' }
+  ],
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     { min: 3, max: 20, message: '用户名长度在3-20个字符之间', trigger: 'blur' }
@@ -130,6 +161,9 @@ const registerRules = {
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
+  ],
+  enterpriseName: [
+    { required: true, message: '请输入企业名称', trigger: 'blur' }
   ]
 }
 
@@ -140,7 +174,11 @@ const handleRegister = async () => {
     if (valid) {
       loading.value = true
       try {
-        await register(registerForm)
+        if (registerForm.accountType === 'ENTERPRISE') {
+          await registerEnterprise(registerForm)
+        } else {
+          await register(registerForm)
+        }
         ElMessage.success('注册成功！请登录')
         router.push('/login')
       } catch (error) {

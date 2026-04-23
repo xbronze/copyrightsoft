@@ -23,14 +23,17 @@
           </template>
         </el-alert>
       </div>
+      <div v-else-if="userStore.role === 'AUDITOR'" class="admin-quick-access">
+        <el-alert title="审核人员模式" type="info" :closable="false" show-icon />
+      </div>
       <div class="features">
         <el-row :gutter="20">
           <el-col :span="8">
             <el-card shadow="hover" class="feature-card">
               <el-icon :size="50" color="#409EFF"><Upload /></el-icon>
               <h3>版权申请</h3>
-              <p>上传软件文件，快速完成版权存证</p>
-              <el-button type="primary" @click="$router.push('/apply')">立即申请</el-button>
+              <p>{{ uploadSubtitle }}</p>
+              <el-button type="primary" :disabled="!userStore.isDeveloper" @click="$router.push('/apply')">立即申请</el-button>
             </el-card>
           </el-col>
 
@@ -82,10 +85,16 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { Upload, Search, Document } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
+const uploadSubtitle = computed(() => (
+  userStore.accountType === 'ENTERPRISE'
+    ? '以企业主体上传软件，形成可审计的企业版权记录'
+    : '上传软件文件，快速完成个人版权存证'
+))
 </script>
 
 <style scoped>

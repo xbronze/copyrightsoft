@@ -65,6 +65,16 @@
             <el-table-column prop="id" label="ID" width="80" />
             <el-table-column prop="username" label="用户名" width="150" />
             <el-table-column prop="nickname" label="昵称" width="150" />
+            <el-table-column label="角色" width="170">
+              <template #default="{ row }">
+                <el-tag>{{ roleLabel(row.role) }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="主体类型" width="140">
+              <template #default="{ row }">
+                {{ row.accountType || '-' }}
+              </template>
+            </el-table-column>
             <el-table-column prop="email" label="邮箱" width="200" />
             <el-table-column prop="phone" label="手机号" width="150" />
             <el-table-column label="状态" width="100">
@@ -79,7 +89,7 @@
                 {{ formatDate(row.createdAt) }}
               </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="200">
+            <el-table-column label="操作" fixed="right" width="300">
               <template #default="{ row }">
                 <el-button
                   size="small"
@@ -91,6 +101,16 @@
                 <el-button size="small" type="info" @click="handleResetPassword(row)">
                   重置密码
                 </el-button>
+                <el-dropdown @command="(role) => openRoleDialog(row, role)">
+                  <el-button size="small" type="primary">设置角色</el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item command="INDIVIDUAL_DEVELOPER">个人开发者</el-dropdown-item>
+                      <el-dropdown-item command="ENTERPRISE_DEVELOPER">企业开发者</el-dropdown-item>
+                      <el-dropdown-item command="AUDITOR">审核员</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
               </template>
             </el-table-column>
           </el-table>
@@ -162,6 +182,45 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog v-model="roleDialogVisible" title="设置用户角色" width="520px">
+      <el-form label-width="110px">
+        <el-form-item label="目标用户">
+          <span>{{ roleDialog.username || '-' }}</span>
+        </el-form-item>
+        <el-form-item label="目标角色">
+          <el-select v-model="roleDialog.role" style="width: 280px">
+            <el-option label="个人开发者" value="INDIVIDUAL_DEVELOPER" />
+            <el-option label="企业开发者" value="ENTERPRISE_DEVELOPER" />
+            <el-option label="审核员" value="AUDITOR" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="roleDialog.role === 'ENTERPRISE_DEVELOPER'" label="所属企业">
+          <el-select
+            v-model="roleDialog.enterpriseId"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="请输入企业名称检索"
+            :remote-method="searchEnterprises"
+            :loading="enterpriseLoading"
+            style="width: 320px"
+          >
+            <el-option
+              v-for="item in enterpriseOptions"
+              :key="item.id"
+              :label="enterpriseOptionLabel(item)"
+              :value="item.id"
+              :disabled="isEnterpriseDisabled(item)"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="roleDialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="roleSubmitLoading" @click="submitRoleChange">确认</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -169,7 +228,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { User, Check, Document, Search } from '@element-plus/icons-vue'
-import { getUsers, updateUserStatus, resetPassword, getAllCopyrights, getStatistics } from '@/api/admin'
+import { getUsers, updateUserStatus, resetPassword, getAllCopyrights, getStatistics, updateUserRole, getEnterpriseOptions } from '@/api/admin'
 
 const activeTab = ref('users')
 const statistics = ref({})
@@ -187,6 +246,42 @@ const copyrightKeyword = ref('')
 const copyrightPage = ref(1)
 const copyrightPageSize = ref(10)
 const copyrightTotal = ref(0)
+const roleDialogVisible = ref(false)
+const enterpriseOptions = ref([])
+const enterpriseLoading = ref(false)
+const roleSubmitLoading = ref(false)
+const recentEnterprises = ref([])
+const RECENT_ENTERPRISES_KEY = 'admin_recent_enterprises'
+const roleDialog = ref({
+  userId: null,
+  username: '',
+  role: '',
+  enterpriseId: null
+})
+
+const loadRecentEnterprises = () => {
+  try {
+    const cache = localStorage.getItem(RECENT_ENTERPRISES_KEY)
+    recentEnterprises.value = cache ? JSON.parse(cache) : []
+  } catch (error) {
+    recentEnterprises.value = []
+  }
+}
+
+const saveRecentEnterprise = (enterprise) => {
+  if (!enterprise || !enterprise.id) return
+  const merged = [enterprise, ...recentEnterprises.value.filter(item => item.id !== enterprise.id)].slice(0, 8)
+  recentEnterprises.value = merged
+  localStorage.setItem(RECENT_ENTERPRISES_KEY, JSON.stringify(merged))
+}
+
+const enterpriseOptionLabel = (item) => {
+  const statusText = item.status === 1 ? '启用' : '禁用'
+  const licensePart = item.licenseNo ? `，证照: ${item.licenseNo}` : ''
+  return `${item.name}（ID: ${item.id}，${statusText}${licensePart}）`
+}
+
+const isEnterpriseDisabled = (item) => item?.status !== 1
 
 const loadStatistics = async () => {
   try {
@@ -195,6 +290,17 @@ const loadStatistics = async () => {
   } catch (error) {
     console.error('加载统计数据失败:', error)
   }
+}
+
+const roleLabel = (role) => {
+  const roleMap = {
+    INDIVIDUAL_DEVELOPER: '个人开发者',
+    ENTERPRISE_DEVELOPER: '企业开发者',
+    AUDITOR: '审核员',
+    ADMIN: '管理员',
+    USER: '旧普通用户'
+  }
+  return roleMap[role] || role
 }
 
 const loadUsers = async () => {
@@ -261,6 +367,79 @@ const handleResetPassword = async (user) => {
   }
 }
 
+const searchEnterprises = async (keyword) => {
+  try {
+    if (!keyword) {
+      enterpriseOptions.value = [...recentEnterprises.value]
+    }
+    enterpriseLoading.value = true
+    const res = await getEnterpriseOptions(keyword)
+    const serverList = res.data || []
+    const existingIds = new Set((enterpriseOptions.value || []).map(item => item.id))
+    const merged = [...enterpriseOptions.value]
+    serverList.forEach((item) => {
+      if (!existingIds.has(item.id)) {
+        merged.push(item)
+      }
+    })
+    enterpriseOptions.value = merged
+  } catch (error) {
+    ElMessage.error(error.message || '加载企业列表失败')
+  } finally {
+    enterpriseLoading.value = false
+  }
+}
+
+const openRoleDialog = async (user, role) => {
+  roleDialog.value = {
+    userId: user.id,
+    username: user.username,
+    role,
+    enterpriseId: user.enterpriseId || null
+  }
+  roleDialogVisible.value = true
+  roleSubmitLoading.value = false
+  if (role === 'ENTERPRISE_DEVELOPER') {
+    await searchEnterprises('')
+  } else {
+    enterpriseOptions.value = []
+  }
+}
+
+const submitRoleChange = async () => {
+  try {
+    roleSubmitLoading.value = true
+    if (roleDialog.value.role === 'ENTERPRISE_DEVELOPER' && !roleDialog.value.enterpriseId) {
+      ElMessage.error('请选择企业')
+      return
+    }
+    if (roleDialog.value.role === 'ENTERPRISE_DEVELOPER') {
+      const selectedEnterprise = enterpriseOptions.value.find(item => item.id === roleDialog.value.enterpriseId)
+      if (!selectedEnterprise || isEnterpriseDisabled(selectedEnterprise)) {
+        ElMessage.error('所选企业不可用，请重新选择启用状态的企业')
+        return
+      }
+    }
+
+    await updateUserRole(
+      roleDialog.value.userId,
+      roleDialog.value.role,
+      roleDialog.value.enterpriseId
+    )
+    if (roleDialog.value.role === 'ENTERPRISE_DEVELOPER') {
+      const selected = enterpriseOptions.value.find(item => item.id === roleDialog.value.enterpriseId)
+      saveRecentEnterprise(selected)
+    }
+    ElMessage.success('角色更新成功')
+    roleDialogVisible.value = false
+    loadUsers()
+  } catch (error) {
+    ElMessage.error(error.message || '角色更新失败')
+  } finally {
+    roleSubmitLoading.value = false
+  }
+}
+
 const viewDetail = (record) => {
   window.open(`/query-id/${record.id}`, '_blank')
 }
@@ -272,6 +451,7 @@ const formatDate = (dateStr) => {
 }
 
 onMounted(() => {
+  loadRecentEnterprises()
   loadStatistics()
   loadUsers()
   loadCopyrights()

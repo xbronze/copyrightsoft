@@ -13,6 +13,13 @@ public class QueryResult {
     private String txHash;
     private Long blockNumber;
     private Long userId;
+    private String subjectType;
+    private Long subjectId;
+    private String subjectName;
+    private String auditStatus;
+    private String auditComment;
+    private Long auditedBy;
+    private LocalDateTime auditedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

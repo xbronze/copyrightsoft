@@ -25,10 +25,12 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String username, Long userId, String role) {
+    public String generateToken(String username, Long userId, String role, String accountType, Long enterpriseId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
         claims.put("role", role);
+        claims.put("accountType", accountType);
+        claims.put("enterpriseId", enterpriseId);
         
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
@@ -67,6 +69,24 @@ public class JwtUtils {
                 .parseSignedClaims(token)
                 .getPayload();
         return claims.get("role", String.class);
+    }
+
+    public String getAccountTypeFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("accountType", String.class);
+    }
+
+    public Long getEnterpriseIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("enterpriseId", Long.class);
     }
 
     public boolean validateToken(String token) {

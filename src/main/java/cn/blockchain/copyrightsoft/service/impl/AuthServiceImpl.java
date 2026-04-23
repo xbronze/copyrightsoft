@@ -1,7 +1,10 @@
 package cn.blockchain.copyrightsoft.service.impl;
 
+import cn.blockchain.copyrightsoft.auth.AuthDomainRules;
 import cn.blockchain.copyrightsoft.dto.*;
+import cn.blockchain.copyrightsoft.entity.Enterprise;
 import cn.blockchain.copyrightsoft.entity.User;
+import cn.blockchain.copyrightsoft.mapper.EnterpriseMapper;
 import cn.blockchain.copyrightsoft.mapper.UserMapper;
 import cn.blockchain.copyrightsoft.service.AuthService;
 import cn.blockchain.copyrightsoft.utils.JwtUtils;
@@ -15,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service
@@ -25,6 +29,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EnterpriseMapper enterpriseMapper;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -48,30 +55,92 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("用户名或密码错误");
         }
 
-        String token = jwtUtils.generateToken(user.getUsername(), user.getId(), user.getRole());
+        String normalizedRole = AuthDomainRules.normalizeRole(user.getRole());
+        String accountType = user.getAccountType();
+        if (accountType == null && AuthDomainRules.ROLE_USER_LEGACY.equals(user.getRole())) {
+            accountType = AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL;
+        }
+        if (accountType != null && !AuthDomainRules.isRoleCompatibleWithAccountType(accountType, user.getRole())
+                && !AuthDomainRules.isPlatformRole(user.getRole())) {
+            throw new RuntimeException("账号主体与角色不匹配，请联系管理员");
+        }
 
-        return new LoginResponse(token, user.getUsername(), user.getRole(), user.getId());
+        String token = jwtUtils.generateToken(
+                user.getUsername(),
+                user.getId(),
+                normalizedRole,
+                accountType,
+                user.getEnterpriseId()
+        );
+
+        return new LoginResponse(
+                token,
+                user.getUsername(),
+                normalizedRole,
+                user.getId(),
+                accountType,
+                user.getEnterpriseId()
+        );
     }
 
     @Override
     public void register(RegisterRequest request) {
+        registerIndividualUser(request);
+    }
+
+    @Override
+    public void registerEnterprise(RegisterRequest request) {
+        validateUsernameNotExists(request.getUsername());
+        if (!StringUtils.hasText(request.getEnterpriseName())) {
+            throw new RuntimeException("企业名称不能为空");
+        }
+
+        Enterprise enterprise = new Enterprise();
+        enterprise.setName(request.getEnterpriseName());
+        enterprise.setLicenseNo(request.getEnterpriseLicenseNo());
+        enterprise.setStatus(1);
+        enterpriseMapper.insert(enterprise);
+
+        User user = createBaseUser(request);
+        user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE);
+        user.setRole(AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER);
+        user.setEnterpriseId(enterprise.getId());
+        user.setDisplaySubjectName(enterprise.getName());
+        userMapper.insert(user);
+    }
+
+    private void registerIndividualUser(RegisterRequest request) {
+        String requestedAccountType = request.getAccountType();
+        if (StringUtils.hasText(requestedAccountType)
+                && !AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL.equals(requestedAccountType)) {
+            throw new RuntimeException("个人注册仅支持 INDIVIDUAL 主体");
+        }
+        validateUsernameNotExists(request.getUsername());
+        User user = createBaseUser(request);
+        user.setRole(AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER);
+        user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
+        user.setDisplaySubjectName(user.getNickname());
+        userMapper.insert(user);
+    }
+
+    private void validateUsernameNotExists(String username) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, request.getUsername());
+        wrapper.eq(User::getUsername, username);
         
         if (userMapper.selectCount(wrapper) > 0) {
             throw new RuntimeException("用户名已存在");
         }
+    }
 
+    private User createBaseUser(RegisterRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
         user.setNickname(request.getNickname() != null ? request.getNickname() : request.getUsername());
-        user.setRole("USER");
         user.setStatus(1);
-
-        userMapper.insert(user);
+        return user;
     }
 
     @Override
@@ -170,7 +239,7 @@ public class AuthServiceImpl implements AuthService {
                     .like(User::getEmail, keyword);
         }
 
-        wrapper.ne(User::getRole, "ADMIN")
+        wrapper.ne(User::getRole, AuthDomainRules.ROLE_ADMIN)
                 .orderByDesc(User::getCreatedAt);
 
         return userMapper.selectPage(userPage, wrapper);
@@ -182,10 +251,65 @@ public class AuthServiceImpl implements AuthService {
         if (user == null) {
             throw new RuntimeException("用户不存在");
         }
-        if ("ADMIN".equals(user.getRole())) {
+        if (AuthDomainRules.ROLE_ADMIN.equals(user.getRole())) {
             throw new RuntimeException("不能修改管理员状态");
         }
         user.setStatus(status);
+        userMapper.updateById(user);
+    }
+
+    @Override
+    public void updateUserRole(Long userId, String role, Long enterpriseId) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new NoSuchElementException("用户不存在");
+        }
+        if (!StringUtils.hasText(role)) {
+            throw new IllegalArgumentException("角色不能为空");
+        }
+        if (role.equals(user.getRole()) &&
+                (!AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER.equals(role) || enterpriseId != null && enterpriseId.equals(user.getEnterpriseId()))) {
+            throw new IllegalStateException("角色未发生变化");
+        }
+        if (AuthDomainRules.ROLE_USER_LEGACY.equals(role)) {
+            throw new IllegalArgumentException("不支持分配旧角色 USER");
+        }
+
+        if (AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER.equals(role)) {
+            user.setRole(role);
+            user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
+            user.setEnterpriseId(null);
+            if (!StringUtils.hasText(user.getDisplaySubjectName())) {
+                user.setDisplaySubjectName(user.getNickname());
+            }
+        } else if (AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER.equals(role)) {
+            if (enterpriseId == null) {
+                throw new IllegalArgumentException("企业开发者必须提供 enterpriseId");
+            }
+            Enterprise enterprise = enterpriseMapper.selectById(enterpriseId);
+            if (enterprise == null) {
+                throw new NoSuchElementException("企业不存在");
+            }
+            if (enterprise.getStatus() == null || enterprise.getStatus() != 1) {
+                throw new IllegalStateException("企业已禁用，不能分配企业开发者");
+            }
+            user.setRole(role);
+            user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE);
+            user.setEnterpriseId(enterpriseId);
+            user.setDisplaySubjectName(enterprise.getName());
+        } else if (AuthDomainRules.ROLE_AUDITOR.equals(role) || AuthDomainRules.ROLE_ADMIN.equals(role)) {
+            user.setRole(role);
+            if (!StringUtils.hasText(user.getAccountType())) {
+                user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
+            }
+            user.setEnterpriseId(null);
+            if (!StringUtils.hasText(user.getDisplaySubjectName())) {
+                user.setDisplaySubjectName(user.getNickname());
+            }
+        } else {
+            throw new IllegalArgumentException("不支持的角色类型");
+        }
+
         userMapper.updateById(user);
     }
 
@@ -195,7 +319,7 @@ public class AuthServiceImpl implements AuthService {
         if (user == null) {
             throw new RuntimeException("用户不存在");
         }
-        if ("ADMIN".equals(user.getRole())) {
+        if (AuthDomainRules.ROLE_ADMIN.equals(user.getRole())) {
             throw new RuntimeException("不能重置管理员密码");
         }
 
@@ -211,13 +335,13 @@ public class AuthServiceImpl implements AuthService {
         Map<String, Object> statistics = new HashMap<>();
 
         long totalUsers = userMapper.selectCount(
-                new LambdaQueryWrapper<User>().ne(User::getRole, "ADMIN")
+                new LambdaQueryWrapper<User>().ne(User::getRole, AuthDomainRules.ROLE_ADMIN)
         );
 
         statistics.put("totalUsers", totalUsers);
         statistics.put("activeUsers", userMapper.selectCount(
                 new LambdaQueryWrapper<User>()
-                        .ne(User::getRole, "ADMIN")
+                        .ne(User::getRole, AuthDomainRules.ROLE_ADMIN)
                         .eq(User::getStatus, 1)
         ));
 

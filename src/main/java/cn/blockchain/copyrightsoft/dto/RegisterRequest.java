@@ -9,4 +9,7 @@ public class RegisterRequest {
     private String email;
     private String phone;
     private String nickname;
+    private String accountType;
+    private String enterpriseName;
+    private String enterpriseLicenseNo;
 }

@@ -31,6 +31,20 @@ public class CopyrightRecord {
     // 添加用户ID字段
     private Long userId;
 
+    private String subjectType;
+
+    private Long subjectId;
+
+    private String subjectName;
+
+    private String auditStatus;
+
+    private String auditComment;
+
+    private Long auditedBy;
+
+    private LocalDateTime auditedAt;
+
     @TableLogic
     private Integer deleted;
 

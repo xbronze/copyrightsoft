@@ -1,10 +1,12 @@
 package cn.blockchain.copyrightsoft.service.impl;
 
 import cn.blockchain.copyrightsoft.contracts.CopyrightRegistry;
+import cn.blockchain.copyrightsoft.auth.AuthDomainRules;
 import cn.blockchain.copyrightsoft.dto.ApplyCopyrightRequest;
 import cn.blockchain.copyrightsoft.dto.QueryResult;
 import cn.blockchain.copyrightsoft.entity.CopyrightRecord;
 import cn.blockchain.copyrightsoft.entity.FileStorage;
+import cn.blockchain.copyrightsoft.entity.User;
 import cn.blockchain.copyrightsoft.mapper.CopyrightRecordMapper;
 import cn.blockchain.copyrightsoft.mapper.FileStorageMapper;
 import cn.blockchain.copyrightsoft.service.CopyrightService;
@@ -197,6 +199,17 @@ public class CopyrightServiceImpl implements CopyrightService {
             // 设置当前用户ID
             Long userId = authService.getCurrentUserId();
             record.setUserId(userId != null ? userId : 0L); // 如果无法获取用户ID，设置为0
+            User currentUser = authService.getCurrentUser();
+            if (currentUser != null) {
+                record.setSubjectType(currentUser.getAccountType());
+                if (AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())) {
+                    record.setSubjectId(currentUser.getEnterpriseId());
+                } else {
+                    record.setSubjectId(currentUser.getId());
+                }
+                record.setSubjectName(currentUser.getDisplaySubjectName());
+            }
+            record.setAuditStatus("PENDING");
             recordMapper.insert(record);
 
             log.info("版权存证成功, 文件哈希: {}, 交易哈希: {}", fileHash, receipt.getTransactionHash());
@@ -279,6 +292,48 @@ public class CopyrightServiceImpl implements CopyrightService {
         return queryResultPage;
     }
 
+    @Override
+    public Page<QueryResult> getAuditRecords(Integer page, Integer size, String keyword, String auditStatus) {
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.hasText(keyword)) {
+            wrapper.like(CopyrightRecord::getSoftwareName, keyword)
+                    .or()
+                    .like(CopyrightRecord::getFileHash, keyword)
+                    .or()
+                    .like(CopyrightRecord::getSubjectName, keyword);
+        }
+        if (StringUtils.hasText(auditStatus)) {
+            wrapper.eq(CopyrightRecord::getAuditStatus, auditStatus);
+        }
+        wrapper.orderByDesc(CopyrightRecord::getCreatedAt);
+
+        Page<CopyrightRecord> recordPage = new Page<>(page, size);
+        Page<CopyrightRecord> resultPage = recordMapper.selectPage(recordPage, wrapper);
+
+        Page<QueryResult> queryResultPage = new Page<>(page, size, resultPage.getTotal());
+        List<QueryResult> queryResults = resultPage.getRecords().stream()
+                .map(this::convertToQueryResult)
+                .collect(Collectors.toList());
+        queryResultPage.setRecords(queryResults);
+        return queryResultPage;
+    }
+
+    @Override
+    public void auditRecord(Long recordId, String auditStatus, String auditComment) {
+        if (!"APPROVED".equals(auditStatus) && !"REJECTED".equals(auditStatus)) {
+            throw new RuntimeException("审核状态不合法");
+        }
+        CopyrightRecord record = recordMapper.selectById(recordId);
+        if (record == null) {
+            throw new RuntimeException("版权记录不存在");
+        }
+        record.setAuditStatus(auditStatus);
+        record.setAuditComment(auditComment);
+        record.setAuditedBy(authService.getCurrentUserId());
+        record.setAuditedAt(java.time.LocalDateTime.now());
+        recordMapper.updateById(record);
+    }
+
     private QueryResult convertToQueryResult(CopyrightRecord record) {
         QueryResult result = new QueryResult();
         result.setId(record.getId());
@@ -291,6 +346,13 @@ public class CopyrightServiceImpl implements CopyrightService {
         result.setCreatedAt(record.getCreatedAt());
         result.setUpdatedAt(record.getUpdatedAt());
         result.setUserId(record.getUserId());
+        result.setSubjectType(record.getSubjectType());
+        result.setSubjectId(record.getSubjectId());
+        result.setSubjectName(record.getSubjectName());
+        result.setAuditStatus(record.getAuditStatus());
+        result.setAuditComment(record.getAuditComment());
+        result.setAuditedBy(record.getAuditedBy());
+        result.setAuditedAt(record.getAuditedAt());
         return result;
     }
 }

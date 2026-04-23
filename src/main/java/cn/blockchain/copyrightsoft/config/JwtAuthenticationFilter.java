@@ -1,5 +1,6 @@
 package cn.blockchain.copyrightsoft.config;
 
+import cn.blockchain.copyrightsoft.auth.AuthDomainRules;
 import cn.blockchain.copyrightsoft.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 
 @Component
@@ -37,9 +37,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String username = jwtUtils.getUsernameFromToken(token);
                 Long userId = jwtUtils.getUserIdFromToken(token);
                 String role = jwtUtils.getRoleFromToken(token);
+                String normalizedRole = AuthDomainRules.normalizeRole(role);
 
                 var authorities = Collections.singletonList(
-                        new SimpleGrantedAuthority("ROLE_" + role)
+                        new SimpleGrantedAuthority("ROLE_" + normalizedRole)
                 );
 
                 UsernamePasswordAuthenticationToken authentication =

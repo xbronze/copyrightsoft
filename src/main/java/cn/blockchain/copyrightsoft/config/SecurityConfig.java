@@ -1,5 +1,6 @@
 package cn.blockchain.copyrightsoft.config;
 
+import cn.blockchain.copyrightsoft.auth.AuthDomainRules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,14 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/copyright/query/**").permitAll()
+                .requestMatchers("/api/copyright/apply", "/api/copyright/my-records")
+                    .hasAnyRole(
+                        AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER,
+                        AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER,
+                        AuthDomainRules.ROLE_USER_LEGACY
+                    )
+                .requestMatchers("/api/audit/**")
+                    .hasAnyRole(AuthDomainRules.ROLE_AUDITOR, AuthDomainRules.ROLE_ADMIN)
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )

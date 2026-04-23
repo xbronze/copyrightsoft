@@ -38,6 +38,17 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/register/enterprise")
+    public Result<String> registerEnterprise(@RequestBody RegisterRequest request) {
+        try {
+            authService.registerEnterprise(request);
+            return Result.success("企业账号注册成功");
+        } catch (Exception e) {
+            log.error("企业注册失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
     @GetMapping("/info")
     public Result<User> getUserInfo() {
         try {

@@ -16,4 +16,8 @@ public interface CopyrightService {
     Page<QueryResult> getMyRecords(Integer page, Integer size, String keyword);
 
     Page<QueryResult> getAllCopyrights(Integer page, Integer size, String keyword);
+
+    Page<QueryResult> getAuditRecords(Integer page, Integer size, String keyword, String auditStatus);
+
+    void auditRecord(Long recordId, String auditStatus, String auditComment);
 }

@@ -23,6 +23,12 @@ public class User {
 
     private String role;
 
+    private String accountType;
+
+    private Long enterpriseId;
+
+    private String displaySubjectName;
+
     private Integer status;
 
     @TableLogic

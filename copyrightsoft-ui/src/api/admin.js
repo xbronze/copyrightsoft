@@ -23,6 +23,22 @@ export function resetPassword(id) {
   })
 }
 
+export function updateUserRole(id, role, enterpriseId) {
+  return request({
+    url: `/admin/users/${id}/role`,
+    method: 'put',
+    params: { role, enterpriseId }
+  })
+}
+
+export function getEnterpriseOptions(keyword) {
+  return request({
+    url: '/admin/enterprises',
+    method: 'get',
+    params: { keyword }
+  })
+}
+
 export function getAllCopyrights(params) {
   return request({
     url: '/admin/copyrights',
