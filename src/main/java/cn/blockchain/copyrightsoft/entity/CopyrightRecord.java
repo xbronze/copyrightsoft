@@ -28,8 +28,26 @@ public class CopyrightRecord {
 
     private Long blockNumber;
 
+    private String evidenceRootHash;
+
+    private String metadataHash;
+
+    private String normalizedHash;
+
+    private String semanticHash;
+
+    private Integer similarityScore;
+
+    private String riskLevel;
+
+    private String riskReason;
+
     // 添加用户ID字段
     private Long userId;
+
+    private Long applicationId;
+
+    private String applicationNo;
 
     private String subjectType;
 
@@ -39,7 +57,15 @@ public class CopyrightRecord {
 
     private String auditStatus;
 
+    private String bizStatus;
+
     private String auditComment;
+
+    private String reviewResult;
+
+    private String reviewNote;
+
+    private Long sourceApplicationId;
 
     private Long auditedBy;
 

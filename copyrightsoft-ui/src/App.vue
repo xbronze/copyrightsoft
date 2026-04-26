@@ -12,8 +12,11 @@ const isLoggedIn = computed(() => userStore.isAuthenticated)
 const username = computed(() => userStore.username)
 const normalizedRole = computed(() => (userStore.role === 'USER' ? 'INDIVIDUAL_DEVELOPER' : userStore.role))
 const isAdmin = computed(() => normalizedRole.value === 'ADMIN')
+const canApplyCopyright = computed(() => ['INDIVIDUAL_DEVELOPER', 'ENTERPRISE_DEVELOPER'].includes(normalizedRole.value))
 const subjectText = computed(() => {
   if (userStore.accountType === 'ENTERPRISE') {
+    if (userStore.enterpriseRole === 'OWNER') return '企业管理员'
+    if (userStore.enterpriseRole === 'LEGAL') return '企业法务'
     return '企业开发者'
   }
   if (normalizedRole.value === 'AUDITOR') {
@@ -32,7 +35,7 @@ const handleLogout = () => {
 
 const handleUserCommand = (command) => {
   if (command === 'profile') {
-    router.push('/profile/info')
+    router.push('/profile/records')
   } else if (command === 'logout') {
     handleLogout()
   } else if (command === 'admin') {
@@ -115,12 +118,11 @@ const isAuditPage = computed(() => route.path.startsWith('/audit'))
             class="main-menu"
           >
             <el-menu-item index="/">首页</el-menu-item>
-            <el-menu-item index="/apply" v-if="isLoggedIn">版权申请</el-menu-item>
-            <el-sub-menu index="/query">
-              <template #title>版权查询</template>
-              <el-menu-item index="/query-hash">哈希查询</el-menu-item>
-              <el-menu-item index="/query-id">ID查询</el-menu-item>
-            </el-sub-menu>
+            <el-menu-item index="/apply" v-if="isLoggedIn && canApplyCopyright">版权申请</el-menu-item>
+<!--            <el-sub-menu index="/query">-->
+<!--              <template #title>版权查询</template>-->
+<!--              <el-menu-item index="/query-hash">哈希查询</el-menu-item>-->
+<!--            </el-sub-menu>-->
           </el-menu>
 
           <div class="right-section">
@@ -143,7 +145,7 @@ const isAuditPage = computed(() => route.path.startsWith('/audit'))
                     </el-dropdown-item>
                     <el-dropdown-item command="profile">
                       <el-icon><Document /></el-icon>
-                      个人信息
+                      个人中心
                     </el-dropdown-item>
                     <el-dropdown-item command="logout" divided>
                       <el-icon><SwitchButton /></el-icon>
@@ -189,13 +191,24 @@ const isAuditPage = computed(() => route.path.startsWith('/audit'))
           class="sidebar-menu"
           :router="true"
         >
-          <el-menu-item index="/profile/info">
-            <el-icon><User /></el-icon>
-            <span>个人信息</span>
-          </el-menu-item>
           <el-menu-item index="/profile/records">
             <el-icon><Document /></el-icon>
             <span>我的版权记录</span>
+          </el-menu-item>
+          <el-menu-item
+            v-if="userStore.enterpriseRole === 'OWNER' || (userStore.enterpriseRole === 'LEGAL' && userStore.enterpriseLegalScope === 'ALL')"
+            index="/profile/enterprise-records"
+          >
+            <el-icon><Document /></el-icon>
+            <span>企业版权记录</span>
+          </el-menu-item>
+          <el-menu-item v-if="userStore.enterpriseRole === 'OWNER'" index="/profile/members">
+            <el-icon><Management /></el-icon>
+            <span>企业成员管理</span>
+          </el-menu-item>
+          <el-menu-item index="/profile/info">
+            <el-icon><User /></el-icon>
+            <span>个人信息</span>
           </el-menu-item>
         </el-menu>
 

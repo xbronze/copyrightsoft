@@ -27,6 +27,10 @@ public class User {
 
     private Long enterpriseId;
 
+    private String enterpriseRole;
+
+    private String enterpriseLegalScope;
+
     private String displaySubjectName;
 
     private Integer status;

@@ -14,4 +14,6 @@ public class LoginResponse {
     private Long userId;
     private String accountType;
     private Long enterpriseId;
+    private String enterpriseRole;
+    private String enterpriseLegalScope;
 }

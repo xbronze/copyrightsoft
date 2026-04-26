@@ -79,7 +79,9 @@ public class AuthServiceImpl implements AuthService {
                 normalizedRole,
                 user.getId(),
                 accountType,
-                user.getEnterpriseId()
+                user.getEnterpriseId(),
+                user.getEnterpriseRole(),
+                user.getEnterpriseLegalScope()
         );
     }
 
@@ -105,6 +107,8 @@ public class AuthServiceImpl implements AuthService {
         user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE);
         user.setRole(AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER);
         user.setEnterpriseId(enterprise.getId());
+        user.setEnterpriseRole(AuthDomainRules.ENTERPRISE_ROLE_OWNER);
+        user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_ALL);
         user.setDisplaySubjectName(enterprise.getName());
         userMapper.insert(user);
     }
@@ -119,6 +123,8 @@ public class AuthServiceImpl implements AuthService {
         User user = createBaseUser(request);
         user.setRole(AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER);
         user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
+        user.setEnterpriseRole(null);
+        user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
         user.setDisplaySubjectName(user.getNickname());
         userMapper.insert(user);
     }
@@ -279,10 +285,12 @@ public class AuthServiceImpl implements AuthService {
             user.setRole(role);
             user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
             user.setEnterpriseId(null);
+            user.setEnterpriseRole(null);
+            user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
             if (!StringUtils.hasText(user.getDisplaySubjectName())) {
                 user.setDisplaySubjectName(user.getNickname());
             }
-        } else if (AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER.equals(role)) {
+        } else if (AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER.equals(role) || AuthDomainRules.ROLE_ENTERPRISE_LEGAL.equals(role)) {
             if (enterpriseId == null) {
                 throw new IllegalArgumentException("企业开发者必须提供 enterpriseId");
             }
@@ -296,6 +304,13 @@ public class AuthServiceImpl implements AuthService {
             user.setRole(role);
             user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE);
             user.setEnterpriseId(enterpriseId);
+            if (AuthDomainRules.ROLE_ENTERPRISE_LEGAL.equals(role)) {
+                user.setEnterpriseRole(AuthDomainRules.ENTERPRISE_ROLE_LEGAL);
+                user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
+            } else {
+                user.setEnterpriseRole(AuthDomainRules.ENTERPRISE_ROLE_DEVELOPER);
+                user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
+            }
             user.setDisplaySubjectName(enterprise.getName());
         } else if (AuthDomainRules.ROLE_AUDITOR.equals(role) || AuthDomainRules.ROLE_ADMIN.equals(role)) {
             user.setRole(role);
@@ -303,6 +318,8 @@ public class AuthServiceImpl implements AuthService {
                 user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
             }
             user.setEnterpriseId(null);
+            user.setEnterpriseRole(null);
+            user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
             if (!StringUtils.hasText(user.getDisplaySubjectName())) {
                 user.setDisplaySubjectName(user.getNickname());
             }
@@ -346,6 +363,131 @@ public class AuthServiceImpl implements AuthService {
         ));
 
         return statistics;
+    }
+
+    @Override
+    public User createUserByAdmin(AdminUserUpsertRequest request) {
+        if (!StringUtils.hasText(request.getUsername())) {
+            throw new IllegalArgumentException("用户名不能为空");
+        }
+        if (!StringUtils.hasText(request.getPassword()) || request.getPassword().length() < 6) {
+            throw new IllegalArgumentException("密码不能为空且长度至少6位");
+        }
+        validateUsernameNotExists(request.getUsername());
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setNickname(StringUtils.hasText(request.getNickname()) ? request.getNickname() : request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setStatus(request.getStatus() == null ? 1 : request.getStatus());
+
+        applyRoleAndSubject(user, request.getRole(), request.getEnterpriseId());
+        userMapper.insert(user);
+        user.setPassword(null);
+        return user;
+    }
+
+    @Override
+    public User updateUserByAdmin(Long userId, AdminUserUpsertRequest request) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new NoSuchElementException("用户不存在");
+        }
+        if (AuthDomainRules.ROLE_ADMIN.equals(user.getRole())) {
+            throw new IllegalArgumentException("不能修改管理员账号");
+        }
+
+        if (StringUtils.hasText(request.getNickname())) {
+            user.setNickname(request.getNickname());
+        }
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+        if (request.getPhone() != null) {
+            user.setPhone(request.getPhone());
+        }
+        if (request.getStatus() != null) {
+            user.setStatus(request.getStatus());
+        }
+        if (StringUtils.hasText(request.getPassword())) {
+            if (request.getPassword().length() < 6) {
+                throw new IllegalArgumentException("密码长度不能少于6位");
+            }
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        if (StringUtils.hasText(request.getRole())) {
+            applyRoleAndSubject(user, request.getRole(), request.getEnterpriseId());
+        }
+
+        userMapper.updateById(user);
+        user.setPassword(null);
+        return user;
+    }
+
+    @Override
+    public void deleteUserByAdmin(Long userId) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new NoSuchElementException("用户不存在");
+        }
+        if (AuthDomainRules.ROLE_ADMIN.equals(user.getRole())) {
+            throw new IllegalArgumentException("不能删除管理员账号");
+        }
+        userMapper.deleteById(userId);
+    }
+
+    private void applyRoleAndSubject(User user, String role, Long enterpriseId) {
+        if (!StringUtils.hasText(role)) {
+            throw new IllegalArgumentException("角色不能为空");
+        }
+        if (AuthDomainRules.ROLE_USER_LEGACY.equals(role)) {
+            throw new IllegalArgumentException("不支持分配旧角色 USER");
+        }
+        if (AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER.equals(role)) {
+            user.setRole(role);
+            user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
+            user.setEnterpriseId(null);
+            user.setEnterpriseRole(null);
+            user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
+            user.setDisplaySubjectName(StringUtils.hasText(user.getNickname()) ? user.getNickname() : user.getUsername());
+            return;
+        }
+        if (AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER.equals(role) || AuthDomainRules.ROLE_ENTERPRISE_LEGAL.equals(role)) {
+            if (enterpriseId == null) {
+                throw new IllegalArgumentException("企业开发者必须提供 enterpriseId");
+            }
+            Enterprise enterprise = enterpriseMapper.selectById(enterpriseId);
+            if (enterprise == null) {
+                throw new NoSuchElementException("企业不存在");
+            }
+            if (enterprise.getStatus() == null || enterprise.getStatus() != 1) {
+                throw new IllegalStateException("企业已禁用，不能分配企业开发者");
+            }
+            user.setRole(role);
+            user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE);
+            user.setEnterpriseId(enterpriseId);
+            if (AuthDomainRules.ROLE_ENTERPRISE_LEGAL.equals(role)) {
+                user.setEnterpriseRole(AuthDomainRules.ENTERPRISE_ROLE_LEGAL);
+                user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
+            } else {
+                user.setEnterpriseRole(AuthDomainRules.ENTERPRISE_ROLE_DEVELOPER);
+                user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
+            }
+            user.setDisplaySubjectName(enterprise.getName());
+            return;
+        }
+        if (AuthDomainRules.ROLE_AUDITOR.equals(role)) {
+            user.setRole(role);
+            user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
+            user.setEnterpriseId(null);
+            user.setEnterpriseRole(null);
+            user.setEnterpriseLegalScope(AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF);
+            user.setDisplaySubjectName(StringUtils.hasText(user.getNickname()) ? user.getNickname() : user.getUsername());
+            return;
+        }
+        throw new IllegalArgumentException("不支持的角色类型");
     }
 
     private String generateRandomPassword(int length) {

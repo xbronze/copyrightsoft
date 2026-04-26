@@ -1,6 +1,7 @@
 package cn.blockchain.copyrightsoft;
 
 import cn.blockchain.copyrightsoft.dto.QueryResult;
+import cn.blockchain.copyrightsoft.dto.AdminUserUpsertRequest;
 import cn.blockchain.copyrightsoft.entity.Enterprise;
 import cn.blockchain.copyrightsoft.entity.User;
 import cn.blockchain.copyrightsoft.mapper.EnterpriseMapper;
@@ -95,12 +96,46 @@ public class AdminController {
     public Result<Page<QueryResult>> getAllCopyrights(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(required = false) String keyword) {
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String bizStatus) {
         try {
-            Page<QueryResult> resultPage = copyrightService.getAllCopyrights(page, size, keyword);
+            Page<QueryResult> resultPage = copyrightService.getAllCopyrights(page, size, keyword, bizStatus);
             return Result.success(resultPage);
         } catch (Exception e) {
             log.error("获取版权列表失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/users")
+    public Result<User> createUser(@RequestBody AdminUserUpsertRequest request) {
+        try {
+            User user = authService.createUserByAdmin(request);
+            return Result.success("账号创建成功", user);
+        } catch (Exception e) {
+            log.error("创建账号失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PutMapping("/users/{id}")
+    public Result<User> updateUser(@PathVariable Long id, @RequestBody AdminUserUpsertRequest request) {
+        try {
+            User user = authService.updateUserByAdmin(id, request);
+            return Result.success("账号更新成功", user);
+        } catch (Exception e) {
+            log.error("更新账号失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/users/{id}")
+    public Result<String> deleteUser(@PathVariable Long id) {
+        try {
+            authService.deleteUserByAdmin(id);
+            return Result.success("账号删除成功");
+        } catch (Exception e) {
+            log.error("删除账号失败", e);
             return Result.error(e.getMessage());
         }
     }

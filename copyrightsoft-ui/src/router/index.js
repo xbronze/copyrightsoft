@@ -6,7 +6,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: false }
   },
   {
     path: '/login',
@@ -33,22 +33,16 @@ const routes = [
     meta: { requiresAuth: false }
   },
   {
-    path: '/query-id',
-    name: 'query-id',
-    component: () => import('../views/QueryById.vue'),
-    meta: { requiresAuth: false }
-  },
-  {
-    path: '/query-id/:id',
-    name: 'query-id-detail',
-    component: () => import('../views/QueryById.vue'),
+    path: '/copyright/:applicationNo',
+    name: 'copyright-detail',
+    component: () => import('../views/CopyrightDetail.vue'),
     meta: { requiresAuth: false }
   },
   // 个人中心路由
   {
     path: '/profile',
     name: 'profile',
-    redirect: '/profile/info',
+    redirect: '/profile/records',
     meta: { requiresAuth: true },
     children: [
       {
@@ -62,6 +56,18 @@ const routes = [
         name: 'profile-records',
         component: () => import('../views/profile/MyRecords.vue'),
         meta: { requiresAuth: true, developerOnly: true }
+      },
+      {
+        path: 'enterprise-records',
+        name: 'profile-enterprise-records',
+        component: () => import('../views/profile/EnterpriseRecords.vue'),
+        meta: { requiresAuth: true, enterpriseRoles: ['OWNER', 'LEGAL'] }
+      },
+      {
+        path: 'members',
+        name: 'profile-enterprise-members',
+        component: () => import('../views/profile/EnterpriseMembers.vue'),
+        meta: { requiresAuth: true, enterpriseRoles: ['OWNER'] }
       }
     ]
   },
@@ -106,10 +112,13 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   const rawRole = localStorage.getItem('role')
   const role = rawRole === 'USER' ? 'INDIVIDUAL_DEVELOPER' : rawRole
+  const enterpriseRole = localStorage.getItem('enterpriseRole')
+  const enterpriseLegalScope = localStorage.getItem('enterpriseLegalScope')
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
   const requiresAuditor = to.matched.some(record => record.meta.requiresAuditor)
   const developerOnly = to.matched.some(record => record.meta.developerOnly)
+  const enterpriseRolesMeta = to.matched.find(record => Array.isArray(record.meta.enterpriseRoles))?.meta.enterpriseRoles
 
   if (requiresAuth && !token) {
     next('/login')
@@ -119,6 +128,12 @@ router.beforeEach((to, from, next) => {
     next('/')
   } else if (developerOnly && !['INDIVIDUAL_DEVELOPER', 'ENTERPRISE_DEVELOPER'].includes(role)) {
     next('/')
+  } else if (enterpriseRolesMeta && !enterpriseRolesMeta.includes(enterpriseRole)) {
+    next('/')
+  } else if (enterpriseRole === 'LEGAL'
+    && to.path === '/profile/enterprise-records'
+    && enterpriseLegalScope !== 'ALL') {
+    next('/profile/records')
   } else {
     next()
   }

@@ -30,8 +30,8 @@ fisco:
   bcos:
     cert-path: classpath:conf/
     group-id: group0
-    contract-address: 0x6849f21d1e455e9f0712b1e99fa4fcd23758e8f1
-
+#    contract-address: 0x6849f21d1e455e9f0712b1e99fa4fcd23758e8f1
+    contract-address: 0x6ea6907f036ff456d2f0f0a858afa9807ff4b788
 minio:
   endpoint: http://192.168.1.100:9050
   access-key: minioadmin

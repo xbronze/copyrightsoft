@@ -68,17 +68,32 @@
       <el-divider />
 
       <div v-if="result" class="result-section">
-        <h3>存证结果</h3>
+        <h3>申请结果</h3>
         <el-alert
-          title="存证成功！"
-          type="success"
+          :title="resultAlertTitle"
+          :type="resultAlertType"
           :closable="false"
           show-icon
         />
         <el-descriptions :column="1" border class="result-descriptions">
+          <el-descriptions-item label="申请编号">
+            <el-text type="primary" style="word-break: break-all">
+              {{ result.applicationNo }}
+            </el-text>
+          </el-descriptions-item>
+          <el-descriptions-item label="申请状态">
+            <el-text type="warning">
+              {{ result.status }}
+            </el-text>
+          </el-descriptions-item>
+          <el-descriptions-item v-if="result.errorMessage" label="失败原因">
+            <el-text type="danger" style="word-break: break-all">
+              {{ result.errorMessage }}
+            </el-text>
+          </el-descriptions-item>
           <el-descriptions-item label="交易哈希">
             <el-text type="primary" style="word-break: break-all">
-              {{ result }}
+              {{ result.txHash || '-' }}
             </el-text>
           </el-descriptions-item>
         </el-descriptions>
@@ -91,17 +106,18 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
-import { applyCopyright } from '@/api/copyright'
+import { submitApplication, getApplicationStatus } from '@/api/copyright'
 
 const router = useRouter()
 const formRef = ref(null)
 const uploadRef = ref(null)
 const loading = ref(false)
 const result = ref(null)
+const pollingTimer = ref(null)
 
 const form = reactive({
   softwareName: '',
@@ -122,6 +138,48 @@ const handleFileChange = (file) => {
   form.file = file.raw
 }
 
+const terminalStatuses = ['ONCHAIN_SUCCESS', 'ONCHAIN_FAILED']
+
+const resultAlertType = computed(() => {
+  if (!result.value) return 'info'
+  if (result.value.status === 'ONCHAIN_SUCCESS') return 'success'
+  if (result.value.status === 'ONCHAIN_FAILED') return 'error'
+  return 'info'
+})
+
+const resultAlertTitle = computed(() => {
+  if (!result.value) return ''
+  if (result.value.status === 'ONCHAIN_SUCCESS') return '申请已提交并完成上链！'
+  if (result.value.status === 'ONCHAIN_FAILED') return '申请上链失败，请查看失败原因'
+  return '申请处理中，正在轮询状态...'
+})
+
+const stopPolling = () => {
+  if (pollingTimer.value) {
+    clearInterval(pollingTimer.value)
+    pollingTimer.value = null
+  }
+}
+
+const startPollingStatus = (applicationNo) => {
+  stopPolling()
+  pollingTimer.value = setInterval(async () => {
+    try {
+      const res = await getApplicationStatus(applicationNo)
+      result.value = {
+        ...result.value,
+        ...res.data
+      }
+      if (terminalStatuses.includes(result.value.status)) {
+        stopPolling()
+      }
+    } catch (error) {
+      console.error('轮询申请状态失败:', error)
+      stopPolling()
+    }
+  }, 3000)
+}
+
 const submitForm = async () => {
   if (!formRef.value) return
 
@@ -136,11 +194,14 @@ const submitForm = async () => {
           formData.append('description', form.description)
         }
 
-        const res = await applyCopyright(formData)
+        const res = await submitApplication(formData)
         result.value = res.data
-        ElMessage.success('版权存证成功！')
+        if (!terminalStatuses.includes(result.value.status)) {
+          startPollingStatus(result.value.applicationNo)
+        }
+        ElMessage.success('版权申请提交成功！')
       } catch (error) {
-        console.error('存证失败:', error)
+        console.error('申请失败:', error)
       } finally {
         loading.value = false
       }
@@ -149,11 +210,16 @@ const submitForm = async () => {
 }
 
 const resetForm = () => {
+  stopPolling()
   formRef.value?.resetFields()
   uploadRef.value?.clearFiles()
   form.file = null
   result.value = null
 }
+
+onBeforeUnmount(() => {
+  stopPolling()
+})
 </script>
 
 <style scoped>

@@ -32,4 +32,10 @@ public interface AuthService {
     String resetUserPassword(Long userId);
 
     Map<String, Object> getStatistics();
+
+    User createUserByAdmin(AdminUserUpsertRequest request);
+
+    User updateUserByAdmin(Long userId, AdminUserUpsertRequest request);
+
+    void deleteUserByAdmin(Long userId);
 }

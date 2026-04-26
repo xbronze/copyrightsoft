@@ -43,7 +43,7 @@
     </el-row>
 
     <el-tabs v-model="activeTab" class="admin-tabs">
-      <el-tab-pane label="用户管理" name="users">
+      <el-tab-pane label="人员账号管理" name="users">
         <div class="tab-content">
           <div class="search-bar">
             <el-input
@@ -59,6 +59,7 @@
                 </el-button>
               </template>
             </el-input>
+            <el-button type="primary" @click="openUserDialog()">新增账号</el-button>
           </div>
 
           <el-table :data="users" border stripe style="width: 100%">
@@ -101,6 +102,12 @@
                 <el-button size="small" type="info" @click="handleResetPassword(row)">
                   重置密码
                 </el-button>
+                <el-button size="small" type="primary" plain @click="openUserDialog(row)">
+                  编辑
+                </el-button>
+                <el-button size="small" type="danger" plain @click="handleDeleteUser(row)">
+                  删除
+                </el-button>
                 <el-dropdown @command="(role) => openRoleDialog(row, role)">
                   <el-button size="small" type="primary">设置角色</el-button>
                   <template #dropdown>
@@ -134,7 +141,7 @@
           <div class="search-bar">
             <el-input
               v-model="copyrightKeyword"
-              placeholder="搜索软件名称/文件哈希"
+              placeholder="搜索软件名称/文件哈希/申请编号"
               style="width: 300px"
               clearable
               @clear="loadCopyrights"
@@ -145,6 +152,11 @@
                 </el-button>
               </template>
             </el-input>
+            <el-select v-model="copyrightBizStatus" placeholder="业务状态" clearable style="width: 180px">
+              <el-option label="上链成功" value="ONCHAIN_SUCCESS" />
+              <el-option label="上链失败" value="ONCHAIN_FAILED" />
+              <el-option label="已提交" value="SUBMITTED" />
+            </el-select>
           </div>
 
           <el-table :data="copyrights" border stripe style="width: 100%">
@@ -182,6 +194,63 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog v-model="userDialogVisible" :title="userDialog.id ? '编辑账号' : '新增账号'" width="560px">
+      <el-form :model="userDialog" label-width="110px">
+        <el-form-item label="用户名">
+          <el-input v-model="userDialog.username" :disabled="!!userDialog.id" />
+        </el-form-item>
+        <el-form-item :label="userDialog.id ? '新密码(可空)' : '密码'">
+          <el-input v-model="userDialog.password" type="password" show-password />
+        </el-form-item>
+        <el-form-item label="昵称">
+          <el-input v-model="userDialog.nickname" />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="userDialog.email" />
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="userDialog.phone" />
+        </el-form-item>
+        <el-form-item label="角色">
+          <el-select v-model="userDialog.role" style="width: 280px">
+            <el-option label="个人开发者" value="INDIVIDUAL_DEVELOPER" />
+            <el-option label="企业开发者" value="ENTERPRISE_DEVELOPER" />
+            <el-option label="审核员" value="AUDITOR" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="userDialog.role === 'ENTERPRISE_DEVELOPER'" label="所属企业">
+          <el-select
+            v-model="userDialog.enterpriseId"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="请输入企业名称检索"
+            :remote-method="searchEnterprises"
+            :loading="enterpriseLoading"
+            style="width: 320px"
+          >
+            <el-option
+              v-for="item in enterpriseOptions"
+              :key="item.id"
+              :label="enterpriseOptionLabel(item)"
+              :value="item.id"
+              :disabled="isEnterpriseDisabled(item)"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select v-model="userDialog.status" style="width: 140px">
+            <el-option label="启用" :value="1" />
+            <el-option label="禁用" :value="0" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="userDialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="userSubmitLoading" @click="submitUserDialog">确认</el-button>
+      </template>
+    </el-dialog>
 
     <el-dialog v-model="roleDialogVisible" title="设置用户角色" width="520px">
       <el-form label-width="110px">
@@ -228,7 +297,18 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { User, Check, Document, Search } from '@element-plus/icons-vue'
-import { getUsers, updateUserStatus, resetPassword, getAllCopyrights, getStatistics, updateUserRole, getEnterpriseOptions } from '@/api/admin'
+import {
+  getUsers,
+  updateUserStatus,
+  resetPassword,
+  getAllCopyrights,
+  getStatistics,
+  updateUserRole,
+  getEnterpriseOptions,
+  createUser,
+  updateUser,
+  deleteUser
+} from '@/api/admin'
 
 const activeTab = ref('users')
 const statistics = ref({})
@@ -243,9 +323,12 @@ const userTotal = ref(0)
 // 版权管理
 const copyrights = ref([])
 const copyrightKeyword = ref('')
+const copyrightBizStatus = ref('')
 const copyrightPage = ref(1)
 const copyrightPageSize = ref(10)
 const copyrightTotal = ref(0)
+const userDialogVisible = ref(false)
+const userSubmitLoading = ref(false)
 const roleDialogVisible = ref(false)
 const enterpriseOptions = ref([])
 const enterpriseLoading = ref(false)
@@ -257,6 +340,17 @@ const roleDialog = ref({
   username: '',
   role: '',
   enterpriseId: null
+})
+const userDialog = ref({
+  id: null,
+  username: '',
+  password: '',
+  nickname: '',
+  email: '',
+  phone: '',
+  role: 'INDIVIDUAL_DEVELOPER',
+  enterpriseId: null,
+  status: 1
 })
 
 const loadRecentEnterprises = () => {
@@ -322,12 +416,93 @@ const loadCopyrights = async () => {
     const res = await getAllCopyrights({
       page: copyrightPage.value,
       size: copyrightPageSize.value,
-      keyword: copyrightKeyword.value
+      keyword: copyrightKeyword.value,
+      bizStatus: copyrightBizStatus.value
     })
     copyrights.value = res.data.records
     copyrightTotal.value = res.data.total
   } catch (error) {
     ElMessage.error('加载版权记录失败')
+  }
+}
+
+const openUserDialog = async (user) => {
+  if (user) {
+    userDialog.value = {
+      id: user.id,
+      username: user.username,
+      password: '',
+      nickname: user.nickname || '',
+      email: user.email || '',
+      phone: user.phone || '',
+      role: user.role,
+      enterpriseId: user.enterpriseId || null,
+      status: user.status ?? 1
+    }
+  } else {
+    userDialog.value = {
+      id: null,
+      username: '',
+      password: '',
+      nickname: '',
+      email: '',
+      phone: '',
+      role: 'INDIVIDUAL_DEVELOPER',
+      enterpriseId: null,
+      status: 1
+    }
+  }
+  if (userDialog.value.role === 'ENTERPRISE_DEVELOPER') {
+    await searchEnterprises('')
+  }
+  userDialogVisible.value = true
+}
+
+const submitUserDialog = async () => {
+  try {
+    userSubmitLoading.value = true
+    if (!userDialog.value.id && !userDialog.value.password) {
+      ElMessage.error('新增账号必须设置密码')
+      return
+    }
+    if (!userDialog.value.username) {
+      ElMessage.error('用户名不能为空')
+      return
+    }
+    if (userDialog.value.role === 'ENTERPRISE_DEVELOPER' && !userDialog.value.enterpriseId) {
+      ElMessage.error('企业开发者必须选择所属企业')
+      return
+    }
+    if (userDialog.value.id) {
+      await updateUser(userDialog.value.id, userDialog.value)
+      ElMessage.success('账号更新成功')
+    } else {
+      await createUser(userDialog.value)
+      ElMessage.success('账号创建成功')
+    }
+    userDialogVisible.value = false
+    loadUsers()
+  } catch (error) {
+    ElMessage.error(error.message || '账号保存失败')
+  } finally {
+    userSubmitLoading.value = false
+  }
+}
+
+const handleDeleteUser = async (user) => {
+  try {
+    await ElMessageBox.confirm(
+      `确定删除账号 "${user.username}" 吗？`,
+      '提示',
+      { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }
+    )
+    await deleteUser(user.id)
+    ElMessage.success('账号删除成功')
+    loadUsers()
+  } catch (error) {
+    if (error !== 'cancel') {
+      ElMessage.error(error.message || '删除失败')
+    }
   }
 }
 
@@ -441,7 +616,7 @@ const submitRoleChange = async () => {
 }
 
 const viewDetail = (record) => {
-  window.open(`/query-id/${record.id}`, '_blank')
+  window.open(`/copyright/${record.applicationNo}`, '_blank')
 }
 
 const formatDate = (dateStr) => {

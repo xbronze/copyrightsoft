@@ -34,10 +34,10 @@ public class AuditController {
         }
     }
 
-    @GetMapping("/records/{id}")
-    public Result<QueryResult> getAuditDetail(@PathVariable Long id) {
+    @GetMapping("/records/application/{applicationNo}")
+    public Result<QueryResult> getAuditDetail(@PathVariable String applicationNo) {
         try {
-            QueryResult result = copyrightService.queryById(id);
+            QueryResult result = copyrightService.queryByApplicationNo(applicationNo);
             if (result == null) {
                 return Result.error("未找到版权记录");
             }
@@ -55,6 +55,17 @@ public class AuditController {
             return Result.success("审核完成");
         } catch (Exception e) {
             log.error("审核失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/applications/{id}/action")
+    public Result<String> reviewApplication(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        try {
+            copyrightService.reviewApplication(id, body.get("reviewResult"), body.get("reviewNote"));
+            return Result.success("复核完成");
+        } catch (Exception e) {
+            log.error("复核失败", e);
             return Result.error(e.getMessage());
         }
     }

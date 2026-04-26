@@ -33,8 +33,8 @@
       <div v-if="queryResult" class="result-section">
         <h3>查询结果</h3>
         <el-descriptions :column="2" border class="result-descriptions">
-          <el-descriptions-item label="记录ID">
-            {{ queryResult.id }}
+          <el-descriptions-item label="申请编号">
+            {{ queryResult.applicationNo || '-' }}
           </el-descriptions-item>
           <el-descriptions-item label="软件名称">
             {{ queryResult.softwareName }}
@@ -60,17 +60,17 @@
           <el-descriptions-item label="区块高度">
             {{ queryResult.blockNumber }}
           </el-descriptions-item>
-          <el-descriptions-item label="文件大小">
-            {{ formatFileSize(queryResult.fileSize) }}
+          <el-descriptions-item label="业务状态">
+            {{ queryResult.bizStatus || '-' }}
           </el-descriptions-item>
-          <el-descriptions-item label="文件类型">
-            {{ queryResult.fileType || '未知' }}
+          <el-descriptions-item label="审核状态">
+            {{ queryResult.auditStatus || '-' }}
           </el-descriptions-item>
-          <el-descriptions-item label="存证时间">
-            {{ formatTime(queryResult.timestamp) }}
+          <el-descriptions-item label="创建时间">
+            {{ formatTime(queryResult.createdAt) }}
           </el-descriptions-item>
-          <el-descriptions-item label="创建时间" :span="2">
-            {{ queryResult.createTime }}
+          <el-descriptions-item label="更新时间">
+            {{ formatTime(queryResult.updatedAt) }}
           </el-descriptions-item>
         </el-descriptions>
       </div>
@@ -85,10 +85,12 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { queryByHash } from '@/api/copyright'
 
+const route = useRoute()
 const formRef = ref(null)
 const loading = ref(false)
 const queryResult = ref(null)
@@ -128,19 +130,18 @@ const handleQuery = async () => {
   })
 }
 
-const formatTime = (timestamp) => {
-  if (!timestamp) return '-'
-  const date = new Date(timestamp * 1000)
-  return date.toLocaleString('zh-CN')
+const formatTime = (timeStr) => {
+  if (!timeStr) return '-'
+  return new Date(timeStr).toLocaleString('zh-CN')
 }
 
-const formatFileSize = (bytes) => {
-  if (!bytes) return '-'
-  if (bytes < 1024) return bytes + ' B'
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB'
-  if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' MB'
-  return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB'
-}
+onMounted(() => {
+  const hash = route.query.fileHash
+  if (typeof hash === 'string' && hash.trim()) {
+    form.fileHash = hash.trim()
+    handleQuery()
+  }
+})
 </script>
 
 <style scoped>

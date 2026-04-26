@@ -9,14 +9,22 @@ public final class AuthDomainRules {
 
     public static final String ROLE_INDIVIDUAL_DEVELOPER = "INDIVIDUAL_DEVELOPER";
     public static final String ROLE_ENTERPRISE_DEVELOPER = "ENTERPRISE_DEVELOPER";
+    public static final String ROLE_ENTERPRISE_LEGAL = "ENTERPRISE_LEGAL";
     public static final String ROLE_AUDITOR = "AUDITOR";
     public static final String ROLE_ADMIN = "ADMIN";
+
+    public static final String ENTERPRISE_ROLE_OWNER = "OWNER";
+    public static final String ENTERPRISE_ROLE_DEVELOPER = "DEVELOPER";
+    public static final String ENTERPRISE_ROLE_LEGAL = "LEGAL";
+
+    public static final String ENTERPRISE_LEGAL_SCOPE_SELF = "SELF";
+    public static final String ENTERPRISE_LEGAL_SCOPE_ALL = "ALL";
 
     // Legacy role kept for compatibility during migration window.
     public static final String ROLE_USER_LEGACY = "USER";
 
     private static final Set<String> INDIVIDUAL_ALLOWED_ROLES = Set.of(ROLE_INDIVIDUAL_DEVELOPER);
-    private static final Set<String> ENTERPRISE_ALLOWED_ROLES = Set.of(ROLE_ENTERPRISE_DEVELOPER);
+    private static final Set<String> ENTERPRISE_ALLOWED_ROLES = Set.of(ROLE_ENTERPRISE_DEVELOPER, ROLE_ENTERPRISE_LEGAL);
     private static final Set<String> PLATFORM_ROLES = Set.of(ROLE_AUDITOR, ROLE_ADMIN);
     private static final Set<String> DEVELOPER_ROLES = Set.of(
             ROLE_INDIVIDUAL_DEVELOPER,
@@ -57,5 +65,16 @@ public final class AuthDomainRules {
             return ROLE_INDIVIDUAL_DEVELOPER;
         }
         return role;
+    }
+
+    public static boolean isEnterpriseRoleValid(String enterpriseRole) {
+        return ENTERPRISE_ROLE_OWNER.equals(enterpriseRole)
+                || ENTERPRISE_ROLE_DEVELOPER.equals(enterpriseRole)
+                || ENTERPRISE_ROLE_LEGAL.equals(enterpriseRole);
+    }
+
+    public static boolean isEnterpriseLegalScopeValid(String legalScope) {
+        return ENTERPRISE_LEGAL_SCOPE_SELF.equals(legalScope)
+                || ENTERPRISE_LEGAL_SCOPE_ALL.equals(legalScope);
     }
 }
