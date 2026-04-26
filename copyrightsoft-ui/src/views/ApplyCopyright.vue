@@ -83,7 +83,7 @@
           </el-descriptions-item>
           <el-descriptions-item label="申请状态">
             <el-text type="warning">
-              {{ result.status }}
+              {{ toBizStatusText(result.status) }}
             </el-text>
           </el-descriptions-item>
           <el-descriptions-item v-if="result.errorMessage" label="失败原因">
@@ -111,6 +111,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { submitApplication, getApplicationStatus } from '@/api/copyright'
+import { toBizStatusText } from '@/utils/statusMap'
 
 const router = useRouter()
 const formRef = ref(null)

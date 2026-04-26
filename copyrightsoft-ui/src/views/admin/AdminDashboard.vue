@@ -73,7 +73,7 @@
             </el-table-column>
             <el-table-column label="主体类型" width="140">
               <template #default="{ row }">
-                {{ row.accountType || '-' }}
+                {{ toAccountTypeText(row.accountType) }}
               </template>
             </el-table-column>
             <el-table-column prop="email" label="邮箱" width="200" />
@@ -156,6 +156,7 @@
               <el-option label="上链成功" value="ONCHAIN_SUCCESS" />
               <el-option label="上链失败" value="ONCHAIN_FAILED" />
               <el-option label="已提交" value="SUBMITTED" />
+              <el-option label="待人工复核" value="PENDING_REVIEW" />
             </el-select>
           </div>
 
@@ -166,6 +167,11 @@
             <el-table-column prop="ownerAddress" label="拥有者地址" width="200" show-overflow-tooltip />
             <el-table-column prop="txHash" label="交易哈希" width="200" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" min-width="200" show-overflow-tooltip />
+            <el-table-column label="业务状态" width="120">
+              <template #default="{ row }">
+                {{ toBizStatusText(row.bizStatus) }}
+              </template>
+            </el-table-column>
             <el-table-column label="申请时间" width="180">
               <template #default="{ row }">
                 {{ formatDate(row.createdAt) }}
@@ -309,6 +315,7 @@ import {
   updateUser,
   deleteUser
 } from '@/api/admin'
+import { toAccountTypeText, toBizStatusText, toRoleText } from '@/utils/statusMap'
 
 const activeTab = ref('users')
 const statistics = ref({})
@@ -387,14 +394,7 @@ const loadStatistics = async () => {
 }
 
 const roleLabel = (role) => {
-  const roleMap = {
-    INDIVIDUAL_DEVELOPER: '个人开发者',
-    ENTERPRISE_DEVELOPER: '企业开发者',
-    AUDITOR: '审核员',
-    ADMIN: '管理员',
-    USER: '旧普通用户'
-  }
-  return roleMap[role] || role
+  return toRoleText(role)
 }
 
 const loadUsers = async () => {

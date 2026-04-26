@@ -23,11 +23,15 @@
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="softwareName" label="软件名称" min-width="180" />
         <el-table-column prop="subjectName" label="权利主体" min-width="140" />
-        <el-table-column prop="subjectType" label="主体类型" width="120" />
+        <el-table-column label="主体类型" width="120">
+          <template #default="{ row }">
+            {{ toSubjectTypeText(row.subjectType) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="fileHash" label="文件哈希" min-width="220" show-overflow-tooltip />
         <el-table-column label="状态" width="110">
           <template #default="{ row }">
-            <el-tag :type="statusType(row.auditStatus)">{{ row.auditStatus || 'PENDING' }}</el-tag>
+            <el-tag :type="statusType(row.auditStatus)">{{ toAuditStatusText(row.auditStatus || 'PENDING') }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="220" fixed="right">
@@ -57,6 +61,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getAuditRecords, submitAuditAction } from '@/api/audit'
+import { toAuditStatusText, toSubjectTypeText } from '@/utils/statusMap'
 
 const records = ref([])
 const keyword = ref('')

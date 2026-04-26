@@ -34,7 +34,7 @@
             </el-form-item>
 
             <el-form-item label="角色">
-              <el-tag>{{ userInfo.role || 'USER' }}</el-tag>
+              <el-tag>{{ toRoleText(userInfo.role || 'USER') }}</el-tag>
             </el-form-item>
 
             <el-form-item label="注册时间">
@@ -102,6 +102,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getUserInfo, updateProfile, changePassword } from '@/api/auth'
 import { useUserStore } from '@/stores/user'
+import { toRoleText } from '@/utils/statusMap'
 
 const userStore = useUserStore()
 const formRef = ref(null)

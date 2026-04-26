@@ -22,8 +22,12 @@
       <el-table :data="members" v-loading="loading" stripe style="margin-top: 20px">
         <el-table-column prop="username" label="用户名" width="140" />
         <el-table-column prop="nickname" label="昵称" width="140" />
-        <el-table-column prop="enterpriseRole" label="企业角色" width="120" />
-        <el-table-column prop="enterpriseLegalScope" label="法务范围" width="110" />
+        <el-table-column label="企业角色" width="120">
+          <template #default="{ row }">{{ toEnterpriseRoleText(row.enterpriseRole) }}</template>
+        </el-table-column>
+        <el-table-column label="法务范围" width="110">
+          <template #default="{ row }">{{ toLegalScopeText(row.enterpriseLegalScope) }}</template>
+        </el-table-column>
         <el-table-column prop="email" label="邮箱" min-width="180" />
         <el-table-column prop="status" label="状态" width="100">
           <template #default="{ row }">{{ row.status === 1 ? '启用' : '禁用' }}</template>
@@ -107,6 +111,7 @@ import {
   updateEnterpriseMember,
   updateEnterpriseMemberStatus
 } from '@/api/enterprise'
+import { toEnterpriseRoleText, toLegalScopeText } from '@/utils/statusMap'
 
 const loading = ref(false)
 const submitLoading = ref(false)

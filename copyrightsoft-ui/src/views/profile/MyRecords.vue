@@ -43,7 +43,11 @@
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="applicationNo" label="申请编号" min-width="170" />
         <el-table-column prop="softwareName" label="软件名称" min-width="150" />
-        <el-table-column prop="bizStatus" label="业务状态" width="140" />
+        <el-table-column label="业务状态" width="140">
+          <template #default="{ row }">
+            {{ toBizStatusText(row.bizStatus) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="fileHash" label="文件哈希" min-width="200">
           <template #default="{ row }">
             <el-text type="primary" style="word-break: break-all; font-size: 12px">
@@ -98,7 +102,7 @@
           <el-empty v-if="!detailData" description="暂无详情数据" />
           <el-descriptions v-else :column="2" border>
             <el-descriptions-item label="申请编号">{{ detailData.applicationNo || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="业务状态">{{ detailData.bizStatus || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="业务状态">{{ toBizStatusText(detailData.bizStatus) }}</el-descriptions-item>
             <el-descriptions-item label="软件名称">{{ detailData.softwareName || '-' }}</el-descriptions-item>
             <el-descriptions-item label="归属主体">{{ detailData.subjectName || '-' }}</el-descriptions-item>
             <el-descriptions-item label="文件哈希" :span="2">
@@ -114,11 +118,11 @@
               <el-text type="success" style="word-break: break-all">{{ detailData.txHash || '-' }}</el-text>
             </el-descriptions-item>
             <el-descriptions-item label="区块高度">{{ detailData.blockNumber ?? '-' }}</el-descriptions-item>
-            <el-descriptions-item label="审核状态">{{ detailData.auditStatus || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="风险等级">{{ detailData.riskLevel || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="审核状态">{{ toAuditStatusText(detailData.auditStatus) }}</el-descriptions-item>
+            <el-descriptions-item label="风险等级">{{ toRiskLevelText(detailData.riskLevel) }}</el-descriptions-item>
             <el-descriptions-item label="相似度评分">{{ detailData.similarityScore ?? '-' }}</el-descriptions-item>
             <el-descriptions-item label="风险原因" :span="2">{{ detailData.riskReason || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="复核结论">{{ detailData.reviewResult || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="复核结论">{{ toReviewResultText(detailData.reviewResult) }}</el-descriptions-item>
             <el-descriptions-item label="复核备注">{{ detailData.reviewNote || '-' }}</el-descriptions-item>
             <el-descriptions-item label="软件描述" :span="2">{{ detailData.description || '无' }}</el-descriptions-item>
             <el-descriptions-item label="创建时间">{{ formatTime(detailData.createdAt) }}</el-descriptions-item>
@@ -135,6 +139,7 @@ import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus, Search } from '@element-plus/icons-vue'
 import { getMyRecords, queryByApplicationNo } from '@/api/copyright.js'
+import { toAuditStatusText, toBizStatusText, toReviewResultText, toRiskLevelText } from '@/utils/statusMap'
 
 const loading = ref(false)
 const recordList = ref([])

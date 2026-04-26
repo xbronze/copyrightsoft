@@ -61,10 +61,10 @@
             {{ queryResult.blockNumber }}
           </el-descriptions-item>
           <el-descriptions-item label="业务状态">
-            {{ queryResult.bizStatus || '-' }}
+            {{ toBizStatusText(queryResult.bizStatus) }}
           </el-descriptions-item>
           <el-descriptions-item label="审核状态">
-            {{ queryResult.auditStatus || '-' }}
+            {{ toAuditStatusText(queryResult.auditStatus) }}
           </el-descriptions-item>
           <el-descriptions-item label="创建时间">
             {{ formatTime(queryResult.createdAt) }}
@@ -89,6 +89,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { queryByHash } from '@/api/copyright'
+import { toAuditStatusText, toBizStatusText } from '@/utils/statusMap'
 
 const route = useRoute()
 const formRef = ref(null)

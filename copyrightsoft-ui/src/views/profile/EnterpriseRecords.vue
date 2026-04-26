@@ -27,8 +27,16 @@
         <el-table-column prop="applicationNo" label="申请编号" min-width="170" />
         <el-table-column prop="softwareName" label="软件名称" min-width="180" />
         <el-table-column prop="subjectName" label="企业主体" min-width="140" />
-        <el-table-column prop="bizStatus" label="业务状态" width="140" />
-        <el-table-column prop="riskLevel" label="风险等级" width="110" />
+        <el-table-column label="业务状态" width="140">
+          <template #default="{ row }">
+            {{ toBizStatusText(row.bizStatus) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="风险等级" width="110">
+          <template #default="{ row }">
+            {{ toRiskLevelText(row.riskLevel) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="similarityScore" label="相似度" width="90" />
         <el-table-column prop="createdAt" label="提交时间" width="180" />
       </el-table>
@@ -52,6 +60,7 @@
 import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getEnterpriseRecords } from '@/api/copyright'
+import { toBizStatusText, toRiskLevelText } from '@/utils/statusMap'
 
 const loading = ref(false)
 const records = ref([])

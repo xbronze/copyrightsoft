@@ -13,7 +13,7 @@
           <el-empty v-if="!detail" description="未找到版权记录" />
           <el-descriptions v-else :column="2" border>
             <el-descriptions-item label="申请编号">{{ detail.applicationNo || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="业务状态">{{ detail.bizStatus || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="业务状态">{{ toBizStatusText(detail.bizStatus) }}</el-descriptions-item>
             <el-descriptions-item label="软件名称">{{ detail.softwareName || '-' }}</el-descriptions-item>
             <el-descriptions-item label="归属主体">{{ detail.subjectName || '-' }}</el-descriptions-item>
             <el-descriptions-item label="文件哈希" :span="2">
@@ -32,7 +32,7 @@
               <el-text type="success" style="word-break: break-all">{{ detail.txHash || '-' }}</el-text>
             </el-descriptions-item>
             <el-descriptions-item label="区块高度">{{ detail.blockNumber ?? '-' }}</el-descriptions-item>
-            <el-descriptions-item label="审核状态">{{ detail.auditStatus || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="审核状态">{{ toAuditStatusText(detail.auditStatus) }}</el-descriptions-item>
             <el-descriptions-item label="软件描述" :span="2">{{ detail.description || '无' }}</el-descriptions-item>
             <el-descriptions-item label="创建时间">{{ formatDate(detail.createdAt) }}</el-descriptions-item>
             <el-descriptions-item label="更新时间">{{ formatDate(detail.updatedAt) }}</el-descriptions-item>
@@ -48,6 +48,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { queryByApplicationNo } from '@/api/copyright'
+import { toAuditStatusText, toBizStatusText } from '@/utils/statusMap'
 
 const route = useRoute()
 const loading = ref(false)
