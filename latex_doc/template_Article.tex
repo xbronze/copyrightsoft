@@ -1,0 +1,679 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+
+\usepackage[left=2.6cm,right=2.6cm,top=2.8cm,bottom=2.8cm]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{indentfirst}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+\setstretch{1.3}
+\setlist[itemize]{leftmargin=2em}
+\setlist[enumerate]{leftmargin=2em}
+\setlength{\parindent}{2em}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  pdftitle={版权云链-软件著作权申请材料},
+  pdfauthor={著作权人}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ---------------- 标题样式 ----------------
+% 一级标题和二级标题使用相同样式：左对齐、顶头、同字号粗体
+\titleformat{\section}{\bfseries\zihao{4}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\bfseries\zihao{4}}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.8em}
+
+% ---------------- 数据库表列格式 ----------------
+% 目标：字段名称、默认值完整显示；其他列可自动换行
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% ---------------- 截图插入宏 ----------------
+% 用法：
+% \screenshotfigure{文件名}{图题}{图注}
+% 说明：
+% 1) 图片默认从 latex_doc/figures/ 目录读取
+% 2) 如果图片不存在，则自动显示占位框，不会导致编译失败
+\newcommand{\screenshotfigure}[3]{
+  \begin{figure}[H]
+    \centering
+    \IfFileExists{latex_doc/figures/#1}{
+      \includegraphics[width=0.92\textwidth]{latex_doc/figures/#1}
+    }{
+      \fbox{\parbox{0.92\textwidth}{\raggedright 截图占位：#1}}
+    }
+    \caption{#2}
+  \end{figure}
+  \noindent 图注：#3
+}
+
+\begin{document}
+
+% ---------------- 封面 ----------------
+\begin{titlepage}
+    \centering
+    \vspace*{2.5cm}
+    {\zihao{1}\bfseries 软件著作权申请材料（可打印提交版）\par}
+    \vspace{1.2cm}
+    {\zihao{2}\bfseries 版权云链\par}
+    \vspace{0.4cm}
+    {\zihao{3}软件版权溯源与确权平台\par}
+    \vspace{1.6cm}
+
+    \begin{flushleft}
+    \zihao{4}
+    文档类型：技术文档鉴别材料（含程序设计说明与使用说明）\\[0.5em]
+    版本号：V1.0\\[0.5em]
+    完成日期：2026-04-26\\[0.5em]
+    著作权人：\underline{\hspace{7cm}}\\[0.8em]
+    联系人：\underline{\hspace{7.8cm}}\\[0.8em]
+    联系电话：\underline{\hspace{7cm}}
+    \end{flushleft}
+
+    \vfill
+    {\zihao{5}打印说明：封面单独成页，正文从下一页开始。}
+\end{titlepage}
+
+% ---------------- 提示页 ----------------
+\section*{文档使用说明（提交前请删除本页）}
+\begin{enumerate}
+    \item 本文档用于整合软著申请中的技术材料。
+    \item 文中“截图占位”处请替换为真实系统截图。
+    \item 文中下划线处补齐申请主体信息。
+    \item 全文完成后导出 PDF（建议 A4，页码连续）。
+\end{enumerate}
+
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{软件概述}
+版权云链（软件版权溯源与确权平台）是一个面向软件作品确权场景的业务系统，目标是把“上传软件包、生成证据、风险识别、人工复核、联盟链存证、结果查询”整合为一体化流程。系统服务对象包含个人开发者、企业开发者、企业法务、审核员与管理员五类角色，不同角色在同一平台按权限完成不同环节操作。
+
+本系统采取“链下保存原文、链上保存摘要”的设计原则：软件压缩包原文件存储在 MinIO，数据库记录申请与审计过程信息，区块链仅存储证据根哈希与元数据哈希等关键摘要。该方案在满足存证可信性的同时降低链上存储成本，也便于后续围绕申请号、文件哈希、交易哈希进行追溯核验。
+
+系统的核心业务目标如下：
+\begin{itemize}
+    \item 建立标准化软件版权申请入口，统一个人与企业主体办理流程；
+    \item 通过哈希与语义指纹技术增强重复提交识别能力，降低恶意或冲突申请风险；
+    \item 通过人工复核机制对高风险样本进行兜底审查，确保业务审慎性；
+    \item 通过联盟链交易回执形成可验证的确权凭证；
+    \item 通过公开查询接口提供快速溯源能力，支撑后续维权举证。
+\end{itemize}
+
+\section{技术架构与运行环境}
+\subsection{总体技术架构}
+系统采用前后端分离架构，前端负责交互与状态展示，后端负责权限校验、业务编排、数据持久化和链上交互，基础设施提供对象存储与联盟链能力。具体技术组合如下：
+\begin{itemize}
+    \item 前端：Vue 3 + Vite + Element Plus + Pinia + Vue Router；
+    \item 后端：Spring Boot + Spring Security + MyBatis-Plus + JWT；
+    \item 数据库：MySQL；
+    \item 对象存储：MinIO；
+    \item 区块链：FISCO BCOS 联盟链（智能合约 \texttt{SoftwareEvidenceAnchor}）。
+\end{itemize}
+
+\subsection{架构逻辑说明}
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    用户端 $\rightarrow$ 前端系统 $\rightarrow$ 后端 API 服务\\
+    后端并行访问 MySQL、MinIO、FISCO BCOS
+    }}
+    \caption{版权云链总体架构逻辑示意}
+\end{figure}
+系统交互路径为：用户在前端提交请求，后端先执行认证与参数校验，再进行业务处理。若涉及文件上传，后端将原始文件写入 MinIO；若涉及确权上链，后端调用合约方法写入链上并回写交易信息到数据库。这样形成“前端可视化、后端可控、链上可验、链下可检索”的整体架构。
+
+\subsection{运行环境要求}
+\begin{itemize}
+    \item 操作系统：Windows 或 Linux（64 位）；
+    \item JDK：17 及以上；
+    \item Node.js：20 及以上；
+    \item MySQL：8.x；
+    \item MinIO：S3 兼容版本；
+    \item FISCO BCOS：3.x 网络环境；
+    \item 建议使用 XeLaTeX 生成中文技术文档 PDF。
+\end{itemize}
+
+\section{功能规格说明}
+\subsection{账号与主体管理功能}
+系统支持个人注册与企业注册。企业注册会自动创建企业主体并生成对应企业管理员账号。登录后，系统通过 JWT 在后续请求中识别用户身份，并根据账号主体类型（INDIVIDUAL/ENTERPRISE）和角色类型（INDIVIDUAL\_DEVELOPER、ENTERPRISE\_DEVELOPER、ENTERPRISE\_LEGAL、AUDITOR、ADMIN）进行权限控制。如表\ref{tab:account_type}，表\ref{tab:role_type}所示。
+
+\begin{table}[H]
+    \centering
+    \caption{主体类型英文与中文对照表}
+    \label{tab:account_type}
+    \begin{tabularx}{0.8\textwidth}{XX}
+        \toprule
+        英文标识 & 中文含义 \\
+        \midrule
+        INDIVIDUAL & 个人主体 \\
+        ENTERPRISE & 企业主体 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{角色类型英文与中文对照表}
+    \label{tab:role_type}
+    \begin{tabularx}{0.8\textwidth}{XX}
+        \toprule
+        英文标识 & 中文含义 \\
+        \midrule
+        INDIVIDUAL\_DEVELOPER & 个人开发者 \\
+        ENTERPRISE\_DEVELOPER & 企业开发者 \\
+        ENTERPRISE\_LEGAL & 企业法务 \\
+        AUDITOR & 审核员 \\
+        ADMIN & 管理员 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+账号管理包括个人信息维护、密码修改、管理员重置密码、账号启停、账号删除等能力。管理员还可对用户执行角色调整，并在企业角色场景下绑定企业标识，确保角色权限与主体边界一致。
+
+\subsection{版权申请与受理功能}
+版权申请入口支持上传软件压缩包并提交软件名称、软件描述等信息。系统接收后执行以下动作：
+\begin{enumerate}
+    \item 计算文件 SHA-256；
+    \item 计算规范化哈希与语义哈希；
+    \item 组合业务元数据生成元数据哈希与证据根哈希；
+    \item 生成申请编号并写入申请主表；
+    \item 保存原始文件至 MinIO 并记录文件映射信息。
+\end{enumerate}
+
+系统提供申请状态查询接口，前端通过轮询展示处理中、待复核、上链成功、上链失败等状态变化。
+
+\subsection{风险评估与复核功能}
+系统对新申请执行相似度扫描，扫描对象为历史版权记录中的语义哈希样本。算法输出最高相似度分值并结合主体关系给出风险等级：
+\begin{itemize}
+    \item 高相似且跨主体：高风险，强制进入人工复核；
+    \item 高相似且同主体：通常判定为版本演进，可降低拦截强度；
+    \item 中风险：进入人工复核；
+    \item 低风险：可直接进入上链流程。
+\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\caption{风险等级英文与中文对照表}
+	\label{tab:risk_level}
+	\begin{tabularx}{0.8\textwidth}{XX}
+		\toprule
+		英文标识 & 中文含义 \\
+		\midrule
+		LOW & 低风险 \\
+		MEDIUM & 中风险 \\
+		HIGH & 高风险 \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+复核接口支持“通过/驳回”处理。驳回时申请终止并记录原因；通过时继续执行上链操作并落库最终版权记录。
+
+\subsection{上链确权与证据管理功能}
+系统在上链前先查询链上是否已存在相同证据根哈希，避免重复登记。上链调用成功后，系统记录交易哈希、区块高度、交易状态，并把申请状态更新为 \texttt{ONCHAIN\_SUCCESS}。若交易失败，则记录失败原因并更新为 \texttt{ONCHAIN\_FAILED}。
+
+证据管理层面，系统完整保留以下信息：文件哈希、元数据哈希、证据根哈希、规范化哈希、语义哈希、申请编号、交易回执等，确保每笔确权都具备可追溯的证据链条。
+
+\subsection{查询与管理功能}
+查询功能包括：
+\begin{itemize}
+    \item 按文件哈希公开查询；
+    \item 按申请号查询申请状态与详情；
+    \item 个人记录分页查询；
+    \item 企业记录分页查询；
+    \item 审核侧待审记录查询；
+    \item 管理员全量版权记录查询。
+\end{itemize}
+
+管理后台功能包括用户管理、角色分配、企业检索与平台统计展示，可用于运维与业务监管。
+
+\section{程序设计说明}
+\subsection{后端分层与职责划分}
+后端采用控制器、服务、数据访问分层：
+\begin{itemize}
+    \item 控制器层（Controller）：负责参数接收、结果封装与异常消息返回；
+    \item 服务层（Service）：负责业务流程编排，包括申请、复核、上链、查询、权限规则执行；
+    \item 持久层（Mapper）：基于 MyBatis-Plus 对表数据进行 CRUD 和分页检索；
+    \item 基础配置层（Config/Utils）：提供 JWT、安全过滤器、MinIO 客户端、区块链客户端与工具类支持。
+\end{itemize}
+
+该分层方式保证了接口边界清晰，便于后续维护和模块扩展。
+
+\subsection{前端模块与页面组织}
+前端以路由为主组织页面，核心页面包括首页、登录注册、版权申请、哈希查询、详情页、个人中心、企业记录、审核页和管理员后台。前端通过统一请求封装调用后端 API，结合 Pinia 存储 token、角色、主体信息，并在路由守卫中实现访问控制，确保页面权限与后端策略一致。
+
+\subsection{关键实体模型设计}
+本系统数据库围绕“用户与主体、申请与证据、上链交易与确权结果”三条主线设计。核心实体包括用户表、企业表、申请表、证据表、文件存储表、上链交易表、版权记录表。实体之间以申请 ID、文件存储 ID、用户 ID、企业 ID 形成关联，确保每次版权申请都能追溯到提交主体、证据摘要、链上交易和最终业务结果。
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox{0.95\textwidth}{
+    \centering
+    ER 关系示意（逻辑）\\[0.3em]
+    users(1) --- (N) copyright\_application\\
+    enterprise(1) --- (N) users\\
+    copyright\_application(1) --- (N) onchain\_tx\\
+    copyright\_application(1) --- (N) copyright\_evidence\\
+    file\_storage(1) --- (N) copyright\_evidence\\
+    copyright\_application(1) --- (N) copyright\_records
+    }}
+    \caption{数据库 ER 逻辑关系图}
+\end{figure}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\heavyrulewidth}{1pt}
+\setlength{\lightrulewidth}{0.5pt}
+
+用户表用于存储系统账号、主体信息与角色权限，是认证鉴权和权限控制的核心基础表，如表\ref{tab:users-struct}所示。
+\begin{longtable}{L{0.23\textwidth}L{0.09\textwidth}L{0.06\textwidth}L{0.06\textwidth}L{0.20\textwidth}L{0.36\textwidth}}
+\caption{表 \texttt{users} 结构说明\label{tab:users-struct}}\\
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endfirsthead
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endhead
+id & bigint & 20 & 是 & - & 用户主键ID \\
+username & varchar & 50 & 否 & - & 用户名（唯一） \\
+password & varchar & 255 & 否 & - & 密码摘要 \\
+email & varchar & 100 & 否 & NULL & 邮箱 \\
+phone & varchar & 20 & 否 & NULL & 手机号 \\
+nickname & varchar & 50 & 否 & NULL & 昵称 \\
+role & varchar & 20 & 否 & USER & 角色编码 \\
+status & int & 11 & 否 & 1 & 状态（1启用/0禁用） \\
+created\_at & timestamp & - & 否 & current\_timestamp() & 创建时间 \\
+updated\_at & timestamp & - & 否 & current\_timestamp() on update & 更新时间 \\
+deleted & tinyint & 4 & 否 & 0 & 逻辑删除标记 \\
+account\_type & varchar & 20 & 否 & NULL & 主体类型（INDIVIDUAL/ENTERPRISE） \\
+enterprise\_id & bigint & 20 & 否 & NULL & 企业ID \\
+enterprise\_role & varchar & 20 & 否 & NULL & 企业内角色（OWNER/DEVELOPER/LEGAL） \\
+enterprise\_legal\_scope & varchar & 20 & 否 & SELF & 法务可见范围（SELF/ALL） \\
+display\_subject\_name & varchar & 128 & 否 & NULL & 显示主体名称 \\
+\bottomrule
+\end{longtable}
+
+企业表用于维护企业主体信息，支持企业账户归属与企业维度查询过滤，如表\ref{tab:enterprise-struct}所示。
+\begin{longtable}{L{0.23\textwidth}L{0.09\textwidth}L{0.06\textwidth}L{0.06\textwidth}L{0.20\textwidth}L{0.36\textwidth}}
+\caption{表 \texttt{enterprise} 结构说明\label{tab:enterprise-struct}}\\
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endfirsthead
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endhead
+id & bigint & 20 & 是 & - & 企业主键ID \\
+name & varchar & 128 & 否 & - & 企业名称 \\
+license\_no & varchar & 64 & 否 & NULL & 企业证照号 \\
+status & int & 11 & 否 & 1 & 状态（1启用/0禁用） \\
+deleted & int & 11 & 否 & 0 & 逻辑删除标记 \\
+created\_at & timestamp & - & 否 & current\_timestamp() & 创建时间 \\
+updated\_at & timestamp & - & 否 & current\_timestamp() on update & 更新时间 \\
+\bottomrule
+\end{longtable}
+
+申请主表用于记录版权申请全流程状态、风险评估结果及主体归属，是业务主线核心表，如表\ref{tab:application-struct}所示。
+\begin{longtable}{L{0.23\textwidth}L{0.09\textwidth}L{0.06\textwidth}L{0.06\textwidth}L{0.20\textwidth}L{0.36\textwidth}}
+\caption{表 \texttt{copyright\_application} 结构说明\label{tab:application-struct}}\\
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endfirsthead
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endhead
+id & bigint & 20 & 是 & - & 申请主键ID \\
+application\_no & varchar & 64 & 否 & - & 申请编号（唯一） \\
+software\_name & varchar & 255 & 否 & - & 软件名称 \\
+description & text & - & 否 & NULL & 软件描述 \\
+user\_id & bigint & 20 & 否 & - & 申请用户ID \\
+subject\_type & varchar & 20 & 否 & NULL & 归属主体类型 \\
+subject\_id & bigint & 20 & 否 & NULL & 归属主体ID \\
+subject\_name & varchar & 128 & 否 & NULL & 归属主体名称 \\
+status & varchar & 32 & 否 & SUBMITTED & 业务状态 \\
+risk\_level & varchar & 16 & 否 & LOW & 风险等级 \\
+risk\_reason & varchar & 500 & 否 & NULL & 风险判定原因 \\
+similarity\_score & int & 11 & 否 & NULL & 相似度评分（0-100） \\
+deleted & tinyint & 4 & 否 & 0 & 逻辑删除标记 \\
+created\_at & timestamp & - & 否 & current\_timestamp() & 创建时间 \\
+updated\_at & timestamp & - & 否 & current\_timestamp() on update & 更新时间 \\
+\bottomrule
+\end{longtable}
+
+文件存储表用于维护上传文件在对象存储中的映射关系，支撑链下原文持久化管理，如表\ref{tab:file-storage-struct}所示。
+\begin{longtable}{L{0.23\textwidth}L{0.09\textwidth}L{0.06\textwidth}L{0.06\textwidth}L{0.20\textwidth}L{0.36\textwidth}}
+\caption{表 \texttt{file\_storage} 结构说明\label{tab:file-storage-struct}}\\
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endfirsthead
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endhead
+id & bigint & 20 & 是 & - & 文件存储主键ID \\
+original\_filename & varchar & 255 & 否 & - & 原始文件名 \\
+stored\_filename & varchar & 255 & 否 & - & 存储文件名 \\
+file\_size & bigint & 20 & 否 & NULL & 文件大小（字节） \\
+file\_hash & varchar & 66 & 否 & - & 文件哈希 \\
+storage\_path & varchar & 500 & 否 & NULL & 对象存储路径 \\
+deleted & tinyint & 4 & 否 & 0 & 逻辑删除标记 \\
+created\_at & timestamp & - & 否 & current\_timestamp() & 创建时间 \\
+\bottomrule
+\end{longtable}
+
+证据表用于保存申请对应的多种证据摘要，包括文件哈希、元数据哈希、证据根哈希与语义哈希，如表\ref{tab:evidence-struct}所示。
+\begin{longtable}{L{0.23\textwidth}L{0.09\textwidth}L{0.06\textwidth}L{0.06\textwidth}L{0.20\textwidth}L{0.36\textwidth}}
+\caption{表 \texttt{copyright\_evidence} 结构说明\label{tab:evidence-struct}}\\
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endfirsthead
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endhead
+id & bigint & 20 & 是 & - & 证据主键ID \\
+application\_id & bigint & 20 & 否 & - & 申请ID \\
+file\_storage\_id & bigint & 20 & 否 & - & 文件存储ID \\
+file\_hash & varchar & 66 & 否 & - & 文件哈希 \\
+metadata\_hash & varchar & 66 & 否 & - & 元数据哈希 \\
+evidence\_root\_hash & varchar & 66 & 否 & - & 证据根哈希 \\
+normalized\_hash & varchar & 66 & 否 & NULL & 规范化压缩包哈希 \\
+semantic\_hash & varchar & 66 & 否 & NULL & 语义哈希 \\
+deleted & tinyint & 4 & 否 & 0 & 逻辑删除标记 \\
+created\_at & timestamp & - & 否 & current\_timestamp() & 创建时间 \\
+updated\_at & timestamp & - & 否 & current\_timestamp() on update & 更新时间 \\
+\bottomrule
+\end{longtable}
+
+上链交易表用于记录每笔申请上链执行结果，包括交易哈希、区块高度、状态和失败原因，如表\ref{tab:onchain-tx-struct}所示。
+\begin{longtable}{L{0.23\textwidth}L{0.09\textwidth}L{0.06\textwidth}L{0.06\textwidth}L{0.20\textwidth}L{0.36\textwidth}}
+\caption{表 \texttt{onchain\_tx} 结构说明\label{tab:onchain-tx-struct}}\\
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endfirsthead
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endhead
+id & bigint & 20 & 是 & - & 交易主键ID \\
+application\_id & bigint & 20 & 否 & - & 申请ID \\
+contract\_name & varchar & 64 & 否 & - & 合约名称 \\
+contract\_version & varchar & 16 & 否 & V2 & 合约版本 \\
+tx\_hash & varchar & 66 & 否 & NULL & 交易哈希 \\
+block\_number & bigint & 20 & 否 & NULL & 区块高度 \\
+status & varchar & 32 & 否 & PENDING & 交易状态 \\
+error\_message & varchar & 500 & 否 & NULL & 失败信息 \\
+deleted & tinyint & 4 & 否 & 0 & 逻辑删除标记 \\
+created\_at & timestamp & - & 否 & current\_timestamp() & 创建时间 \\
+updated\_at & timestamp & - & 否 & current\_timestamp() on update & 更新时间 \\
+\bottomrule
+\end{longtable}
+
+版权记录表用于保存确权完成后的最终业务记录，包含链上凭证、审计字段和主体归属信息，如表\ref{tab:copyright-records-struct}所示。
+\begin{longtable}{L{0.23\textwidth}L{0.09\textwidth}L{0.06\textwidth}L{0.06\textwidth}L{0.20\textwidth}L{0.36\textwidth}}
+\caption{表 \texttt{copyright\_records} 结构说明\label{tab:copyright-records-struct}}\\
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endfirsthead
+\toprule
+字段名称 & 数据类型 & 长度 & 主键 & 默认值 & 字段说明 \\
+\midrule
+\endhead
+id & bigint & 20 & 是 & - & 版权记录主键ID \\
+file\_hash & varchar & 66 & 否 & - & 文件哈希值（唯一） \\
+software\_name & varchar & 255 & 否 & - & 软件名称 \\
+owner\_address & varchar & 42 & 否 & - & 版权拥有者地址 \\
+description & text & - & 否 & NULL & 软件描述 \\
+tx\_hash & varchar & 66 & 否 & NULL & 区块链交易哈希 \\
+block\_number & bigint & 20 & 否 & NULL & 区块高度 \\
+evidence\_root\_hash & varchar & 66 & 否 & NULL & 证据根哈希 \\
+metadata\_hash & varchar & 66 & 否 & NULL & 元数据哈希 \\
+normalized\_hash & varchar & 66 & 否 & NULL & 规范化压缩包哈希 \\
+semantic\_hash & varchar & 66 & 否 & NULL & 语义哈希 \\
+similarity\_score & int & 11 & 否 & NULL & 相似度评分 \\
+risk\_level & varchar & 16 & 否 & LOW & 风险等级 \\
+risk\_reason & varchar & 500 & 否 & NULL & 风险判定原因 \\
+review\_result & varchar & 20 & 否 & NULL & 复核结论 \\
+review\_note & varchar & 500 & 否 & NULL & 复核备注 \\
+source\_application\_id & bigint & 20 & 否 & NULL & 源申请ID \\
+user\_id & bigint & 20 & 否 & NULL & 用户ID \\
+application\_id & bigint & 20 & 否 & NULL & 申请ID \\
+application\_no & varchar & 64 & 否 & NULL & 申请编号 \\
+deleted & tinyint & 4 & 否 & 0 & 逻辑删除标记 \\
+created\_at & timestamp & - & 否 & current\_timestamp() & 创建时间 \\
+updated\_at & timestamp & - & 否 & current\_timestamp() on update & 更新时间 \\
+subject\_type & varchar & 20 & 否 & NULL & 归属主体类型 \\
+subject\_id & bigint & 20 & 否 & NULL & 归属主体ID \\
+subject\_name & varchar & 128 & 否 & NULL & 归属主体名称 \\
+audit\_status & varchar & 20 & 否 & PENDING & 审核状态 \\
+biz\_status & varchar & 32 & 否 & ONCHAIN\_SUCCESS & 业务状态 \\
+audit\_comment & varchar & 500 & 否 & NULL & 审核备注 \\
+audited\_by & bigint & 20 & 否 & NULL & 审核人ID \\
+audited\_at & timestamp & - & 否 & NULL & 审核时间 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{状态机与业务约束设计}
+申请主流程状态包含 \texttt{AUTO\_CHECKED}、\texttt{PENDING\_REVIEW}、\texttt{ONCHAIN\_SUCCESS}、\texttt{ONCHAIN\_FAILED}、\texttt{REJECTED} 等。系统对关键节点设置约束：
+\begin{itemize}
+    \item 非待复核状态禁止重复复核；
+    \item 非法审核结论直接拦截；
+    \item 企业法务角色受授权范围约束；
+    \item 管理员角色管理时校验企业状态与角色兼容性。
+\end{itemize}
+通过这些规则控制，系统可有效避免非法状态迁移和越权操作。
+
+\begin{table}[H]
+    \centering
+    \caption{业务状态英文与中文对照表}
+    \begin{tabularx}{0.8\textwidth}{XX}
+        \toprule
+        英文标识 & 中文含义 \\
+        \midrule
+        SUBMITTED & 已提交 \\
+        AUTO\_CHECKED & 自动核验完成 \\
+        PENDING\_REVIEW & 待人工复核 \\
+        ONCHAIN\_SUCCESS & 上链成功 \\
+        ONCHAIN\_FAILED & 上链失败 \\
+        REJECTED & 已驳回 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{审核状态英文与中文对照表}
+    \begin{tabularx}{0.8\textwidth}{XX}
+        \toprule
+        英文标识 & 中文含义 \\
+        \midrule
+        PENDING & 待审核 \\
+        APPROVED & 审核通过 \\
+        REJECTED & 审核驳回 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+
+
+\section{关键流程设计}
+\subsection{申请到上链流程}
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    提交申请 $\rightarrow$ 指纹提取与去重 $\rightarrow$ 风险判定\\
+    低风险直接上链；中高风险进入复核；复核通过后上链\\
+    交易成功落版权记录，失败落错误回执
+    }}
+    \caption{申请到上链流程示意}
+\end{figure}
+在该流程中，系统采用事务管理保证关键写入一致性。申请、证据、交易记录之间通过申请 ID 建立关联，确保任意阶段都能回溯完整链路。
+
+\subsection{复核处理流程}
+复核流程由审核角色驱动，操作内容包括读取待复核申请详情、查看风险原因、提交复核结论。若驳回则直接更新申请状态并记录驳回说明；若通过则触发链上流程，并将复核结论写入最终版权记录中，形成“风险发现—人工决策—结果固化”的闭环。
+
+\subsection{查询与追溯流程}
+公开查询侧，外部用户输入文件哈希即可获取已确权记录；内部查询侧，平台用户可按申请号追踪业务状态和交易状态。该双通道设计同时满足公众核验和内部审计需求。
+
+\section{数据库与接口设计说明}
+\subsection{数据库表设计说明}
+数据库按“用户主体、申请过程、证据摘要、链上回执”四类建模。各表职责如下：
+\begin{itemize}
+    \item \texttt{users}：存储账号、密码摘要、角色、主体信息、企业关联；
+    \item \texttt{enterprise}：存储企业名称、证照号、状态信息；
+    \item \texttt{copyright\_application}：存储申请号、申请状态、相似度、风险等级和原因；
+    \item \texttt{copyright\_evidence}：存储多种哈希与证据关系；
+    \item \texttt{copyright\_records}：存储最终确权结果、审核信息、主体归属；
+    \item \texttt{onchain\_tx}：存储交易状态、交易哈希、区块号、错误消息；
+    \item \texttt{file\_storage}：存储文件原名、存储名、大小、路径与文件哈希。
+\end{itemize}
+
+\subsection{接口分组与职责说明}
+系统接口按职责分组如下：
+\begin{itemize}
+    \item \texttt{/api/auth/**}：登录、注册、资料维护、密码修改；
+    \item \texttt{/api/copyright/**}：申请提交、状态查询、记录分页、公开查询；
+    \item \texttt{/api/audit/**}：审核列表、审核动作、复核动作；
+    \item \texttt{/api/admin/**}：用户管理、角色管理、统计查询、企业检索。
+\end{itemize}
+接口统一采用结果包装结构返回状态码、消息和业务数据，便于前端统一处理。
+
+\subsection{典型接口交互说明}
+以“提交申请接口”为例，前端通过 multipart/form-data 上传文件与业务字段，后端返回申请号和状态。以“状态查询接口”为例，前端按申请号定时查询，直到进入终态。以“哈希查询接口”为例，外部可直接核验某文件是否已有确权记录。
+
+\section{安全与权限设计说明}
+\subsection{认证机制设计}
+系统采用 JWT 无状态认证。登录成功后签发 token，后续请求由过滤器解析 token 并写入安全上下文，服务层通过当前用户信息获取用户 ID、主体类型和角色，作为业务授权判断依据。
+
+\subsection{授权机制设计}
+系统采用“接口权限 + 业务权限”双层控制：
+\begin{itemize}
+    \item 接口层在 Security 配置中限制角色访问范围；
+    \item 业务层对主体范围、企业角色、法务授权范围进行二次校验。
+\end{itemize}
+该设计可以避免仅凭页面可见性造成的绕过风险。
+
+\subsection{数据安全与审计设计}
+密码采用 BCrypt 加密存储；原始文件不写链上，仅保存摘要；审核意见、复核结论、交易失败原因均落库可查。系统在关键节点记录日志，便于问题定位与审计追踪。
+
+\section{开发与测试说明}
+\subsection{开发实现说明}
+后端以 Spring Boot 为核心，结合 MyBatis-Plus 实现数据层；前端使用 Vue 3 组合式 API 实现页面逻辑。区块链交互通过 FISCO BCOS Java SDK 完成，文件存储通过 MinIO SDK 完成。开发过程中强调流程可观测性，关键步骤均有状态字段与日志输出。
+
+\subsection{单元测试与规则测试}
+当前已实现测试主要覆盖两部分：
+\begin{itemize}
+    \item 指纹算法测试：验证注释变化对语义哈希稳定性影响较小，核心逻辑变化会改变相似度评分；
+    \item 权限规则测试：验证角色兼容性和旧角色归一逻辑。
+\end{itemize}
+该测试设计验证了系统“风险识别”和“权限边界”两类核心规则。
+
+\subsection{联调测试建议与验收口径}
+建议在提交前补充以下联调测试并留存结果：
+\begin{enumerate}
+    \item 个人注册、企业注册、登录鉴权流程；
+    \item 申请提交、待复核、复核通过、复核驳回流程；
+    \item 上链成功与失败分支；
+    \item 哈希查询、申请号查询、个人记录与企业记录查询；
+    \item 管理员账号管理与角色切换流程。
+\end{enumerate}
+验收口径应覆盖功能正确性、权限正确性、状态流转正确性和可追溯性。
+
+\section{用户操作说明}
+\subsection{普通用户操作流程}
+\begin{enumerate}
+    \item 注册账号并登录系统；
+    \item 在“版权申请”页面填写软件名称、软件描述并上传文件；
+    \item 提交后查看申请编号与状态，等待系统处理；
+    \item 在“我的记录”中查看存证结果；
+    \item 通过哈希查询验证对外可见的确权信息。
+\end{enumerate}
+
+\subsection{审核员操作流程}
+\begin{enumerate}
+    \item 登录审核账号进入审核页面；
+    \item 查看待处理记录与风险原因；
+    \item 提交复核结论（通过或驳回）；
+    \item 复核完成后检查申请状态是否进入终态。
+\end{enumerate}
+
+\subsection{管理员操作流程}
+\begin{enumerate}
+    \item 登录管理员后台；
+    \item 维护用户账号、状态、角色和企业归属；
+    \item 查看平台统计数据和版权记录；
+    \item 对异常账号或异常数据执行管理操作。
+\end{enumerate}
+
+\section{系统界面设计与截图说明}
+本章节用于展示系统主要页面设计。截图可放置于 \texttt{latex\_doc/figures/} 目录，若图片尚未提供，文档将自动显示占位框，确保编译成功。
+
+\screenshotfigure{01-home.png}{首页界面}{
+首页提供哈希检索入口，突出“快速溯源查询”核心能力。
+}
+
+\screenshotfigure{02-login.png}{登录界面}{
+登录页完成账号身份认证，并根据角色进入不同业务视图。
+}
+
+\screenshotfigure{03-register.png}{注册界面}{
+注册页支持个人与企业主体注册，体现主体分层设计。
+}
+
+\screenshotfigure{04-apply-form.png}{版权申请界面}{
+申请页提供文件上传、软件名称、描述等核心字段输入能力。
+}
+
+\screenshotfigure{06-application-result.png}{申请结果界面}{
+结果页显示申请编号、业务状态及处理中反馈信息。
+}
+
+\screenshotfigure{07-onchain-success.png}{上链成功界面}{
+成功页展示交易哈希和上链状态，是确权结果的关键展示页面。
+}
+
+\screenshotfigure{09-hash-query-result.png}{哈希查询结果界面}{
+查询结果页展示文件哈希对应的确权数据与链上信息。
+}
+
+\screenshotfigure{14-audit-list.png}{审核列表界面}{
+审核页用于处理风险申请，体现平台审查闭环能力。
+}
+
+\screenshotfigure{16-admin-dashboard.png}{管理员后台界面}{
+后台页用于账号管理、角色管理和统计信息查看。
+}
+
+\end{document}
