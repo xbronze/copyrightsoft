@@ -58,7 +58,7 @@ const isAuditPage = computed(() => route.path.startsWith('/audit'))
     <el-container v-if="isAdminPage || isAuditPage">
       <el-aside width="250px" class="admin-sidebar">
         <div class="sidebar-header">
-          <h2 @click="$router.push('/')" class="sidebar-logo">{{ isAuditPage ? '版权审核台' : '版权系统管理' }}</h2>
+          <h2 @click="$router.push('/')" class="sidebar-logo">{{ isAuditPage ? '版权云链审核台' : '版权云链管理' }}</h2>
         </div>
 
         <el-menu
@@ -105,7 +105,7 @@ const isAuditPage = computed(() => route.path.startsWith('/audit'))
       <el-header>
         <div class="header-content">
           <div class="left-section">
-            <h1 @click="$router.push('/')" class="logo">区块链版权存证系统</h1>
+            <h1 @click="$router.push('/')" class="logo">版权云链</h1>
           </div>
 
           <el-menu
@@ -175,7 +175,7 @@ const isAuditPage = computed(() => route.path.startsWith('/audit'))
       </el-main>
 
       <el-footer>
-        <p>© 2026 基于区块链的软件版本溯源系统 | Powered by FISCO BCOS</p>
+        <p>© 2026 版权云链 | 基于区块链的软件版权存证与溯源系统 | Powered by ZIHUI_XU</p>
       </el-footer>
     </el-container>
 
@@ -183,7 +183,7 @@ const isAuditPage = computed(() => route.path.startsWith('/audit'))
     <el-container v-else class="profile-layout">
       <el-aside width="250px" class="profile-sidebar">
         <div class="sidebar-header">
-          <h2 @click="$router.push('/')" class="sidebar-logo">版权系统</h2>
+          <h2 @click="$router.push('/')" class="sidebar-logo">版权云链</h2>
         </div>
 
         <el-menu
