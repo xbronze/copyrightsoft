@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.22)  27 APR 2026 20:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.22)  28 APR 2026 11:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -627,7 +627,331 @@ LaTeX Info: Redefining \\ on input line 3180.
 ty
 Package: needspace 2010/09/12 v1.3d reserve vertical space
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 31.
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/frontendlayer/tik
+z.sty
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgf.st
+y
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfrcs.
+sty
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfut
+il-common.tex
+\pgfutil@everybye=\toks30
+\pgfutil@tempdima=\dimen257
+\pgfutil@tempdimb=\dimen258
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfut
+il-latex.def
+\pgfutil@abb=\box74
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfrc
+s.code.tex
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/pgf.revision.te
+x)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+Package: pgf 2023-01-15 v3.1.10 (3.1.10)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgfcor
+e.sty
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/systemlayer/pgfsy
+s.sty
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
+sys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfke
+ys.code.tex
+\pgfkeys@pathtoks=\toks31
+\pgfkeys@temptoks=\toks32
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfke
+yslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks33
+))
+\pgf@x=\dimen259
+\pgf@y=\dimen260
+\pgf@xa=\dimen261
+\pgf@ya=\dimen262
+\pgf@xb=\dimen263
+\pgf@yb=\dimen264
+\pgf@xc=\dimen265
+\pgf@yc=\dimen266
+\pgf@xd=\dimen267
+\pgf@yd=\dimen268
+\w@pgf@writea=\write4
+\r@pgf@reada=\read3
+\c@pgf@counta=\count342
+\c@pgf@countb=\count343
+\c@pgf@countc=\count344
+\c@pgf@countd=\count345
+\t@pgf@toka=\toks34
+\t@pgf@tokb=\toks35
+\t@pgf@tokc=\toks36
+\pgf@sys@id@count=\count346
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
+.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
+sys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
+sys-common-pdf.def
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+)))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
+syssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count347
+\pgfsyssoftpath@bigbuffer@items=\count348
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
+sysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+ore.code.tex
+Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.co
+de.tex
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathuti
+l.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathpar
+ser.code.tex
+\pgfmath@dimen=\dimen269
+\pgfmath@count=\count349
+\pgfmath@box=\box75
+\pgfmath@toks=\toks37
+\pgfmath@stack@operand=\toks38
+\pgfmath@stack@operation=\toks39
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.basic.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.trigonometric.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.random.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.comparison.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.base.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.round.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.misc.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
+ctions.integerarithmetics.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathcal
+c.code.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathflo
+at.code.tex
+\c@pgfmathroundto@lastzeros=\count350
+))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfint.cod
+e.tex)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orepoints.code.tex
+File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@picminx=\dimen270
+\pgf@picmaxx=\dimen271
+\pgf@picminy=\dimen272
+\pgf@picmaxy=\dimen273
+\pgf@pathminx=\dimen274
+\pgf@pathmaxx=\dimen275
+\pgf@pathminy=\dimen276
+\pgf@pathmaxy=\dimen277
+\pgf@xx=\dimen278
+\pgf@xy=\dimen279
+\pgf@yx=\dimen280
+\pgf@yy=\dimen281
+\pgf@zx=\dimen282
+\pgf@zy=\dimen283
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@path@lastx=\dimen284
+\pgf@path@lasty=\dimen285
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orepathusage.code.tex
+File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@shorten@end@additional=\dimen286
+\pgf@shorten@start@additional=\dimen287
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orescopes.code.tex
+File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfpic=\box76
+\pgf@hbox=\box77
+\pgf@layerbox@main=\box78
+\pgf@picture@serial@count=\count351
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+oregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgflinewidth=\dimen288
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+oretransformations.code.tex
+File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@pt@x=\dimen289
+\pgf@pt@y=\dimen290
+\pgf@pt@temp=\dimen291
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orequick.code.tex
+File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+oreobjects.code.tex
+File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orearrows.code.tex
+File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowsep=\dimen292
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+oreshade.code.tex
+File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@max=\dimen293
+\pgf@sys@shading@range@num=\count352
+\pgf@shadingcount=\count353
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+oreimage.code.tex
+File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+oreexternal.code.tex
+File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfexternal@startupbox=\box79
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orelayers.code.tex
+File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+oretransparency.code.tex
+File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orepatterns.code.tex
+File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
+orerdf.code.tex
+File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodu
+leshapes.code.tex
+File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodeparttextbox=\box80
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodu
+leplot.code.tex
+File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgf
+comp-version-0-65.sty
+Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
+\pgf@nodesepstart=\dimen294
+\pgf@nodesepend=\dimen295
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgf
+comp-version-1-18.sty
+Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
+))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgffor.
+sty
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfkeys
+.sty
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfke
+ys.code.tex))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.co
+de.tex))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgffo
+r.code.tex
+Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
+\pgffor@iter=\dimen296
+\pgffor@skip=\dimen297
+\pgffor@stack=\toks40
+\pgffor@toks=\toks41
+))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/t
+ikz/tikz.code.tex
+Package: tikz 2023-01-15 v3.1.10 (3.1.10)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgfli
+braryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@plot@mark@count=\count354
+\pgfplotmarksize=\dimen298
+)
+\tikz@lastx=\dimen299
+\tikz@lasty=\dimen300
+\tikz@lastxsaved=\dimen301
+\tikz@lastysaved=\dimen302
+\tikz@lastmovetox=\dimen303
+\tikz@lastmovetoy=\dimen304
+\tikzleveldistance=\dimen305
+\tikzsiblingdistance=\dimen306
+\tikz@figbox=\box81
+\tikz@figbox@bg=\box82
+\tikz@tempbox=\box83
+\tikz@tempbox@bg=\box84
+\tikztreelevel=\count355
+\tikznumberofchildren=\count356
+\tikznumberofcurrentchild=\count357
+\tikz@fig@count=\count358
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodu
+lematrix.code.tex
+File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfmatrixcurrentrow=\count359
+\pgfmatrixcurrentcolumn=\count360
+\pgf@matrix@numberofcolumns=\count361
+)
+\tikz@expandcount=\count362
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/t
+ikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgfli
+braryarrows.meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowinset=\dimen307
+\pgfarrowlength=\dimen308
+\pgfarrowwidth=\dimen309
+\pgfarrowlinewidth=\dimen310
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/t
+ikz/libraries/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/t
+ikz/libraries/tikzlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shape
+s/pgflibraryshapes.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+Package hyperref Info: Option `colorlinks' set `true' on input line 33.
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/UTF8/UTF
 8.enc
@@ -639,88 +963,88 @@ File: UTF8.chr 2021/10/16 4.8.5
 ) (./template_Article.aux)
 \openout1 = `template_Article.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C00/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C05/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C09/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C10/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C20/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C19/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C40/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C42/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C43/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C50/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C52/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C49/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C60/mj/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C61/mj/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C63/mj/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C64/mj/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C65/mj/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C70/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C31/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C32/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C33/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C34/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C35/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C36/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C37/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C80/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C81/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C01/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C11/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C21/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C41/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for C62/song/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C00/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C05/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C09/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C10/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C20/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C19/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C40/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C42/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C43/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C50/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C52/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C49/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C60/mj/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C61/mj/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C63/mj/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C64/mj/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C65/mj/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C70/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C31/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C32/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C33/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C34/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C35/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C36/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C37/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C80/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C81/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C01/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C11/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C21/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C41/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for C62/song/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -756,26 +1080,26 @@ LaTeX Font Info:    ... okay on input line 78.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 78.
+Package hyperref Info: Link coloring ON on input line 122.
 (./template_Article.out) (./template_Article.out)
-\@outlinefile=\write4
-\openout4 = `template_Article.out'.
+\@outlinefile=\write5
+\openout5 = `template_Article.out'.
 
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.
 mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count342
-\scratchdimen=\dimen257
-\scratchbox=\box74
-\nofMPsegments=\count343
-\nofMParguments=\count344
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count345
-\MPscratchDim=\dimen258
-\MPnumerator=\count346
-\makeMPintoPDFobject=\count347
-\everyMPtoPDFconversion=\toks31
+\scratchcounter=\count363
+\scratchdimen=\dimen311
+\scratchbox=\box85
+\nofMPsegments=\count364
+\nofMParguments=\count365
+\everyMPshowfont=\toks42
+\MPscratchCnt=\count366
+\MPscratchDim=\dimen312
+\MPnumerator=\count367
+\makeMPintoPDFobject=\count368
+\everyMPtoPDFconversion=\toks43
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf
 -base.sty
@@ -791,16 +1115,16 @@ e
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 )
-\c@lstlisting=\count348
+\c@lstlisting=\count369
 LaTeX Font Info:    Trying to load font information for C70+zhsong on input lin
-e 85.
+e 129.
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/zhmetrics/c70zhsong.f
 d
 File: c70zhsong.fd 2009/09/23 4.8.2
 )
 Package CJKpunct Info: use punctuation spaces for family 'zhsong' with punctsty
-le (quanjiao) on input line 87.
+le (quanjiao) on input line 131.
 
 
 
@@ -826,8 +1150,8 @@ LaTeX Font Info:    Trying to load font information for C70+rm on input line 30
 File: c70rm.fd 2022/07/14 v2.5.10 Chinese font definition (CTEX)
 )
 [1])
-\tf@toc=\write5
-\openout5 = `template_Article.toc'.
+\tf@toc=\write6
+\openout6 = `template_Article.toc'.
 
 
 
@@ -838,7 +1162,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.126 
+l.170 
        [1]
 
 [2]
@@ -848,13 +1172,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.172 
+l.216 
       ]
-<figures/system-architecture.png, id=400, 1830.84pt x 1984.41376pt>
+<figures/system-architecture.png, id=403, 1830.84pt x 1984.41376pt>
 File: figures/system-architecture.png Graphic file (type png)
 <use figures/system-architecture.png>
-Package pdftex.def Info: figures/system-architecture.png  used on input line 17
-5.
+Package pdftex.def Info: figures/system-architecture.png  used on input line 21
+9.
 (pdftex.def)             Requested size: 404.59515pt x 438.51028pt.
 
 
@@ -863,12 +1187,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.180 
+l.224 
        <./figures/system-architecture.png>]
-<figures/functional-module.png, id=409, 432.11438pt x 331.99031pt>
+<figures/functional-module.png, id=412, 432.11438pt x 331.99031pt>
 File: figures/functional-module.png Graphic file (type png)
 <use figures/functional-module.png>
-Package pdftex.def Info: figures/functional-module.png  used on input line 186.
+Package pdftex.def Info: figures/functional-module.png  used on input line 230.
 
 (pdftex.def)             Requested size: 314.68588pt x 241.77847pt.
 
@@ -878,26 +1202,68 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.202 ...�请编号用于后续状态跟踪。\par
-                                                   <./figures/functional-module
-.png (PNG copy)>]
+l.264 
+       <./figures/functional-module.png (PNG copy)>]
 
-[6]
-<figures/ER.png, id=440, 784.9325pt x 551.05875pt>
-File: figures/ER.png Graphic file (type png)
-<use figures/ER.png>
-Package pdftex.def Info: figures/ER.png  used on input line 240.
-(pdftex.def)             Requested size: 449.55322pt x 315.61186pt.
-
-
-[7
+[6
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.247 \subsubsection{核心数据表设计}
-                                            <./figures/ER.png>]
-Overfull \hbox (67.50099pt too wide) in paragraph at lines 248--249
+l.291 
+      ]
+
+[7
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.323 
+      ]
+
+[8
+pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.352 
+      ]
+Overfull \hbox (36.84619pt too wide) in paragraph at lines 376--377
+ [][] 
+ []
+
+
+
+[9
+pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.380 
+      ]
+
+[10
+pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.406 
+      ]
+<figures/ER.png, id=474, 784.9325pt x 551.05875pt>
+File: figures/ER.png Graphic file (type png)
+<use figures/ER.png>
+Package pdftex.def Info: figures/ER.png  used on input line 414.
+(pdftex.def)             Requested size: 449.55322pt x 315.61186pt.
+
+
+[11
+pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.417 
+      ]
+Overfull \hbox (67.50099pt too wide) in paragraph at lines 422--423
 []\C70/zhsong/bx/n/12.045/67 , \C70/zhsong/bx/n/12.045/7c � \C70/zhsong/bx/n/12
 .045/7e � \C70/zhsong/m/n/12.045/68 8 \C70/zhsong/bx/n/12.045/5f � \C70/zhsong/
 m/n/12.045/65 p \C70/zhsong/m/n/12.045/63 n \C70/zhsong/m/n/12.045/88 h \C70/zh
@@ -910,360 +1276,405 @@ song/m/n/12.045/53 ^^E \C70/zhsong/bx/n/12.045/62 � \OT1/cmtt/m/n/12.045 users|
 
 
 
-[8
+[12
+pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.426 \Needspace{14\baselineskip}
+                                  <./figures/ER.png>]
+
+[13
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.275 \Needspace{14\baselineskip}
-                                 ]
-
-[9
+l.469 \Needspace{14\baselineskip}
+                                 
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.318 \Needspace{14\baselineskip}
-                                 
+l.469 \Needspace{14\baselineskip}
+                                 ]
+
+[14
 pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.318 \Needspace{14\baselineskip}
-                                 ]
-
-[10
+l.515 \Needspace{14\baselineskip}
+                                 
 pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.362 \Needspace{14\baselineskip}
-                                 
+l.515 \Needspace{14\baselineskip}
+                                 ]
+
+[15
 pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.362 \Needspace{14\baselineskip}
-                                 ]
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 408.
-
-
-[11
+l.558 \Needspace{14\baselineskip}
+                                 
 pdfTeX warning (ext4): destination with the same identifier (name{table.7}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.410 \Needspace{14\baselineskip}
-                                 
+l.558 \Needspace{14\baselineskip}
+                                 ]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 582.
+
+
+[16
 pdfTeX warning (ext4): destination with the same identifier (name{table.8}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.410 \Needspace{14\baselineskip}
+l.584 \Needspace{14\baselineskip}
                                  ]
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd)
 
-[12
+[17
 pdfTeX warning (ext4): destination with the same identifier (name{table.9}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.453 \Needspace{14\baselineskip}
+l.627 \Needspace{14\baselineskip}
                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.10}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.453 \Needspace{14\baselineskip}
+l.627 \Needspace{14\baselineskip}
                                  ]
 
-[13
+[18
 pdfTeX warning (ext4): destination with the same identifier (name{table.11}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.497 \Needspace{14\baselineskip}
+l.671 \Needspace{14\baselineskip}
                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.12}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.497 \Needspace{14\baselineskip}
+l.671 \Needspace{14\baselineskip}
                                  ]
-<figures/02-login.png, id=509, 838.63312pt x 693.34032pt>
+<figures/02-login.png, id=548, 838.63312pt x 693.34032pt>
 File: figures/02-login.png Graphic file (type png)
 <use figures/02-login.png>
-Package pdftex.def Info: figures/02-login.png  used on input line 522.
+Package pdftex.def Info: figures/02-login.png  used on input line 717.
 (pdftex.def)             Requested size: 404.59515pt x 334.4923pt.
 
 
-[14
+[19
 pdfTeX warning (ext4): destination with the same identifier (name{table.13}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.522 }
+l.717 }
+       
+pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.717 }
        ]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 527.
+(Font)              <7> on input line 722.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 527.
-
-
-[15
-pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
-s been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.537 ...�后续流程。具体步骤如下：\par
-                                                   <./figures/02-login.png (PNG
- copy)>]
-<figures/04-apply-form.png, id=527, 851.43094pt x 693.34032pt>
-File: figures/04-apply-form.png Graphic file (type png)
-<use figures/04-apply-form.png>
-Package pdftex.def Info: figures/04-apply-form.png  used on input line 546.
-(pdftex.def)             Requested size: 404.59515pt x 329.4776pt.
-
-
-[16]
-
-[17
-pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
-s been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.561 \[
-         <./figures/04-apply-form.png (PNG copy)>]
-<figures/14-audit-list.png, id=539, 1445.4pt x 699.36281pt>
-File: figures/14-audit-list.png Graphic file (type png)
-<use figures/14-audit-list.png>
-Package pdftex.def Info: figures/14-audit-list.png  used on input line 577.
-(pdftex.def)             Requested size: 404.59515pt x 195.76689pt.
-
-
-[18]
-
-[19
-pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
-s been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.604 ...�更新申请状态与版权记录。\par
-                                                   <./figures/14-audit-list.png
- (PNG copy)>]
-<figures/07-onchain-success.png, id=551, 1445.4pt x 699.36281pt>
-File: figures/07-onchain-success.png Graphic file (type png)
-<use figures/07-onchain-success.png>
-Package pdftex.def Info: figures/07-onchain-success.png  used on input line 609
-.
-(pdftex.def)             Requested size: 404.59515pt x 195.76689pt.
+(Font)              <5> on input line 722.
 
 
 [20
-pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) ha
-s been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) h
+as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.623 ...�兼顾公开核验与内部审计。\par
-                                                   <./figures/07-onchain-succes
-s.png (PNG copy)>]
-<figures/09-hash-query-result.png, id=557, 851.43094pt x 693.34032pt>
-File: figures/09-hash-query-result.png Graphic file (type png)
-<use figures/09-hash-query-result.png>
-Package pdftex.def Info: figures/09-hash-query-result.png  used on input line 6
-27.
+l.732 ...�后续流程。具体步骤如下：\par
+                                                   <./figures/02-login.png (PNG
+ copy)>]
+
+[21]
+<figures/04-apply-form.png, id=569, 851.43094pt x 693.34032pt>
+File: figures/04-apply-form.png Graphic file (type png)
+<use figures/04-apply-form.png>
+Package pdftex.def Info: figures/04-apply-form.png  used on input line 763.
 (pdftex.def)             Requested size: 404.59515pt x 329.4776pt.
 
 
-[21
-pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) ha
-s been already used, duplicate ignored
+[22
+pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) h
+as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.640 ...�色兼容性，防止越权分配。\par
-                                                   <./figures/09-hash-query-res
-ult.png (PNG copy)>]
-<figures/16-admin-dashboard.png, id=564, 1445.4pt x 699.36281pt>
+l.771 \end{codeblock}
+                     
+pdfTeX warning (ext4): destination with the same identifier (name{figure.13}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.771 \end{codeblock}
+                      <./figures/04-apply-form.png (PNG copy)>]
+
+[23]
+<figures/14-audit-list.png, id=583, 1445.4pt x 699.36281pt>
+File: figures/14-audit-list.png Graphic file (type png)
+<use figures/14-audit-list.png>
+Package pdftex.def Info: figures/14-audit-list.png  used on input line 816.
+(pdftex.def)             Requested size: 404.59515pt x 195.76689pt.
+
+
+[24
+pdfTeX warning (ext4): destination with the same identifier (name{figure.14}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.839 \end{codeblock}
+                     
+pdfTeX warning (ext4): destination with the same identifier (name{figure.15}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.839 \end{codeblock}
+                      <./figures/14-audit-list.png (PNG copy)>]
+
+[25]
+<figures/07-onchain-success.png, id=595, 1445.4pt x 699.36281pt>
+File: figures/07-onchain-success.png Graphic file (type png)
+<use figures/07-onchain-success.png>
+Package pdftex.def Info: figures/07-onchain-success.png  used on input line 870
+.
+(pdftex.def)             Requested size: 404.59515pt x 195.76689pt.
+
+
+[26
+pdfTeX warning (ext4): destination with the same identifier (name{figure.16}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.883 ...�要，统一返回可读性结果。\par
+                                                  
+pdfTeX warning (ext4): destination with the same identifier (name{figure.17}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.883 ...�要，统一返回可读性结果。\par
+                                                   <./figures/07-onchain-succes
+s.png (PNG copy)>]
+<figures/09-hash-query-result.png, id=602, 851.43094pt x 693.34032pt>
+File: figures/09-hash-query-result.png Graphic file (type png)
+<use figures/09-hash-query-result.png>
+Package pdftex.def Info: figures/09-hash-query-result.png  used on input line 9
+09.
+(pdftex.def)             Requested size: 404.59515pt x 329.4776pt.
+
+
+[27
+pdfTeX warning (ext4): destination with the same identifier (name{figure.18}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.909 }
+       ]
+
+[28
+pdfTeX warning (ext4): destination with the same identifier (name{figure.19}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.944 
+       <./figures/09-hash-query-result.png (PNG copy)>]
+<figures/16-admin-dashboard.png, id=615, 1445.4pt x 699.36281pt>
 File: figures/16-admin-dashboard.png Graphic file (type png)
 <use figures/16-admin-dashboard.png>
-Package pdftex.def Info: figures/16-admin-dashboard.png  used on input line 644
+Package pdftex.def Info: figures/16-admin-dashboard.png  used on input line 947
 .
 (pdftex.def)             Requested size: 404.59515pt x 195.76689pt.
 LaTeX Font Info:    Trying to load font information for C70+zhfs on input line 
-654.
+957.
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/zhmetrics/c70zhfs.fd
 File: c70zhfs.fd 2009/09/23 4.8.2
 )
 
-[22
-pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) ha
-s been already used, duplicate ignored
+[29
+pdfTeX warning (ext4): destination with the same identifier (name{figure.20}) h
+as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.663 ...� + 回归测试”的组合方式。\par
-                                                   <./figures/16-admin-dashboar
-d.png (PNG copy)>]
+l.959 \end{codeblock}
+                     
+pdfTeX warning (ext4): destination with the same identifier (name{figure.21}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.959 \end{codeblock}
+                      <./figures/16-admin-dashboard.png (PNG copy)>]
 
-[23]
+[30]
 
-[24
+[31
 pdfTeX warning (ext4): destination with the same identifier (name{table.14}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.692 \Needspace{18\baselineskip}
+l.995 \Needspace{18\baselineskip}
                                  ]
 
-[25
+[32
 pdfTeX warning (ext4): destination with the same identifier (name{table.15}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.710 \Needspace{16\baselineskip}
-                                 ]
-Underfull \hbox (badness 10000) in paragraph at lines 744--744
+l.1013 \Needspace{16\baselineskip}
+                                  ]
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
 []|\OT1/cmr/m/n/12 TC-FUNC-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 744--744
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
 []|\OT1/cmr/m/n/12 TC-FUNC-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 744--744
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
 []|\OT1/cmr/m/n/12 TC-FUNC-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 744--744
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
 []|\OT1/cmr/m/n/12 TC-FUNC-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 744--744
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
 []|\OT1/cmr/m/n/12 TC-FUNC-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 744--744
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
 []|\OT1/cmr/m/n/12 TC-FUNC-
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 744--744
+Underfull \hbox (badness 10000) in alignment at lines 1047--1047
 [][][][] 
  []
 
 
 
-[26
+[33
 pdfTeX warning (ext4): destination with the same identifier (name{table.16}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.747 \Needspace{16\baselineskip}
-                                 
+l.1050 \Needspace{16\baselineskip}
+                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.17}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.747 \Needspace{16\baselineskip}
-                                 ]
-Underfull \hbox (badness 10000) in alignment at lines 762--762
+l.1050 \Needspace{16\baselineskip}
+                                  ]
+Underfull \hbox (badness 10000) in alignment at lines 1065--1065
 [][][][] 
  []
 
 
 
-[27
+[34
 pdfTeX warning (ext4): destination with the same identifier (name{table.18}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.783 \newpage
-              
+l.1086 \newpage
+               
 pdfTeX warning (ext4): destination with the same identifier (name{table.19}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.783 \newpage
-              ]
+l.1086 \newpage
+               ]
 
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
-(hyperref)                be the same. Added a new anchor on input line 787.
+(hyperref)                be the same. Added a new anchor on input line 1090.
 
 
 
-[28
+[35
 pdfTeX warning (ext4): destination with the same identifier (name{table.20}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.822 \Needspace{12\baselineskip}
-                                 
+l.1125 \Needspace{12\baselineskip}
+                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.21}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.822 \Needspace{12\baselineskip}
-                                 ]
+l.1125 \Needspace{12\baselineskip}
+                                  ]
 
-[29
+[36
 pdfTeX warning (ext4): destination with the same identifier (name{table.22}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.880 \Needspace{14\baselineskip}
-                                 
+l.1183 \Needspace{14\baselineskip}
+                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.23}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.880 \Needspace{14\baselineskip}
-                                 
+l.1183 \Needspace{14\baselineskip}
+                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.24}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.880 \Needspace{14\baselineskip}
-                                 
+l.1183 \Needspace{14\baselineskip}
+                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.25}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.880 \Needspace{14\baselineskip}
-                                 ]
+l.1183 \Needspace{14\baselineskip}
+                                  ]
 
-[30
+[37
 pdfTeX warning (ext4): destination with the same identifier (name{table.26}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.928 \Needspace{10\baselineskip}
-                                 
+l.1231 \Needspace{10\baselineskip}
+                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.27}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.928 \Needspace{10\baselineskip}
-                                 
+l.1231 \Needspace{10\baselineskip}
+                                  
 pdfTeX warning (ext4): destination with the same identifier (name{table.28}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.928 \Needspace{10\baselineskip}
-                                 ]
+l.1231 \Needspace{10\baselineskip}
+                                  ]
 
-[31
+[38
 pdfTeX warning (ext4): destination with the same identifier (name{table.29}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.943 \end{document}
-                    ] (./template_Article.aux)
+l.1246 \end{document}
+                     ] (./template_Article.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2022/07/14>
@@ -1272,21 +1683,21 @@ Package rerunfilecheck Info: File `template_Article.out' has not changed.
 (rerunfilecheck)             Checksum: 0CF5CB5CD62BB18ED0C0CE7D35BEE724;5637.
  ) 
 Here is how much of TeX's memory you used:
- 20038 strings out of 473578
- 356610 string characters out of 5722181
- 728628 words of memory out of 5000000
- 42143 multiletter control sequences out of 15000+600000
- 632252 words of font info for 307 fonts, out of 8000000 for 9000
+ 31318 strings out of 473578
+ 607571 string characters out of 5722181
+ 952623 words of memory out of 5000000
+ 53183 multiletter control sequences out of 15000+600000
+ 633332 words of font info for 311 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 80i,12n,88p,1206b,533s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 88i,12n,92p,1206b,794s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simfang.ttf><c:/Windows/Fonts/
 simfang.ttf><c:/Windows/Fonts/simfang.ttf><c:/Windows/Fonts/simfang.ttf><c:/Win
 dows/Fonts/simfang.ttf><c:/Windows/Fonts/simfang.ttf><c:/Windows/Fonts/simfang.
 ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts
-/simsun.ttc><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windo
-ws/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><
+/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windo
+ws/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simhei.ttf><
 c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simh
-ei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fo
+ei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fo
 nts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Wi
 ndows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.tt
 f><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/s
@@ -1332,10 +1743,10 @@ msfonts/cm/cmr12.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/type
 texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/softwares/LaTex2024/tex
 live/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/softwares/La
 Tex2024/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on template_Article.pdf (34 pages, 1213349 bytes).
+Output written on template_Article.pdf (41 pages, 1235562 bytes).
 PDF statistics:
- 1046 PDF objects out of 1200 (max. 8388607)
- 782 compressed objects within 8 object streams
- 116 named destinations out of 1000 (max. 500000)
- 710 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1102 PDF objects out of 1200 (max. 8388607)
+ 830 compressed objects within 9 object streams
+ 135 named destinations out of 1000 (max. 500000)
+ 722 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -22,79 +22,97 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}功能模块设计}{5}{subsection.3.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces 系统功能模块图}}{5}{figure.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}用户与权限模块}{5}{subsubsection.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}版权申请与证据模块}{5}{subsubsection.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}风险评估与复核模块}{6}{subsubsection.3.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}上链存证模块}{6}{subsubsection.3.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}查询溯源模块}{6}{subsubsection.3.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6}平台管理模块}{6}{subsubsection.3.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}数据库设计}{7}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}数据库设计概要}{7}{subsubsection.3.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 数据库ER图}}{7}{figure.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}核心数据表设计}{8}{subsubsection.3.3.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces 表 \texttt  {users} 结构}}{8}{table.2}\protected@file@percent }
-\newlabel{tab:users-struct}{{2}{8}{表 \texttt {users} 结构}{table.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 表 \texttt  {enterprise} 结构}}{9}{table.3}\protected@file@percent }
-\newlabel{tab:enterprise-struct}{{3}{9}{表 \texttt {enterprise} 结构}{table.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces 表 \texttt  {copyright\_application} 结构}}{9}{table.4}\protected@file@percent }
-\newlabel{tab:application-struct}{{4}{9}{表 \texttt {copyright\_application} 结构}{table.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 表 \texttt  {copyright\_evidence} 结构}}{10}{table.5}\protected@file@percent }
-\newlabel{tab:evidence-struct}{{5}{10}{表 \texttt {copyright\_evidence} 结构}{table.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 表 \texttt  {file\_storage} 结构}}{10}{table.6}\protected@file@percent }
-\newlabel{tab:file-storage-struct}{{6}{10}{表 \texttt {file\_storage} 结构}{table.6}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 表 \texttt  {onchain\_tx} 结构}}{11}{table.7}\protected@file@percent }
-\newlabel{tab:onchain-tx-struct}{{7}{11}{表 \texttt {onchain\_tx} 结构}{table.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 表 \texttt  {copyright\_records} 结构}}{11}{table.8}\protected@file@percent }
-\newlabel{tab:records-struct}{{8}{11}{表 \texttt {copyright\_records} 结构}{table.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}接口设计}{11}{subsection.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}认证与账号接口（\texttt  {/api/auth/**}）}{12}{subsubsection.3.4.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 认证与账号接口清单}}{12}{table.9}\protected@file@percent }
-\newlabel{tab:auth-apis}{{9}{12}{认证与账号接口清单}{table.9}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}版权业务接口（\texttt  {/api/copyright/**}）}{12}{subsubsection.3.4.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces 版权业务接口清单}}{12}{table.10}\protected@file@percent }
-\newlabel{tab:copyright-apis}{{10}{12}{版权业务接口清单}{table.10}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}审核接口（\texttt  {/api/audit/**}）}{13}{subsubsection.3.4.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces 审核接口清单}}{13}{table.11}\protected@file@percent }
-\newlabel{tab:audit-apis}{{11}{13}{审核接口清单}{table.11}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}管理接口（\texttt  {/api/admin/**}）}{13}{subsubsection.3.4.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces 管理接口清单}}{13}{table.12}\protected@file@percent }
-\newlabel{tab:admin-apis}{{12}{13}{管理接口清单}{table.12}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.5}企业成员接口（\texttt  {/api/enterprise/**}）}{14}{subsubsection.3.4.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces 企业成员接口清单}}{14}{table.13}\protected@file@percent }
-\newlabel{tab:enterprise-apis}{{13}{14}{企业成员接口清单}{table.13}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}详细设计}{14}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}账号注册、登录与身份上下文}{14}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces 模块一-登录与身份上下文实现截图}}{15}{figure.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}版权申请提交与证据生成}{16}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 模块二-版权申请与证据生成截图}}{17}{figure.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}风险评估与人工复核}{17}{subsection.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 模块三-风险评估与复核截图}}{19}{figure.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}链上确权与交易回执落库}{20}{subsection.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces 模块四-链上确权结果截图}}{20}{figure.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}查询溯源与详情展示}{20}{subsection.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces 模块五-查询溯源实现截图}}{21}{figure.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}平台治理与后台管理}{21}{subsection.4.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces 模块六-后台治理实现截图}}{22}{figure.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}系统测试}{22}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}测试目标与测试方法}{22}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}测试环境与数据准备}{23}{subsection.5.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces 系统测试环境}}{24}{table.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}测试用例设计}{24}{subsection.5.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces 核心功能测试用例}}{25}{table.15}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces 安全与权限测试用例}}{26}{table.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}测试结果}{26}{subsection.5.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces 功能测试用例执行结果}}{26}{table.17}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces 安全与权限测试用例执行结果}}{27}{table.18}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {19}{\ignorespaces 性能压测模拟结果（JMeter）}}{27}{table.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{附录}{28}{table.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{附录A：状态码与枚举值说明}{28}{section*.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {20}{\ignorespaces 申请状态枚举（application.status）}}{28}{table.20}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {21}{\ignorespaces 交易状态枚举（onchainTx.status）}}{28}{table.21}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {22}{\ignorespaces 风险等级枚举（riskLevel）}}{29}{table.22}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {23}{\ignorespaces 审核状态枚举（auditStatus）}}{29}{table.23}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {24}{\ignorespaces 复核结论枚举（reviewResult）}}{29}{table.24}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {25}{\ignorespaces 账号主体类型枚举（accountType）}}{29}{table.25}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {26}{\ignorespaces 平台角色枚举（role）}}{30}{table.26}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {27}{\ignorespaces 企业内部角色枚举（enterpriseRole）}}{30}{table.27}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {28}{\ignorespaces 法务可见范围枚举（enterpriseLegalScope）}}{30}{table.28}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {29}{\ignorespaces 相应码与状态码}}{31}{table.29}\protected@file@percent }
-\gdef \@abspage@last{34}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 用户与权限模块业务流程图}}{6}{figure.3}\protected@file@percent }
+\newlabel{fig:user-auth-flow}{{3}{6}{用户与权限模块业务流程图}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}版权申请与证据模块}{6}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces 版权申请与证据模块业务流程图}}{7}{figure.4}\protected@file@percent }
+\newlabel{fig:apply-evidence-flow}{{4}{7}{版权申请与证据模块业务流程图}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}风险评估与复核模块}{7}{subsubsection.3.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 风险评估与复核模块业务流程图}}{8}{figure.5}\protected@file@percent }
+\newlabel{fig:risk-review-flow}{{5}{8}{风险评估与复核模块业务流程图}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}上链存证模块}{8}{subsubsection.3.2.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 上链存证模块业务流程图}}{9}{figure.6}\protected@file@percent }
+\newlabel{fig:onchain-anchor-flow}{{6}{9}{上链存证模块业务流程图}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}查询溯源模块}{9}{subsubsection.3.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces 查询溯源模块业务流程图}}{10}{figure.7}\protected@file@percent }
+\newlabel{fig:trace-query-flow}{{7}{10}{查询溯源模块业务流程图}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6}平台管理模块}{10}{subsubsection.3.2.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces 平台管理模块业务流程图}}{11}{figure.8}\protected@file@percent }
+\newlabel{fig:platform-admin-flow}{{8}{11}{平台管理模块业务流程图}{figure.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}数据库设计}{11}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}数据库设计概要}{11}{subsubsection.3.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces 数据库ER图}}{12}{figure.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}核心数据表设计}{12}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces 表 \texttt  {users} 结构}}{13}{table.2}\protected@file@percent }
+\newlabel{tab:users-struct}{{2}{13}{表 \texttt {users} 结构}{table.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 表 \texttt  {enterprise} 结构}}{13}{table.3}\protected@file@percent }
+\newlabel{tab:enterprise-struct}{{3}{13}{表 \texttt {enterprise} 结构}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces 表 \texttt  {copyright\_application} 结构}}{14}{table.4}\protected@file@percent }
+\newlabel{tab:application-struct}{{4}{14}{表 \texttt {copyright\_application} 结构}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 表 \texttt  {copyright\_evidence} 结构}}{14}{table.5}\protected@file@percent }
+\newlabel{tab:evidence-struct}{{5}{14}{表 \texttt {copyright\_evidence} 结构}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 表 \texttt  {file\_storage} 结构}}{15}{table.6}\protected@file@percent }
+\newlabel{tab:file-storage-struct}{{6}{15}{表 \texttt {file\_storage} 结构}{table.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 表 \texttt  {onchain\_tx} 结构}}{15}{table.7}\protected@file@percent }
+\newlabel{tab:onchain-tx-struct}{{7}{15}{表 \texttt {onchain\_tx} 结构}{table.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 表 \texttt  {copyright\_records} 结构}}{16}{table.8}\protected@file@percent }
+\newlabel{tab:records-struct}{{8}{16}{表 \texttt {copyright\_records} 结构}{table.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}接口设计}{16}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}认证与账号接口（\texttt  {/api/auth/**}）}{16}{subsubsection.3.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 认证与账号接口清单}}{17}{table.9}\protected@file@percent }
+\newlabel{tab:auth-apis}{{9}{17}{认证与账号接口清单}{table.9}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}版权业务接口（\texttt  {/api/copyright/**}）}{17}{subsubsection.3.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces 版权业务接口清单}}{17}{table.10}\protected@file@percent }
+\newlabel{tab:copyright-apis}{{10}{17}{版权业务接口清单}{table.10}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}审核接口（\texttt  {/api/audit/**}）}{17}{subsubsection.3.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces 审核接口清单}}{18}{table.11}\protected@file@percent }
+\newlabel{tab:audit-apis}{{11}{18}{审核接口清单}{table.11}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}管理接口（\texttt  {/api/admin/**}）}{18}{subsubsection.3.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces 管理接口清单}}{18}{table.12}\protected@file@percent }
+\newlabel{tab:admin-apis}{{12}{18}{管理接口清单}{table.12}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.5}企业成员接口（\texttt  {/api/enterprise/**}）}{18}{subsubsection.3.4.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces 企业成员接口清单}}{19}{table.13}\protected@file@percent }
+\newlabel{tab:enterprise-apis}{{13}{19}{企业成员接口清单}{table.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}详细设计}{19}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}账号注册、登录与身份上下文}{19}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces 登录与身份上下文时序图}}{19}{figure.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces 登录与身份上下文实现截图}}{20}{figure.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}版权申请提交与证据生成}{21}{subsection.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces 版权申请与证据生成时序图}}{22}{figure.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces 版权申请与证据生成截图}}{22}{figure.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}风险评估与人工复核}{23}{subsection.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces 风险评估与人工复核时序图}}{24}{figure.14}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces 风险评估与复核截图}}{24}{figure.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}链上确权与交易回执落库}{25}{subsection.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces 链上确权与回执落库时序图}}{26}{figure.16}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces 链上确权结果截图}}{26}{figure.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}查询溯源与详情展示}{27}{subsection.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces 查询溯源与详情展示时序图}}{27}{figure.18}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces 查询溯源实现截图}}{28}{figure.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}平台治理与后台管理}{28}{subsection.4.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces 平台治理与后台管理时序图}}{29}{figure.20}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces 后台治理实现截图}}{29}{figure.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}系统测试}{30}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}测试目标与测试方法}{30}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}测试环境与数据准备}{30}{subsection.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces 系统测试环境}}{31}{table.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}测试用例设计}{31}{subsection.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces 核心功能测试用例}}{32}{table.15}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces 安全与权限测试用例}}{33}{table.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}测试结果}{33}{subsection.5.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces 功能测试用例执行结果}}{33}{table.17}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces 安全与权限测试用例执行结果}}{34}{table.18}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {19}{\ignorespaces 性能压测模拟结果（JMeter）}}{34}{table.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{附录}{35}{table.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{附录A：状态码与枚举值说明}{35}{section*.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {20}{\ignorespaces 申请状态枚举（application.status）}}{35}{table.20}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {21}{\ignorespaces 交易状态枚举（onchainTx.status）}}{35}{table.21}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {22}{\ignorespaces 风险等级枚举（riskLevel）}}{36}{table.22}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {23}{\ignorespaces 审核状态枚举（auditStatus）}}{36}{table.23}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {24}{\ignorespaces 复核结论枚举（reviewResult）}}{36}{table.24}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {25}{\ignorespaces 账号主体类型枚举（accountType）}}{36}{table.25}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {26}{\ignorespaces 平台角色枚举（role）}}{37}{table.26}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {27}{\ignorespaces 企业内部角色枚举（enterpriseRole）}}{37}{table.27}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {28}{\ignorespaces 法务可见范围枚举（enterpriseLegalScope）}}{37}{table.28}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {29}{\ignorespaces 相应码与状态码}}{38}{table.29}\protected@file@percent }
+\gdef \@abspage@last{41}

@@ -1,0 +1,2968 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+
+<script setup>
+import { RouterView, useRouter, useRoute } from 'vue-router'
+import { computed } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { ArrowDown, User, Document, SwitchButton, Management } from '@element-plus/icons-vue'
+
+const router = useRouter()
+const route = useRoute()
+const userStore = useUserStore()
+
+const isLoggedIn = computed(() => userStore.isAuthenticated)
+const username = computed(() => userStore.username)
+const normalizedRole = computed(() => (userStore.role === 'USER' ? 'INDIVIDUAL_DEVELOPER' : userStore.role))
+const isAdmin = computed(() => normalizedRole.value === 'ADMIN')
+const canApplyCopyright = computed(() => ['INDIVIDUAL_DEVELOPER', 'ENTERPRISE_DEVELOPER'].includes(normalizedRole.value))
+const subjectText = computed(() => {
+  if (userStore.accountType === 'ENTERPRISE') {
+    if (userStore.enterpriseRole === 'OWNER') return '企业管理员'
+    if (userStore.enterpriseRole === 'LEGAL') return '企业法务'
+    return '企业开发者'
+  }
+  if (normalizedRole.value === 'AUDITOR') {
+    return '审核人员'
+  }
+  if (normalizedRole.value === 'ADMIN') {
+    return '管理员'
+  }
+  return '个人开发者'
+})
+
+const handleLogout = () => {
+  userStore.logout()
+  router.push('/login')
+}
+
+const handleUserCommand = (command) => {
+  if (command === 'profile') {
+    router.push('/profile/records')
+  } else if (command === 'logout') {
+    handleLogout()
+  } else if (command === 'admin') {
+    router.push('/admin/dashboard')
+  } else if (command === 'audit') {
+    router.push('/audit/review')
+  }
+}
+
+// 判断是否在个人中心页面
+const isProfilePage = computed(() => route.path.startsWith('/profile'))
+// 判断是否在管理员页面
+const isAdminPage = computed(() => route.path.startsWith('/admin'))
+const isAuditPage = computed(() => route.path.startsWith('/audit'))
+</script>
+
+<template>
+  <div id="app">
+    <!-- 管理员页面布局 -->
+    <el-container v-if="isAdminPage || isAuditPage">
+      <el-aside width="250px" class="admin-sidebar">
+        <div class="sidebar-header">
+          <h2 @click="$router.push('/')" class="sidebar-logo">{{ isAuditPage ? '版权云链审核台' : '版权云链管理' }}</h2>
+        </div>
+
+        <el-menu
+          :default-active="route.path"
+          class="sidebar-menu"
+          :router="true"
+        >
+          <el-menu-item v-if="isAdmin" index="/admin/dashboard">
+            <el-icon><Management /></el-icon>
+            <span>管理后台</span>
+          </el-menu-item>
+          <el-menu-item v-if="normalizedRole === 'AUDITOR' || normalizedRole === 'ADMIN'" index="/audit/review">
+            <el-icon><Document /></el-icon>
+            <span>审核工作台</span>
+          </el-menu-item>
+        </el-menu>
+
+        <div class="sidebar-footer">
+          <el-button type="danger" @click="handleLogout" style="width: 100%">
+            <el-icon><SwitchButton /></el-icon>
+            退出登录
+          </el-button>
+        </div>
+      </el-aside>
+
+      <el-container>
+        <el-header class="admin-header">
+          <div class="admin-header-content">
+            <span class="welcome-text">{{ isAuditPage ? '审核员' : subjectText }}：{{ username }}</span>
+            <el-button @click="$router.push('/')" size="small">
+              返回前台
+            </el-button>
+          </div>
+        </el-header>
+
+        <el-main class="admin-main">
+          <RouterView />
+        </el-main>
+      </el-container>
+    </el-container>
+
+    <!-- 普通页面的头部导航 -->
+    <el-container v-else-if="!isProfilePage">
+      <el-header>
+        <div class="header-content">
+          <div class="left-section">
+            <h1 @click="$router.push('/')" class="logo">版权云链</h1>
+          </div>
+
+          <el-menu
+            :default-active="$route.path"
+            mode="horizontal"
+            :router="true"
+            background-color="#409EFF"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+            class="main-menu"
+          >
+            <el-menu-item index="/">首页</el-menu-item>
+            <el-menu-item index="/apply" v-if="isLoggedIn && canApplyCopyright">版权申请</el-menu-item>
+<!--            <el-sub-menu index="/query">-->
+<!--              <template #title>版权查询</template>-->
+<!--              <el-menu-item index="/query-hash">哈希查询</el-menu-item>-->
+<!--            </el-sub-menu>-->
+          </el-menu>
+
+          <div class="right-section">
+            <div class="user-menu" v-if="isLoggedIn">
+              <el-dropdown trigger="hover" @command="handleUserCommand">
+                <span class="el-dropdown-link">
+                  <el-icon><User /></el-icon>
+                  {{ username }}
+                  <el-icon><ArrowDown /></el-icon>
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item v-if="isAdmin" command="admin">
+                      <el-icon><Management /></el-icon>
+                      管理后台
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="normalizedRole === 'AUDITOR' || isAdmin" command="audit">
+                      <el-icon><Document /></el-icon>
+                      审核工作台
+                    </el-dropdown-item>
+                    <el-dropdown-item command="profile">
+                      <el-icon><Document /></el-icon>
+                      个人中心
+                    </el-dropdown-item>
+                    <el-dropdown-item command="logout" divided>
+                      <el-icon><SwitchButton /></el-icon>
+                      退出登录
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+
+            <div class="login-register" v-else>
+              <el-button type="info" size="small" plain @click="$router.push('/login')">
+                <el-icon><User /></el-icon>
+                登录
+              </el-button>
+              <el-button type="primary" size="small" @click="$router.push('/register')">
+                <el-icon><User /></el-icon>
+                注册
+              </el-button>
+            </div>
+          </div>
+        </div>
+      </el-header>
+
+      <el-main>
+        <RouterView />
+      </el-main>
+
+      <el-footer>
+        <p>© 2026 版权云链 | 基于区块链的软件版权存证与溯源系统 | Powered by ZIHUI_XU</p>
+      </el-footer>
+    </el-container>
+
+    <!-- 个人中心页面的布局 -->
+    <el-container v-else class="profile-layout">
+      <el-aside width="250px" class="profile-sidebar">
+        <div class="sidebar-header">
+          <h2 @click="$router.push('/')" class="sidebar-logo">版权云链</h2>
+        </div>
+
+        <el-menu
+          :default-active="route.path"
+          class="sidebar-menu"
+          :router="true"
+        >
+          <el-menu-item index="/profile/records">
+            <el-icon><Document /></el-icon>
+            <span>我的版权记录</span>
+          </el-menu-item>
+          <el-menu-item
+            v-if="userStore.enterpriseRole === 'OWNER' || (userStore.enterpriseRole === 'LEGAL' && userStore.enterpriseLegalScope === 'ALL')"
+            index="/profile/enterprise-records"
+          >
+            <el-icon><Document /></el-icon>
+            <span>企业版权记录</span>
+          </el-menu-item>
+          <el-menu-item v-if="userStore.enterpriseRole === 'OWNER'" index="/profile/members">
+            <el-icon><Management /></el-icon>
+            <span>企业成员管理</span>
+          </el-menu-item>
+          <el-menu-item index="/profile/info">
+            <el-icon><User /></el-icon>
+            <span>个人信息</span>
+          </el-menu-item>
+        </el-menu>
+
+        <div class="sidebar-footer">
+          <el-button type="danger" @click="handleLogout" style="width: 100%">
+            <el-icon><SwitchButton /></el-icon>
+            退出登录
+          </el-button>
+        </div>
+      </el-aside>
+
+      <el-container>
+        <el-header class="profile-header">
+          <div class="profile-header-content">
+            <span class="welcome-text">欢迎，{{ subjectText }} {{ username }}</span>
+            <el-button @click="$router.push('/')" size="small">
+              返回首页
+            </el-button>
+          </div>
+        </el-header>
+
+        <el-main class="profile-main">
+          <RouterView />
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
+</template>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 普通页面布局 */
+.el-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.el-header {
+  background-color: #409EFF;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 60px !important;
+}
+
+.header-content {
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 20px;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.main-menu {
+  border-bottom: none;
+  flex: 1;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+}
+
+.user-menu .el-dropdown-link {
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.user-menu .el-dropdown-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-menu .el-icon {
+  font-size: 16px;
+}
+
+.login-register {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.login-register .el-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.el-main {
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 60px - 60px);
+  padding: 0;
+}
+
+.el-footer {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #e4e7ed;
+  height: 60px !important;
+}
+
+.el-footer p {
+  margin: 0;
+  color: #909399;
+}
+
+/* 管理员页面布局 */
+.admin-sidebar {
+  background-color: #304156;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.admin-sidebar .sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar .sidebar-logo {
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: center;
+}
+
+.admin-sidebar .sidebar-menu {
+  flex: 1;
+  border-right: none;
+  background-color: transparent;
+}
+
+.admin-sidebar .sidebar-menu .el-menu-item {
+  color: #bfcbd9;
+}
+
+.admin-sidebar .sidebar-menu .el-menu-item:hover {
+  background-color: #263445 !important;
+  color: #fff;
+}
+
+.admin-sidebar .sidebar-menu .el-menu-item.is-active {
+  background-color: #409EFF !important;
+  color: #fff;
+}
+
+.admin-sidebar .sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-header {
+  background-color: #fff;
+  border-bottom: 1px solid #e4e7ed;
+  height: 60px !important;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.admin-header-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header .welcome-text {
+  font-size: 16px;
+  color: #303133;
+}
+
+.admin-main {
+  background-color: #f5f7fa;
+  padding: 0;
+}
+
+/* 个人中心页面布局 */
+.profile-layout {
+  flex-direction: row;
+}
+
+.profile-sidebar {
+  background-color: #304156;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo {
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: center;
+}
+
+.sidebar-menu {
+  flex: 1;
+  border-right: none;
+  background-color: transparent;
+}
+
+.sidebar-menu .el-menu-item {
+  color: #bfcbd9;
+}
+
+.sidebar-menu .el-menu-item:hover {
+  background-color: #263445 !important;
+  color: #fff;
+}
+
+.sidebar-menu .el-menu-item.is-active {
+  background-color: #409EFF !important;
+  color: #fff;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-header {
+  background-color: #fff;
+  border-bottom: 1px solid #e4e7ed;
+  height: 60px !important;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.profile-header-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-text {
+  font-size: 16px;
+  color: #303133;
+}
+
+.profile-main {
+  background-color: #f5f7fa;
+  padding: 20px;
+}
+</style>
+
+import request from './request'
+
+export function getUsers(params) {
+  return request({
+    url: '/admin/users',
+    method: 'get',
+    params
+  })
+}
+
+export function createUser(data) {
+  return request({
+    url: '/admin/users',
+    method: 'post',
+    data
+  })
+}
+
+export function updateUser(id, data) {
+  return request({
+    url: `/admin/users/${id}`,
+    method: 'put',
+    data
+  })
+}
+
+export function deleteUser(id) {
+  return request({
+    url: `/admin/users/${id}`,
+    method: 'delete'
+  })
+}
+
+export function updateUserStatus(id, status) {
+  return request({
+    url: `/admin/users/${id}/status`,
+    method: 'put',
+    params: { status }
+  })
+}
+
+export function resetPassword(id) {
+  return request({
+    url: `/admin/users/${id}/reset-password`,
+    method: 'put'
+  })
+}
+
+export function updateUserRole(id, role, enterpriseId) {
+  return request({
+    url: `/admin/users/${id}/role`,
+    method: 'put',
+    params: { role, enterpriseId }
+  })
+}
+
+export function getEnterpriseOptions(keyword) {
+  return request({
+    url: '/admin/enterprises',
+    method: 'get',
+    params: { keyword }
+  })
+}
+
+export function getAllCopyrights(params) {
+  return request({
+    url: '/admin/copyrights',
+    method: 'get',
+    params
+  })
+}
+
+export function getStatistics() {
+  return request({
+    url: '/admin/statistics',
+    method: 'get'
+  })
+}
+
+import request from './request'
+
+export function getAuditRecords(params) {
+  return request({
+    url: '/audit/records',
+    method: 'get',
+    params
+  })
+}
+
+export function getAuditDetail(id) {
+  return request({
+    url: `/audit/records/${id}`,
+    method: 'get'
+  })
+}
+
+export function submitAuditAction(id, data) {
+  return request({
+    url: `/audit/records/${id}/action`,
+    method: 'post',
+    data
+  })
+}
+
+import request from './request'
+
+export function login(credentials) {
+  return request({
+    url: '/auth/login',
+    method: 'post',
+    data: credentials
+  })
+}
+
+export function register(userData) {
+  return request({
+    url: '/auth/register',
+    method: 'post',
+    data: userData
+  })
+}
+
+export function registerEnterprise(userData) {
+  return request({
+    url: '/auth/register/enterprise',
+    method: 'post',
+    data: userData
+  })
+}
+
+export function getUserInfo() {
+  return request({
+    url: '/auth/info',
+    method: 'get'
+  })
+}
+
+export function updateProfile(profileData) {
+  return request({
+    url: '/auth/profile',
+    method: 'put',
+    data: profileData
+  })
+}
+
+export function changePassword(passwordData) {
+  return request({
+    url: '/auth/password',
+    method: 'put',
+    data: passwordData
+  })
+}
+
+import request from './request'
+
+export function applyCopyright(formData) {
+  return request({
+    url: '/copyright/apply',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  })
+}
+
+export function submitApplication(formData) {
+  return request({
+    url: '/copyright/applications',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  })
+}
+
+export function getApplicationStatus(applicationNo) {
+  return request({
+    url: `/copyright/applications/${applicationNo}`,
+    method: 'get'
+  })
+}
+
+export function queryByHash(fileHash) {
+  return request({
+    url: `/copyright/query/hash/${fileHash}`,
+    method: 'get'
+  })
+}
+
+export function queryByApplicationNo(applicationNo) {
+  return request({
+    url: `/copyright/query/application/${applicationNo}`,
+    method: 'get'
+  })
+}
+
+export function getMyRecords(params) {
+  return request({
+    url: '/copyright/my-records',
+    method: 'get',
+    params
+  })
+}
+
+export function getEnterpriseRecords(params) {
+  return request({
+    url: '/copyright/enterprise-records',
+    method: 'get',
+    params
+  })
+}
+
+import request from './request'
+
+export function getEnterpriseMembers(params) {
+  return request({
+    url: '/enterprise/members',
+    method: 'get',
+    params
+  })
+}
+
+export function createEnterpriseMember(data) {
+  return request({
+    url: '/enterprise/members',
+    method: 'post',
+    data
+  })
+}
+
+export function updateEnterpriseMember(id, data) {
+  return request({
+    url: `/enterprise/members/${id}`,
+    method: 'put',
+    data
+  })
+}
+
+export function updateEnterpriseMemberStatus(id, status) {
+  return request({
+    url: `/enterprise/members/${id}/status`,
+    method: 'put',
+    data: { status }
+  })
+}
+
+export function updateEnterpriseLegalScope(id, enterpriseLegalScope) {
+  return request({
+    url: `/enterprise/members/${id}/legal-scope`,
+    method: 'put',
+    data: { enterpriseLegalScope }
+  })
+}
+
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
+import router from '@/router'
+
+const request = axios.create({
+  baseURL: 'http://localhost:8080/api',
+  timeout: 30000
+})
+
+request.interceptors.request.use(
+  config => {
+    // 添加token到请求头
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => {
+    console.error('请求错误:', error)
+    return Promise.reject(error)
+  }
+)
+
+request.interceptors.response.use(
+  response => {
+    const res = response.data
+    if (res.code !== 200) {
+      ElMessage.error(res.message || '请求失败')
+      return Promise.reject(new Error(res.message || '请求失败'))
+    }
+    return res
+  },
+  error => {
+    console.error('响应错误:', error)
+
+    // 如果是401未授权错误，跳转到登录页
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('userId')
+      ElMessage.error('登录已过期，请重新登录')
+      router.push('/login')
+    }
+
+    ElMessage.error(error.message || '网络错误')
+    return Promise.reject(error)
+  }
+)
+
+export default request
+
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --vt-c-white: #ffffff;
+  --vt-c-white-soft: #f8f8f8;
+  --vt-c-white-mute: #f2f2f2;
+
+  --vt-c-black: #181818;
+  --vt-c-black-soft: #222222;
+  --vt-c-black-mute: #282828;
+
+  --vt-c-indigo: #2c3e50;
+
+  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+  --vt-c-text-light-1: var(--vt-c-indigo);
+  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+  --vt-c-text-dark-1: var(--vt-c-white);
+  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
+
+  --section-gap: 160px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import './base.css';
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: block;
+  }
+
+  #app {
+    padding: 0;
+  }
+}
+
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(router)
+app.use(ElementPlus, {
+  locale: zhCn
+})
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.mount('#app')
+
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
+
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('../views/Register.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/apply',
+    name: 'apply',
+    component: () => import('../views/ApplyCopyright.vue'),
+    meta: { requiresAuth: true, developerOnly: true }
+  },
+  {
+    path: '/query-hash',
+    name: 'query-hash',
+    component: () => import('../views/QueryByHash.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/copyright/:applicationNo',
+    name: 'copyright-detail',
+    component: () => import('../views/CopyrightDetail.vue'),
+    meta: { requiresAuth: false }
+  },
+  // 个人中心路由
+  {
+    path: '/profile',
+    name: 'profile',
+    redirect: '/profile/records',
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: 'info',
+        name: 'profile-info',
+        component: () => import('../views/profile/ProfileInfo.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'records',
+        name: 'profile-records',
+        component: () => import('../views/profile/MyRecords.vue'),
+        meta: { requiresAuth: true, developerOnly: true }
+      },
+      {
+        path: 'enterprise-records',
+        name: 'profile-enterprise-records',
+        component: () => import('../views/profile/EnterpriseRecords.vue'),
+        meta: { requiresAuth: true, enterpriseRoles: ['OWNER', 'LEGAL'] }
+      },
+      {
+        path: 'members',
+        name: 'profile-enterprise-members',
+        component: () => import('../views/profile/EnterpriseMembers.vue'),
+        meta: { requiresAuth: true, enterpriseRoles: ['OWNER'] }
+      }
+    ]
+  },
+  // 管理员路由
+  {
+    path: '/admin',
+    name: 'admin',
+    redirect: '/admin/dashboard',
+    meta: { requiresAuth: true, requiresAdmin: true },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'admin-dashboard',
+        component: () => import('../views/admin/AdminDashboard.vue'),
+        meta: { requiresAuth: true, requiresAdmin: true }
+      }
+    ]
+  },
+  {
+    path: '/audit',
+    name: 'audit',
+    redirect: '/audit/review',
+    meta: { requiresAuth: true, requiresAuditor: true },
+    children: [
+      {
+        path: 'review',
+        name: 'audit-review',
+        component: () => import('../views/audit/AuditReview.vue'),
+        meta: { requiresAuth: true, requiresAuditor: true }
+      }
+    ]
+  }
+]
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes
+})
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  const rawRole = localStorage.getItem('role')
+  const role = rawRole === 'USER' ? 'INDIVIDUAL_DEVELOPER' : rawRole
+  const enterpriseRole = localStorage.getItem('enterpriseRole')
+  const enterpriseLegalScope = localStorage.getItem('enterpriseLegalScope')
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
+  const requiresAuditor = to.matched.some(record => record.meta.requiresAuditor)
+  const developerOnly = to.matched.some(record => record.meta.developerOnly)
+  const enterpriseRolesMeta = to.matched.find(record => Array.isArray(record.meta.enterpriseRoles))?.meta.enterpriseRoles
+
+  if (requiresAuth && !token) {
+    next('/login')
+  } else if (requiresAdmin && role !== 'ADMIN') {
+    next('/')
+  } else if (requiresAuditor && !['AUDITOR', 'ADMIN'].includes(role)) {
+    next('/')
+  } else if (developerOnly && !['INDIVIDUAL_DEVELOPER', 'ENTERPRISE_DEVELOPER'].includes(role)) {
+    next('/')
+  } else if (enterpriseRolesMeta && !enterpriseRolesMeta.includes(enterpriseRole)) {
+    next('/')
+  } else if (enterpriseRole === 'LEGAL'
+    && to.path === '/profile/enterprise-records'
+    && enterpriseLegalScope !== 'ALL') {
+    next('/profile/records')
+  } else {
+    next()
+  }
+})
+
+export default router
+
+import { defineStore } from 'pinia'
+
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    token: localStorage.getItem('token') || null,
+    username: localStorage.getItem('username') || null,
+    userId: localStorage.getItem('userId') || null,
+    role: localStorage.getItem('role') || null,
+    accountType: localStorage.getItem('accountType') || null,
+    enterpriseId: localStorage.getItem('enterpriseId') || null,
+    enterpriseRole: localStorage.getItem('enterpriseRole') || null,
+    enterpriseLegalScope: localStorage.getItem('enterpriseLegalScope') || null,
+    isAuthenticated: !!localStorage.getItem('token')
+  }),
+
+  actions: {
+    login(token, username, userId, role, accountType, enterpriseId, enterpriseRole, enterpriseLegalScope) {
+      this.token = token
+      this.username = username
+      this.userId = userId
+      this.role = role
+      this.accountType = accountType || null
+      this.enterpriseId = enterpriseId || null
+      this.enterpriseRole = enterpriseRole || null
+      this.enterpriseLegalScope = enterpriseLegalScope || null
+      this.isAuthenticated = true
+
+      localStorage.setItem('token', token)
+      localStorage.setItem('username', username)
+      localStorage.setItem('userId', userId)
+      localStorage.setItem('role', role)
+      if (accountType) {
+        localStorage.setItem('accountType', accountType)
+      } else {
+        localStorage.removeItem('accountType')
+      }
+      if (enterpriseId) {
+        localStorage.setItem('enterpriseId', enterpriseId)
+      } else {
+        localStorage.removeItem('enterpriseId')
+      }
+      if (enterpriseRole) {
+        localStorage.setItem('enterpriseRole', enterpriseRole)
+      } else {
+        localStorage.removeItem('enterpriseRole')
+      }
+      if (enterpriseLegalScope) {
+        localStorage.setItem('enterpriseLegalScope', enterpriseLegalScope)
+      } else {
+        localStorage.removeItem('enterpriseLegalScope')
+      }
+    },
+
+    logout() {
+      this.token = null
+      this.username = null
+      this.userId = null
+      this.role = null
+      this.accountType = null
+      this.enterpriseId = null
+      this.enterpriseRole = null
+      this.enterpriseLegalScope = null
+      this.isAuthenticated = false
+
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('userId')
+      localStorage.removeItem('role')
+      localStorage.removeItem('accountType')
+      localStorage.removeItem('enterpriseId')
+      localStorage.removeItem('enterpriseRole')
+      localStorage.removeItem('enterpriseLegalScope')
+    },
+
+    updateUserInfo(username, userId, role, accountType, enterpriseId, enterpriseRole, enterpriseLegalScope) {
+      this.username = username
+      this.userId = userId
+      this.role = role
+      this.accountType = accountType || this.accountType
+      this.enterpriseId = enterpriseId || this.enterpriseId
+      this.enterpriseRole = enterpriseRole || this.enterpriseRole
+      this.enterpriseLegalScope = enterpriseLegalScope || this.enterpriseLegalScope
+
+      localStorage.setItem('username', username)
+      localStorage.setItem('userId', userId)
+      if (role) {
+        localStorage.setItem('role', role)
+      }
+      if (this.accountType) {
+        localStorage.setItem('accountType', this.accountType)
+      }
+      if (this.enterpriseId) {
+        localStorage.setItem('enterpriseId', this.enterpriseId)
+      }
+      if (this.enterpriseRole) {
+        localStorage.setItem('enterpriseRole', this.enterpriseRole)
+      }
+      if (this.enterpriseLegalScope) {
+        localStorage.setItem('enterpriseLegalScope', this.enterpriseLegalScope)
+      }
+    }
+  },
+
+  getters: {
+    getToken: (state) => state.token,
+    getUsername: (state) => state.username,
+    getUserId: (state) => state.userId,
+    getRole: (state) => state.role,
+    getAccountType: (state) => state.accountType,
+    getEnterpriseId: (state) => state.enterpriseId,
+    getEnterpriseRole: (state) => state.enterpriseRole,
+    getEnterpriseLegalScope: (state) => state.enterpriseLegalScope,
+    getIsAuthenticated: (state) => state.isAuthenticated,
+    isAdmin: (state) => state.role === 'ADMIN',
+    isDeveloper: (state) => ['INDIVIDUAL_DEVELOPER', 'ENTERPRISE_DEVELOPER', 'USER'].includes(state.role),
+    isEnterpriseOwner: (state) => state.enterpriseRole === 'OWNER',
+    isEnterpriseLegal: (state) => state.enterpriseRole === 'LEGAL',
+    isEnterpriseLegalAllScope: (state) => state.enterpriseRole === 'LEGAL' && state.enterpriseLegalScope === 'ALL'
+  }
+})
+
+const BIZ_STATUS_MAP = {
+  SUBMITTED: '已提交',
+  AUTO_CHECKED: '自动核验完成',
+  PENDING_REVIEW: '待人工复核',
+  ONCHAIN_SUCCESS: '上链成功',
+  ONCHAIN_FAILED: '上链失败',
+  REJECTED: '已驳回'
+}
+
+const AUDIT_STATUS_MAP = {
+  PENDING: '待审核',
+  APPROVED: '审核通过',
+  REJECTED: '审核驳回'
+}
+
+const RISK_LEVEL_MAP = {
+  LOW: '低风险',
+  MEDIUM: '中风险',
+  HIGH: '高风险'
+}
+
+const REVIEW_RESULT_MAP = {
+  APPROVED: '复核通过',
+  REJECTED: '复核驳回'
+}
+
+const ENTERPRISE_ROLE_MAP = {
+  OWNER: '企业管理员',
+  DEVELOPER: '企业开发者',
+  LEGAL: '企业法务'
+}
+
+const LEGAL_SCOPE_MAP = {
+  SELF: '仅本人',
+  ALL: '全企业'
+}
+
+const ROLE_MAP = {
+  USER: '旧普通用户',
+  INDIVIDUAL_DEVELOPER: '个人开发者',
+  ENTERPRISE_DEVELOPER: '企业开发者',
+  ENTERPRISE_LEGAL: '企业法务',
+  AUDITOR: '审核员',
+  ADMIN: '管理员'
+}
+
+const ACCOUNT_TYPE_MAP = {
+  INDIVIDUAL: '个人主体',
+  ENTERPRISE: '企业主体'
+}
+
+export function toBizStatusText(code) {
+  return BIZ_STATUS_MAP[code] || code || '-'
+}
+
+export function toAuditStatusText(code) {
+  return AUDIT_STATUS_MAP[code] || code || '-'
+}
+
+export function toRiskLevelText(code) {
+  return RISK_LEVEL_MAP[code] || code || '-'
+}
+
+export function toReviewResultText(code) {
+  return REVIEW_RESULT_MAP[code] || code || '-'
+}
+
+export function toEnterpriseRoleText(code) {
+  return ENTERPRISE_ROLE_MAP[code] || code || '-'
+}
+
+export function toLegalScopeText(code) {
+  return LEGAL_SCOPE_MAP[code] || code || '-'
+}
+
+export function toRoleText(code) {
+  return ROLE_MAP[code] || code || '-'
+}
+
+export function toAccountTypeText(code) {
+  return ACCOUNT_TYPE_MAP[code] || code || '-'
+}
+
+export function toSubjectTypeText(code) {
+  return toAccountTypeText(code)
+}
+
+<template>
+  <div class="apply-container">
+    <el-card>
+      <template #header>
+        <div class="card-header">
+          <h2>版权存证申请</h2>
+          <el-button @click="$router.push('/')">返回首页</el-button>
+        </div>
+      </template>
+
+      <el-form
+        ref="formRef"
+        :model="form"
+        :rules="rules"
+        label-width="120px"
+        class="apply-form"
+      >
+        <el-form-item label="软件名称" prop="softwareName">
+          <el-input
+            v-model="form.softwareName"
+            placeholder="请输入软件名称"
+            clearable
+          />
+        </el-form-item>
+
+        <el-form-item label="软件描述" prop="description">
+          <el-input
+            v-model="form.description"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入软件描述（可选）"
+          />
+        </el-form-item>
+
+        <el-form-item label="上传文件" prop="file">
+          <el-upload
+            ref="uploadRef"
+            :auto-upload="false"
+            :on-change="handleFileChange"
+            :limit="1"
+            drag
+          >
+            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <div class="el-upload__text">
+              拖拽文件到此处或<em>点击上传</em>
+            </div>
+            <template #tip>
+              <div class="el-upload__tip">
+                支持任意格式文件，文件大小不超过100MB
+              </div>
+            </template>
+          </el-upload>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="submitForm"
+            style="width: 200px"
+          >
+            {{ loading ? '存证中...' : '提交存证' }}
+          </el-button>
+          <el-button @click="resetForm">重置</el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-divider />
+
+      <div v-if="result" class="result-section">
+        <h3>申请结果</h3>
+        <el-alert
+          :title="resultAlertTitle"
+          :type="resultAlertType"
+          :closable="false"
+          show-icon
+        />
+        <el-descriptions :column="1" border class="result-descriptions">
+          <el-descriptions-item label="申请编号">
+            <el-text type="primary" style="word-break: break-all">
+              {{ result.applicationNo }}
+            </el-text>
+          </el-descriptions-item>
+          <el-descriptions-item label="申请状态">
+            <el-text type="warning">
+              {{ toBizStatusText(result.status) }}
+            </el-text>
+          </el-descriptions-item>
+          <el-descriptions-item v-if="result.errorMessage" label="失败原因">
+            <el-text type="danger" style="word-break: break-all">
+              {{ result.errorMessage }}
+            </el-text>
+          </el-descriptions-item>
+          <el-descriptions-item label="交易哈希">
+            <el-text type="primary" style="word-break: break-all">
+              {{ result.txHash || '-' }}
+            </el-text>
+          </el-descriptions-item>
+        </el-descriptions>
+        <el-button type="primary" @click="$router.push('/query-hash')" style="margin-top: 20px">
+          查询存证信息
+        </el-button>
+      </div>
+    </el-card>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive, computed, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { UploadFilled } from '@element-plus/icons-vue'
+import { submitApplication, getApplicationStatus } from '@/api/copyright'
+import { toBizStatusText } from '@/utils/statusMap'
+
+const router = useRouter()
+const formRef = ref(null)
+const uploadRef = ref(null)
+const loading = ref(false)
+const result = ref(null)
+const pollingTimer = ref(null)
+
+const form = reactive({
+  softwareName: '',
+  description: '',
+  file: null
+})
+
+const rules = {
+  softwareName: [
+    { required: true, message: '请输入软件名称', trigger: 'blur' }
+  ],
+  file: [
+    { required: true, message: '请上传文件', trigger: 'change' }
+  ]
+}
+
+const handleFileChange = (file) => {
+  form.file = file.raw
+}
+
+const terminalStatuses = ['ONCHAIN_SUCCESS', 'ONCHAIN_FAILED']
+
+const resultAlertType = computed(() => {
+  if (!result.value) return 'info'
+  if (result.value.status === 'ONCHAIN_SUCCESS') return 'success'
+  if (result.value.status === 'ONCHAIN_FAILED') return 'error'
+  return 'info'
+})
+
+const resultAlertTitle = computed(() => {
+  if (!result.value) return ''
+  if (result.value.status === 'ONCHAIN_SUCCESS') return '申请已提交并完成上链！'
+  if (result.value.status === 'ONCHAIN_FAILED') return '申请上链失败，请查看失败原因'
+  return '申请处理中，正在轮询状态...'
+})
+
+const stopPolling = () => {
+  if (pollingTimer.value) {
+    clearInterval(pollingTimer.value)
+    pollingTimer.value = null
+  }
+}
+
+const startPollingStatus = (applicationNo) => {
+  stopPolling()
+  pollingTimer.value = setInterval(async () => {
+    try {
+      const res = await getApplicationStatus(applicationNo)
+      result.value = {
+        ...result.value,
+        ...res.data
+      }
+      if (terminalStatuses.includes(result.value.status)) {
+        stopPolling()
+      }
+    } catch (error) {
+      console.error('轮询申请状态失败:', error)
+      stopPolling()
+
+    private final OnchainTxMapper onchainTxMapper;
+    private final FileStorageMapper fileStorageMapper;
+    private final MinioClient minioClient;
+
+    @Autowired
+    private AuthService authService;
+
+    @Value("${minio.bucket-name}")
+    private String bucketName;
+
+    @Value("${fisco.bcos.contract-address}")
+    private String contractAddress;
+
+    public CopyrightServiceImpl(Client client,
+                               CryptoKeyPair cryptoKeyPair,
+                               CopyrightRecordMapper recordMapper,
+                               CopyrightApplicationMapper applicationMapper,
+                               CopyrightEvidenceMapper evidenceMapper,
+                               OnchainTxMapper onchainTxMapper,
+                               FileStorageMapper fileStorageMapper,
+                               MinioClient minioClient) {
+        this.client = client;
+        this.cryptoKeyPair = cryptoKeyPair;
+        this.recordMapper = recordMapper;
+        this.applicationMapper = applicationMapper;
+        this.evidenceMapper = evidenceMapper;
+        this.onchainTxMapper = onchainTxMapper;
+        this.fileStorageMapper = fileStorageMapper;
+        this.minioClient = minioClient;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String applyCopyright(MultipartFile file, ApplyCopyrightRequest request) {
+        ApplicationSubmitResponse response = submitApplication(file, request);
+        return response.getTxHash();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ApplicationSubmitResponse submitApplication(MultipartFile file, ApplyCopyrightRequest request) {
+        try {
+            byte[] fileBytes = file.getBytes();
+            String fileHash = FileHashUtils.calculateSHA256(fileBytes);
+            ArchiveFingerprintUtils.ArchiveFingerprint fingerprint = ArchiveFingerprintUtils.buildFingerprints(fileBytes);
+            String normalizedHash = fingerprint.normalizedHash();
+            String semanticHash = fingerprint.semanticHash();
+            String metadataRaw = request.getSoftwareName() + "|" + (request.getDescription() == null ? "" : request.getDescription());
+            String metadataHash = FileHashUtils.calculateSHA256(metadataRaw.getBytes(StandardCharsets.UTF_8));
+            String evidenceRootHash = FileHashUtils.calculateSHA256((fileHash + "|" + metadataHash).getBytes(StandardCharsets.UTF_8));
+            String applicationNo = "APP-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
+            log.info("=== 版权存证开始 ===");
+            log.info("文件名: {}", file.getOriginalFilename());
+            log.info("文件大小: {} bytes", file.getSize());
+            log.info("文件哈希: {}", fileHash);
+            log.info("规范化哈希: {}", normalizedHash);
+            log.info("语义哈希: {}", semanticHash);
+            log.info("申请编号: {}", applicationNo);
+            log.info("软件名称: {}", request.getSoftwareName());
+            log.info("合约地址: {}", contractAddress);
+            log.info("群组ID: {}", client.getGroup());
+
+            LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(CopyrightRecord::getFileHash, fileHash);
+            long dbCount = recordMapper.selectCount(wrapper);
+            log.info("数据库中该哈希的记录数: {}", dbCount);
+
+            if (dbCount > 0) {
+                throw new RuntimeException("该文件已存在版权记录(数据库中存在)");
+            }
+
+            LambdaQueryWrapper<CopyrightEvidence> normalizedWrapper = new LambdaQueryWrapper<>();
+            normalizedWrapper.eq(CopyrightEvidence::getNormalizedHash, normalizedHash)
+                    .last("limit 1");
+            CopyrightEvidence existingNormalized = evidenceMapper.selectOne(normalizedWrapper);
+            if (existingNormalized != null) {
+                throw new RuntimeException("该规范化压缩包已存在存证记录");
+            }
+
+            String originalFilename = file.getOriginalFilename();
+            String extension = originalFilename != null && originalFilename.contains(".")
+                    ? originalFilename.substring(originalFilename.lastIndexOf("."))
+                    : "";
+            String storedFilename = UUID.randomUUID().toString().replace("-", "") + extension;
+
+            try (InputStream inputStream = file.getInputStream()) {
+                minioClient.putObject(
+                        PutObjectArgs.builder()
+                                .bucket(bucketName)
+                                .object(storedFilename)
+                                .stream(inputStream, file.getSize(), -1)
+                                .contentType(file.getContentType())
+                                .build()
+                );
+            }
+
+            FileStorage fileStorage = new FileStorage();
+            fileStorage.setOriginalFilename(originalFilename);
+            fileStorage.setStoredFilename(storedFilename);
+            fileStorage.setFileSize(file.getSize());
+            fileStorage.setFileHash(fileHash);
+            fileStorage.setStoragePath(bucketName + "/" + storedFilename);
+            fileStorageMapper.insert(fileStorage);
+
+            User currentUser = authService.getCurrentUser();
+            Long userId = authService.getCurrentUserId();
+            if (currentUser != null
+                    && AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())
+                    && AuthDomainRules.ENTERPRISE_ROLE_LEGAL.equals(currentUser.getEnterpriseRole())) {
+                throw new RuntimeException("企业法务账号不允许提交上链申请");
+            }
+
+            CopyrightApplication application = new CopyrightApplication();
+            application.setApplicationNo(applicationNo);
+            application.setSoftwareName(request.getSoftwareName());
+            application.setDescription(request.getDescription());
+            application.setUserId(userId != null ? userId : 0L);
+            if (currentUser != null) {
+                application.setSubjectType(currentUser.getAccountType());
+                if (AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())) {
+                    application.setSubjectId(currentUser.getEnterpriseId());
+                } else {
+                    application.setSubjectId(currentUser.getId());
+                }
+                application.setSubjectName(currentUser.getDisplaySubjectName());
+            }
+            SimilarityDecision similarityDecision = evaluateSimilarity(semanticHash, currentUser);
+            application.setRiskLevel(similarityDecision.riskLevel());
+            application.setRiskReason(similarityDecision.riskReason());
+            application.setSimilarityScore(similarityDecision.score());
+            application.setStatus(similarityDecision.requireReview() ? "PENDING_REVIEW" : "AUTO_CHECKED");
+            applicationMapper.insert(application);
+
+            CopyrightEvidence evidence = new CopyrightEvidence();
+            evidence.setApplicationId(application.getId());
+            evidence.setFileStorageId(fileStorage.getId());
+            evidence.setFileHash(fileHash);
+            evidence.setMetadataHash(metadataHash);
+            evidence.setEvidenceRootHash(evidenceRootHash);
+            evidence.setNormalizedHash(normalizedHash);
+            evidence.setSemanticHash(semanticHash);
+            evidenceMapper.insert(evidence);
+
+            ApplicationSubmitResponse response = new ApplicationSubmitResponse();
+            response.setApplicationNo(applicationNo);
+            if (similarityDecision.requireReview()) {
+                response.setStatus("PENDING_REVIEW");
+                response.setTxHash(null);
+                log.info("申请进入人工审核, 申请号: {}, 评分: {}, 原因: {}",
+                        applicationNo, similarityDecision.score(), similarityDecision.riskReason());
+                return response;
+            }
+
+            String txHash = processOnchain(application, evidence, request, currentUser, userId, similarityDecision, null, null);
+            response.setStatus("ONCHAIN_SUCCESS");
+            response.setTxHash(txHash);
+            log.info("版权存证成功, 申请号: {}, 交易哈希: {}", applicationNo, txHash);
+            return response;
+
+        } catch (Exception e) {
+            log.error("版权存证失败", e);
+            throw new RuntimeException("版权存证失败: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public ApplicationStatusResponse getApplicationStatus(String applicationNo) {
+        LambdaQueryWrapper<CopyrightApplication> appWrapper = new LambdaQueryWrapper<>();
+        appWrapper.eq(CopyrightApplication::getApplicationNo, applicationNo);
+        CopyrightApplication application = applicationMapper.selectOne(appWrapper);
+        if (application == null) {
+            return null;
+        }
+
+        LambdaQueryWrapper<OnchainTx> txWrapper = new LambdaQueryWrapper<>();
+        txWrapper.eq(OnchainTx::getApplicationId, application.getId())
+                .orderByDesc(OnchainTx::getCreatedAt)
+                .last("limit 1");
+        OnchainTx onchainTx = onchainTxMapper.selectOne(txWrapper);
+
+        ApplicationStatusResponse response = new ApplicationStatusResponse();
+        response.setApplicationNo(applicationNo);
+        response.setSoftwareName(application.getSoftwareName());
+        response.setStatus(application.getStatus());
+        response.setSimilarityScore(application.getSimilarityScore());
+        response.setRiskLevel(application.getRiskLevel());
+        response.setRiskReason(application.getRiskReason());
+        if (onchainTx != null) {
+            response.setTxHash(onchainTx.getTxHash());
+            response.setBlockNumber(onchainTx.getBlockNumber());
+            response.setErrorMessage(onchainTx.getErrorMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public QueryResult queryByHash(String fileHash) {
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CopyrightRecord::getFileHash, fileHash);
+        CopyrightRecord record = recordMapper.selectOne(wrapper);
+
+        if (record == null) {
+            return null;
+        }
+
+        return convertToQueryResult(record);
+    }
+
+    @Override
+    public QueryResult queryByApplicationNo(String applicationNo) {
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CopyrightRecord::getApplicationNo, applicationNo);
+        CopyrightRecord record = recordMapper.selectOne(wrapper);
+        if (record != null) {
+            return convertToQueryResult(record);
+        }
+
+        LambdaQueryWrapper<CopyrightApplication> appWrapper = new LambdaQueryWrapper<>();
+        appWrapper.eq(CopyrightApplication::getApplicationNo, applicationNo);
+        CopyrightApplication application = applicationMapper.selectOne(appWrapper);
+        if (application == null) {
+            return null;
+        }
+
+        LambdaQueryWrapper<CopyrightEvidence> evidenceWrapper = new LambdaQueryWrapper<>();
+        evidenceWrapper.eq(CopyrightEvidence::getApplicationId, application.getId()).last("limit 1");
+        CopyrightEvidence evidence = evidenceMapper.selectOne(evidenceWrapper);
+
+        QueryResult result = new QueryResult();
+        result.setApplicationId(application.getId());
+        result.setApplicationNo(application.getApplicationNo());
+        result.setSoftwareName(application.getSoftwareName());
+        result.setDescription(application.getDescription());
+        result.setUserId(application.getUserId());
+        result.setSubjectType(application.getSubjectType());
+        result.setSubjectId(application.getSubjectId());
+        result.setSubjectName(application.getSubjectName());
+        result.setBizStatus(application.getStatus());
+        result.setRiskLevel(application.getRiskLevel());
+        result.setRiskReason(application.getRiskReason());
+        result.setSimilarityScore(application.getSimilarityScore());
+        result.setCreatedAt(application.getCreatedAt());
+        result.setUpdatedAt(application.getUpdatedAt());
+        if (evidence != null) {
+            result.setFileHash(evidence.getFileHash());
+            result.setMetadataHash(evidence.getMetadataHash());
+            result.setEvidenceRootHash(evidence.getEvidenceRootHash());
+            result.setNormalizedHash(evidence.getNormalizedHash());
+            result.setSemanticHash(evidence.getSemanticHash());
+        }
+        return result;
+    }
+
+    @Override
+    public Page<QueryResult> getMyRecords(Integer page, Integer size, String keyword, String bizStatus) {
+        Long userId = authService.getCurrentUserId();
+        User currentUser = authService.getCurrentUser();
+
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        if (currentUser != null
+                && AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())
+                && AuthDomainRules.ENTERPRISE_ROLE_OWNER.equals(currentUser.getEnterpriseRole())) {
+            wrapper.eq(CopyrightRecord::getSubjectType, AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE)
+                    .eq(CopyrightRecord::getSubjectId, currentUser.getEnterpriseId());
+        } else if (currentUser != null
+                && AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())
+                && AuthDomainRules.ENTERPRISE_ROLE_LEGAL.equals(currentUser.getEnterpriseRole())
+                && AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_ALL.equals(currentUser.getEnterpriseLegalScope())) {
+            wrapper.eq(CopyrightRecord::getSubjectType, AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE)
+                    .eq(CopyrightRecord::getSubjectId, currentUser.getEnterpriseId());
+        } else {
+            wrapper.eq(CopyrightRecord::getUserId, userId);
+        }
+
+        if (StringUtils.hasText(keyword)) {
+            wrapper.and(w -> w.like(CopyrightRecord::getSoftwareName, keyword)
+                    .or()
+                    .like(CopyrightRecord::getApplicationNo, keyword));
+        }
+
+        if (StringUtils.hasText(bizStatus)) {
+            wrapper.eq(CopyrightRecord::getBizStatus, bizStatus);
+        }
+
+        wrapper.orderByDesc(CopyrightRecord::getCreatedAt);
+
+        Page<CopyrightRecord> recordPage = new Page<>(page, size);
+        Page<CopyrightRecord> resultPage = recordMapper.selectPage(recordPage, wrapper);
+
+        Page<QueryResult> queryResultPage = new Page<>(page, size, resultPage.getTotal());
+        List<QueryResult> queryResults = resultPage.getRecords().stream()
+                .map(this::convertToQueryResult)
+                .collect(Collectors.toList());
+        queryResultPage.setRecords(queryResults);
+
+        return queryResultPage;
+    }
+
+    @Override
+    public Page<QueryResult> getEnterpriseRecords(Integer page, Integer size, String keyword, String bizStatus) {
+        User currentUser = authService.getCurrentUser();
+        if (currentUser == null
+                || !AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())
+                || currentUser.getEnterpriseId() == null) {
+            throw new RuntimeException("当前用户不属于企业主体");
+        }
+        if (AuthDomainRules.ENTERPRISE_ROLE_DEVELOPER.equals(currentUser.getEnterpriseRole())) {
+            throw new RuntimeException("企业开发者仅可查看个人提交记录");
+        }
+        if (AuthDomainRules.ENTERPRISE_ROLE_LEGAL.equals(currentUser.getEnterpriseRole())
+                && !AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_ALL.equals(currentUser.getEnterpriseLegalScope())) {
+            throw new RuntimeException("当前法务账号未被授予全企业查看权限");
+        }
+
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CopyrightRecord::getSubjectType, AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE)
+                .eq(CopyrightRecord::getSubjectId, currentUser.getEnterpriseId());
+        if (StringUtils.hasText(keyword)) {
+            wrapper.and(w -> w.like(CopyrightRecord::getSoftwareName, keyword)
+                    .or()
+                    .like(CopyrightRecord::getApplicationNo, keyword)
+                    .or()
+                    .like(CopyrightRecord::getSubjectName, keyword));
+        }
+        if (StringUtils.hasText(bizStatus)) {
+            wrapper.eq(CopyrightRecord::getBizStatus, bizStatus);
+        }
+        wrapper.orderByDesc(CopyrightRecord::getCreatedAt);
+        Page<CopyrightRecord> recordPage = new Page<>(page, size);
+        Page<CopyrightRecord> resultPage = recordMapper.selectPage(recordPage, wrapper);
+
+        Page<QueryResult> queryResultPage = new Page<>(page, size, resultPage.getTotal());
+        queryResultPage.setRecords(resultPage.getRecords().stream()
+                .map(this::convertToQueryResult)
+                .collect(Collectors.toList()));
+        return queryResultPage;
+    }
+
+    @Override
+    public Page<QueryResult> getAllCopyrights(Integer page, Integer size, String keyword, String bizStatus) {
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+
+        if (StringUtils.hasText(keyword)) {
+            wrapper.like(CopyrightRecord::getSoftwareName, keyword)
+                    .or()
+                    .like(CopyrightRecord::getFileHash, keyword)
+                    .or()
+                    .like(CopyrightRecord::getApplicationNo, keyword);
+        }
+
+        if (StringUtils.hasText(bizStatus)) {
+            wrapper.eq(CopyrightRecord::getBizStatus, bizStatus);
+        }
+
+        wrapper.orderByDesc(CopyrightRecord::getCreatedAt);
+
+        Page<CopyrightRecord> recordPage = new Page<>(page, size);
+        Page<CopyrightRecord> resultPage = recordMapper.selectPage(recordPage, wrapper);
+
+        Page<QueryResult> queryResultPage = new Page<>(page, size, resultPage.getTotal());
+        List<QueryResult> queryResults = resultPage.getRecords().stream()
+                .map(this::convertToQueryResult)
+                .collect(Collectors.toList());
+        queryResultPage.setRecords(queryResults);
+
+        return queryResultPage;
+    }
+
+    @Override
+    public Page<QueryResult> getAuditRecords(Integer page, Integer size, String keyword, String auditStatus) {
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.hasText(keyword)) {
+            wrapper.like(CopyrightRecord::getSoftwareName, keyword)
+                    .or()
+                    .like(CopyrightRecord::getFileHash, keyword)
+                    .or()
+                    .like(CopyrightRecord::getSubjectName, keyword);
+        }
+        if (StringUtils.hasText(auditStatus)) {
+            wrapper.eq(CopyrightRecord::getAuditStatus, auditStatus);
+        }
+        wrapper.orderByDesc(CopyrightRecord::getCreatedAt);
+
+        Page<CopyrightRecord> recordPage = new Page<>(page, size);
+        Page<CopyrightRecord> resultPage = recordMapper.selectPage(recordPage, wrapper);
+
+        Page<QueryResult> queryResultPage = new Page<>(page, size, resultPage.getTotal());
+        List<QueryResult> queryResults = resultPage.getRecords().stream()
+                .map(this::convertToQueryResult)
+                .collect(Collectors.toList());
+        queryResultPage.setRecords(queryResults);
+        return queryResultPage;
+    }
+
+    @Override
+    public void auditRecord(Long recordId, String auditStatus, String auditComment) {
+        if (!"APPROVED".equals(auditStatus) && !"REJECTED".equals(auditStatus)) {
+            throw new RuntimeException("审核状态不合法");
+        }
+        CopyrightRecord record = recordMapper.selectById(recordId);
+        if (record == null) {
+            throw new RuntimeException("版权记录不存在");
+        }
+        record.setAuditStatus(auditStatus);
+        record.setAuditComment(auditComment);
+        record.setAuditedBy(authService.getCurrentUserId());
+        record.setAuditedAt(java.time.LocalDateTime.now());
+        recordMapper.updateById(record);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void reviewApplication(Long applicationId, String reviewResult, String reviewNote) {
+        if (!"APPROVED".equals(reviewResult) && !"REJECTED".equals(reviewResult)) {
+            throw new RuntimeException("复核结论不合法");
+        }
+        CopyrightApplication application = applicationMapper.selectById(applicationId);
+        if (application == null) {
+            throw new RuntimeException("申请不存在");
+        }
+        if (!"PENDING_REVIEW".equals(application.getStatus())) {
+            throw new RuntimeException("当前申请不在待复核状态");
+        }
+
+        LambdaQueryWrapper<CopyrightEvidence> evidenceWrapper = new LambdaQueryWrapper<>();
+        evidenceWrapper.eq(CopyrightEvidence::getApplicationId, application.getId()).last("limit 1");
+        CopyrightEvidence evidence = evidenceMapper.selectOne(evidenceWrapper);
+        if (evidence == null) {
+            throw new RuntimeException("申请证据不存在");
+        }
+
+        if ("REJECTED".equals(reviewResult)) {
+            application.setStatus("REJECTED");
+            application.setRiskReason(reviewNote);
+            applicationMapper.updateById(application);
+            return;
+        }
+
+        Long userId = application.getUserId();
+        String resolvedReviewNote = StringUtils.hasText(reviewNote) ? reviewNote : "人工复核通过";
+        SimilarityDecision decision = new SimilarityDecision(
+                application.getSimilarityScore() == null ? 0 : application.getSimilarityScore(),
+                application.getRiskLevel(),
+                application.getRiskReason(),
+                false
+        );
+        processOnchain(
+                application,
+                evidence,
+                toApplyRequest(application),
+                null,
+                userId,
+                decision,
+                reviewResult,
+                resolvedReviewNote
+        );
+    }
+
+    private String processOnchain(CopyrightApplication application,
+                                  CopyrightEvidence evidence,
+                                  ApplyCopyrightRequest request,
+                                  User currentUser,
+                                  Long userId,
+                                  SimilarityDecision similarityDecision,
+                                  String reviewResult,
+                                  String reviewNote) {
+        OnchainTx onchainTx = new OnchainTx();
+        onchainTx.setApplicationId(application.getId());
+        onchainTx.setContractName("SoftwareEvidenceAnchor");
+        onchainTx.setContractVersion("V2");
+        onchainTx.setStatus("PENDING");
+        onchainTxMapper.insert(onchainTx);
+
+        log.info("=== 区块链交易准备 ===");
+        log.info("配置的合约地址: {}", contractAddress);
+        log.info("调用者地址: {}", cryptoKeyPair.getAddress());
+        log.info("客户端群组: {}", client.getGroup());
+
+        String normalizedAddress = contractAddress;
+        if (!normalizedAddress.startsWith("0x") && normalizedAddress.length() > 20) {
+            try {
+                BigInteger bigInt = new BigInteger(normalizedAddress);
+                normalizedAddress = "0x" + bigInt.toString(16);
+                log.info("地址格式转换: {} -> {}", contractAddress, normalizedAddress);
+            } catch (Exception e) {
+                log.warn("地址转换失败,使用原始地址: {}", e.getMessage());
+            }
+        }
+
+        SoftwareEvidenceAnchor contract = SoftwareEvidenceAnchor.load(normalizedAddress, client, cryptoKeyPair);
+        log.info("加载后的合约对象地址: {}", contract.getContractAddress());
+        log.info("证据根哈希: {}", evidence.getEvidenceRootHash());
+        log.info("软件名称: {}", request.getSoftwareName());
+        log.info("开始执行区块链交易, 合约地址: {}, 证据根哈希: {}", contractAddress, evidence.getEvidenceRootHash());
+
+        try {
+            byte[] hashBytes = FileHashUtils.hexStringToBytes(evidence.getEvidenceRootHash());
+            var existingRecord = contract.queryEvidence(hashBytes);
+            if (existingRecord != null && existingRecord.getValue5()) {
+                String errorMsg = String.format(
+                        "该证据根哈希已在区块链上注册 - 拥有者: %s, 时间戳: %d",
+                        existingRecord.getValue2(),
+                        existingRecord.getValue3()
+                );
+                log.warn(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("查询区块链记录失败: {}", e.getMessage(), e);
+            throw new RuntimeException("查询区块链失败: " + e.getMessage(), e);
+        }
+
+        TransactionReceipt receipt = contract.registerEvidence(
+                FileHashUtils.hexStringToBytes(evidence.getEvidenceRootHash()),
+                FileHashUtils.hexStringToBytes(evidence.getMetadataHash()),
+                BigInteger.ONE
+        );
+
+        log.info("交易回执 - 状态码: {}, 消息: '{}', 交易哈希: {}, GasUsed: {}, 区块号: {}",
+                receipt.getStatus(), receipt.getMessage(),
+                receipt.getTransactionHash(), receipt.getGasUsed(),
+                receipt.getBlockNumber());
+
+        if (!receipt.isStatusOK()) {
+            String errorMsg = String.format("区块链交易失败 - 状态码: %s, 交易哈希: %s",
+                    receipt.getStatus(), receipt.getTransactionHash());
+            log.error(errorMsg);
+            onchainTx.setStatus("FAILED");
+            onchainTx.setErrorMessage(errorMsg);
+            onchainTxMapper.updateById(onchainTx);
+            application.setStatus("ONCHAIN_FAILED");
+            applicationMapper.updateById(application);
+            throw new RuntimeException(errorMsg);
+        }
+
+        CopyrightRecord record = new CopyrightRecord();
+        record.setFileHash(evidence.getFileHash());
+        record.setSoftwareName(request.getSoftwareName());
+        record.setDescription(request.getDescription());
+        record.setOwnerAddress(receipt.getFrom());
+        record.setTxHash(receipt.getTransactionHash());
+        record.setBlockNumber(receipt.getBlockNumber().longValue());
+        record.setEvidenceRootHash(evidence.getEvidenceRootHash());
+        record.setMetadataHash(evidence.getMetadataHash());
+        record.setNormalizedHash(evidence.getNormalizedHash());
+        record.setSemanticHash(evidence.getSemanticHash());
+        record.setSimilarityScore(similarityDecision.score());
+        record.setRiskLevel(similarityDecision.riskLevel());
+        record.setRiskReason(similarityDecision.riskReason());
+        record.setApplicationId(application.getId());
+        record.setApplicationNo(application.getApplicationNo());
+        record.setUserId(userId != null ? userId : 0L);
+        if (currentUser != null) {
+            record.setSubjectType(currentUser.getAccountType());
+            if (AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())) {
+                record.setSubjectId(currentUser.getEnterpriseId());
+            } else {
+                record.setSubjectId(currentUser.getId());
+            }
+            record.setSubjectName(currentUser.getDisplaySubjectName());
+        } else {
+            record.setSubjectType(application.getSubjectType());
+            record.setSubjectId(application.getSubjectId());
+            record.setSubjectName(application.getSubjectName());
+        }
+        record.setAuditStatus("PENDING");
+        record.setBizStatus("ONCHAIN_SUCCESS");
+        record.setReviewResult(reviewResult);
+        record.setReviewNote(reviewNote);
+        recordMapper.insert(record);
+
+        onchainTx.setStatus("SUCCESS");
+        onchainTx.setTxHash(receipt.getTransactionHash());
+        onchainTx.setBlockNumber(receipt.getBlockNumber().longValue());
+        onchainTx.setErrorMessage(null);
+        onchainTxMapper.updateById(onchainTx);
+        application.setStatus("ONCHAIN_SUCCESS");
+        applicationMapper.updateById(application);
+        return receipt.getTransactionHash();
+    }
+
+    private SimilarityDecision evaluateSimilarity(String semanticHash, User currentUser) {
+        LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.isNotNull(CopyrightRecord::getSemanticHash)
+                .orderByDesc(CopyrightRecord::getCreatedAt)
+                .last("limit " + SIMILARITY_SCAN_LIMIT);
+        List<CopyrightRecord> candidates = recordMapper.selectList(wrapper);
+        if (candidates == null || candidates.isEmpty()) {
+            return new SimilarityDecision(0, "LOW", "未发现相似样本", false);
+        }
+
+        int maxScore = 0;
+        CopyrightRecord matched = null;
+        for (CopyrightRecord candidate : candidates) {
+            int score = ArchiveFingerprintUtils.calculateSimilarityScore(semanticHash, candidate.getSemanticHash());
+            if (score > maxScore) {
+                maxScore = score;
+                matched = candidate;
+            }
+        }
+        if (matched == null) {
+            return new SimilarityDecision(0, "LOW", "未发现相似样本", false);
+        }
+
+        boolean sameSubject = isSameSubject(currentUser, matched);
+        if (maxScore >= HIGH_RISK_THRESHOLD && !sameSubject) {
+            return new SimilarityDecision(maxScore, "HIGH",
+                    "命中高相似跨主体样本 applicationNo=" + matched.getApplicationNo(),
+                    true);
+        }
+        if (maxScore >= HIGH_RISK_THRESHOLD) {
+            return new SimilarityDecision(maxScore, "MEDIUM",
+                    "与同主体历史版本高度相似 applicationNo=" + matched.getApplicationNo(),
+                    false);
+        }
+        if (maxScore >= MEDIUM_RISK_THRESHOLD) {
+            return new SimilarityDecision(maxScore, "MEDIUM",
+                    "命中中风险相似样本 applicationNo=" + matched.getApplicationNo(),
+                    true);
+        }
+        return new SimilarityDecision(maxScore, "LOW",
+                "最高相似度 " + maxScore + "%，低于人工复核阈值",
+                false);
+    }
+
+    private boolean isSameSubject(User currentUser, CopyrightRecord record) {
+        if (currentUser == null || record == null) {
+            return false;
+        }
+        if (!StringUtils.hasText(record.getSubjectType()) || record.getSubjectId() == null) {
+            return false;
+        }
+        if (!record.getSubjectType().equals(currentUser.getAccountType())) {
+            return false;
+        }
+        Long currentSubjectId = AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())
+                ? currentUser.getEnterpriseId()
+                : currentUser.getId();
+        return currentSubjectId != null && currentSubjectId.equals(record.getSubjectId());
+    }
+
+    private ApplyCopyrightRequest toApplyRequest(CopyrightApplication application) {
+        ApplyCopyrightRequest request = new ApplyCopyrightRequest();
+        request.setSoftwareName(application.getSoftwareName());
+        request.setDescription(application.getDescription());
+        return request;
+    }
+
+    private record SimilarityDecision(int score, String riskLevel, String riskReason, boolean requireReview) {
+    }
+
+    private QueryResult convertToQueryResult(CopyrightRecord record) {
+        QueryResult result = new QueryResult();
+        result.setId(record.getId());
+        result.setFileHash(record.getFileHash());
+        result.setSoftwareName(record.getSoftwareName());
+        result.setDescription(record.getDescription());
+        result.setOwnerAddress(record.getOwnerAddress());
+        result.setTxHash(record.getTxHash());
+        result.setBlockNumber(record.getBlockNumber());
+        result.setEvidenceRootHash(record.getEvidenceRootHash());
+        result.setMetadataHash(record.getMetadataHash());
+        result.setNormalizedHash(record.getNormalizedHash());
+        result.setSemanticHash(record.getSemanticHash());
+        result.setSimilarityScore(record.getSimilarityScore());
+        result.setRiskLevel(record.getRiskLevel());
+        result.setRiskReason(record.getRiskReason());
+        result.setCreatedAt(record.getCreatedAt());
+        result.setUpdatedAt(record.getUpdatedAt());
+        result.setUserId(record.getUserId());
+        result.setApplicationId(record.getApplicationId());
+        result.setApplicationNo(record.getApplicationNo());
+        result.setSubjectType(record.getSubjectType());
+        result.setSubjectId(record.getSubjectId());
+        result.setSubjectName(record.getSubjectName());
+        result.setAuditStatus(record.getAuditStatus());
+        result.setBizStatus(record.getBizStatus());
+        result.setAuditComment(record.getAuditComment());
+        result.setReviewResult(record.getReviewResult());
+        result.setReviewNote(record.getReviewNote());
+        result.setSourceApplicationId(record.getSourceApplicationId());
+        result.setAuditedBy(record.getAuditedBy());
+        result.setAuditedAt(record.getAuditedAt());
+        return result;
+    }
+}
+
+package cn.blockchain.copyrightsoft.service.impl;
+
+import cn.blockchain.copyrightsoft.auth.AuthDomainRules;
+import cn.blockchain.copyrightsoft.dto.EnterpriseMemberUpsertRequest;
+import cn.blockchain.copyrightsoft.entity.User;
+import cn.blockchain.copyrightsoft.mapper.UserMapper;
+import cn.blockchain.copyrightsoft.service.AuthService;
+import cn.blockchain.copyrightsoft.service.EnterpriseMemberService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+@Service
+public class EnterpriseMemberServiceImpl implements EnterpriseMemberService {
+    private final UserMapper userMapper;
+    private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
+
+    public EnterpriseMemberServiceImpl(UserMapper userMapper, AuthService authService, PasswordEncoder passwordEncoder) {
+        this.userMapper = userMapper;
+        this.authService = authService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public Page<User> getMembers(Integer page, Integer size, String keyword) {
+        User owner = requireEnterpriseOwner();
+        Page<User> memberPage = new Page<>(page, size);
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getAccountType, AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE)
+                .eq(User::getEnterpriseId, owner.getEnterpriseId());
+        if (StringUtils.hasText(keyword)) {
+            wrapper.and(w -> w.like(User::getUsername, keyword)
+                    .or()
+                    .like(User::getNickname, keyword)
+                    .or()
+                    .like(User::getEmail, keyword));
+        }
+        wrapper.orderByDesc(User::getCreatedAt);
+        Page<User> result = userMapper.selectPage(memberPage, wrapper);
+        result.getRecords().forEach(member -> member.setPassword(null));
+        return result;
+    }
+
+    @Override
+    public User createMember(EnterpriseMemberUpsertRequest request) {
+        User owner = requireEnterpriseOwner();
+        if (!StringUtils.hasText(request.getUsername())) {
+            throw new IllegalArgumentException("用户名不能为空");
+        }
+        if (!StringUtils.hasText(request.getPassword()) || request.getPassword().length() < 6) {
+            throw new IllegalArgumentException("密码不能为空且长度至少6位");
+        }
+        validateEnterpriseRole(request.getEnterpriseRole());
+        LambdaQueryWrapper<User> usernameWrapper = new LambdaQueryWrapper<>();
+        usernameWrapper.eq(User::getUsername, request.getUsername());
+        if (userMapper.selectCount(usernameWrapper) > 0) {
+            throw new IllegalArgumentException("用户名已存在");
+        }
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setNickname(StringUtils.hasText(request.getNickname()) ? request.getNickname() : request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setStatus(request.getStatus() == null ? 1 : request.getStatus());
+        user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE);
+        user.setEnterpriseId(owner.getEnterpriseId());
+        user.setEnterpriseRole(request.getEnterpriseRole());
+        user.setEnterpriseLegalScope(resolveLegalScope(request.getEnterpriseRole(), request.getEnterpriseLegalScope()));
+        user.setRole(resolveGlobalRole(request.getEnterpriseRole()));
+        user.setDisplaySubjectName(owner.getDisplaySubjectName());
+        userMapper.insert(user);
+        user.setPassword(null);
+        return user;
+    }
+
+    @Override
+    public User updateMember(Long memberId, EnterpriseMemberUpsertRequest request) {
+        User owner = requireEnterpriseOwner();
+        User member = getMemberWithinEnterprise(memberId, owner.getEnterpriseId());
+        if (AuthDomainRules.ENTERPRISE_ROLE_OWNER.equals(member.getEnterpriseRole())) {
+            throw new IllegalStateException("不允许编辑企业管理员账号");
+        }
+        if (StringUtils.hasText(request.getNickname())) {
+            member.setNickname(request.getNickname());
+        }
+        if (request.getEmail() != null) {
+            member.setEmail(request.getEmail());
+        }
+        if (request.getPhone() != null) {
+            member.setPhone(request.getPhone());
+        }
+        if (request.getStatus() != null) {
+            member.setStatus(request.getStatus());
+        }
+        if (StringUtils.hasText(request.getPassword())) {
+            if (request.getPassword().length() < 6) {
+                throw new IllegalArgumentException("密码长度不能少于6位");
+            }
+            member.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        if (StringUtils.hasText(request.getEnterpriseRole())) {
+            validateEnterpriseRole(request.getEnterpriseRole());
+            member.setEnterpriseRole(request.getEnterpriseRole());
+            member.setRole(resolveGlobalRole(request.getEnterpriseRole()));
+            member.setEnterpriseLegalScope(resolveLegalScope(request.getEnterpriseRole(), request.getEnterpriseLegalScope()));
+        } else if (StringUtils.hasText(request.getEnterpriseLegalScope())
+                && AuthDomainRules.ENTERPRISE_ROLE_LEGAL.equals(member.getEnterpriseRole())) {
+            member.setEnterpriseLegalScope(resolveLegalScope(member.getEnterpriseRole(), request.getEnterpriseLegalScope()));
+        }
+        userMapper.updateById(member);
+        member.setPassword(null);
+        return member;
+    }
+
+    @Override
+    public void updateMemberStatus(Long memberId, Integer status) {
+        User owner = requireEnterpriseOwner();
+        User member = getMemberWithinEnterprise(memberId, owner.getEnterpriseId());
+        if (AuthDomainRules.ENTERPRISE_ROLE_OWNER.equals(member.getEnterpriseRole())) {
+            throw new IllegalStateException("不允许禁用企业管理员账号");
+        }
+        member.setStatus(status);
+        userMapper.updateById(member);
+    }
+
+    @Override
+    public void updateLegalScope(Long memberId, String legalScope) {
+        User owner = requireEnterpriseOwner();
+        User member = getMemberWithinEnterprise(memberId, owner.getEnterpriseId());
+        if (!AuthDomainRules.ENTERPRISE_ROLE_LEGAL.equals(member.getEnterpriseRole())) {
+            throw new IllegalArgumentException("仅法务角色可配置可见范围");
+        }
+        if (!AuthDomainRules.isEnterpriseLegalScopeValid(legalScope)) {
+            throw new IllegalArgumentException("法务可见范围不合法");
+        }
+        member.setEnterpriseLegalScope(legalScope);
+        userMapper.updateById(member);
+    }
+
+    private User requireEnterpriseOwner() {
+        User currentUser = authService.getCurrentUser();
+        if (currentUser == null) {
+            throw new IllegalStateException("当前用户未登录");
+        }
+        if (!AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE.equals(currentUser.getAccountType())
+                || !AuthDomainRules.ENTERPRISE_ROLE_OWNER.equals(currentUser.getEnterpriseRole())) {
+            throw new IllegalStateException("仅企业管理员可执行此操作");
+        }
+        return currentUser;
+    }
+
+    private User getMemberWithinEnterprise(Long memberId, Long enterpriseId) {
+        User member = userMapper.selectById(memberId);
+        if (member == null) {
+            throw new IllegalArgumentException("成员不存在");
+        }
+        if (!enterpriseId.equals(member.getEnterpriseId())) {
+            throw new IllegalStateException("无权操作其他企业成员");
+        }
+        return member;
+    }
+
+    private void validateEnterpriseRole(String enterpriseRole) {
+        if (!AuthDomainRules.isEnterpriseRoleValid(enterpriseRole)) {
+            throw new IllegalArgumentException("企业角色不合法");
+        }
+    }
+
+    private String resolveGlobalRole(String enterpriseRole) {
+        if (AuthDomainRules.ENTERPRISE_ROLE_LEGAL.equals(enterpriseRole)) {
+            return AuthDomainRules.ROLE_ENTERPRISE_LEGAL;
+        }
+        return AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER;
+    }
+
+    private String resolveLegalScope(String enterpriseRole, String legalScope) {
+        if (!AuthDomainRules.ENTERPRISE_ROLE_LEGAL.equals(enterpriseRole)) {
+            return AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF;
+        }
+        if (!StringUtils.hasText(legalScope)) {
+            return AuthDomainRules.ENTERPRISE_LEGAL_SCOPE_SELF;
+        }
+        if (!AuthDomainRules.isEnterpriseLegalScopeValid(legalScope)) {
+            throw new IllegalArgumentException("法务可见范围不合法");
+        }
+        return legalScope;
+    }
+}
+
+package cn.blockchain.copyrightsoft.utils;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+public final class ArchiveFingerprintUtils {
+
+    private ArchiveFingerprintUtils() {
+    }
+
+    public static ArchiveFingerprint buildFingerprints(byte[] archiveBytes) throws IOException {
+        Map<String, byte[]> entries = extractEntries(archiveBytes);
+        if (entries.isEmpty()) {
+            String fileHash = FileHashUtils.calculateSHA256(archiveBytes);
+            return new ArchiveFingerprint(fileHash, fileHash, 100);
+        }
+
+        String normalizedHash = calculateNormalizedHash(entries);
+        String semanticHash = calculateSemanticHash(entries);
+        int semanticScore = semanticHash.equals(normalizedHash) ? 100 : 95;
+        return new ArchiveFingerprint(normalizedHash, semanticHash, semanticScore);
+    }
+
+    public static int calculateSimilarityScore(String semanticHashA, String semanticHashB) {
+        if (semanticHashA == null || semanticHashB == null) {
+            return 0;
+        }
+        if (semanticHashA.equals(semanticHashB)) {
+            return 100;
+        }
+        int distance = hammingDistance(hexToBytes(semanticHashA), hexToBytes(semanticHashB));
+        int totalBits = Math.max(semanticHashA.length(), semanticHashB.length()) * 4;
+        double ratio = 1.0d - ((double) distance / (double) totalBits);
+        return (int) Math.max(0, Math.min(100, Math.round(ratio * 100)));
+    }
+
+    private static Map<String, byte[]> extractEntries(byte[] archiveBytes) throws IOException {
+        Map<String, byte[]> entries = new LinkedHashMap<>();
+        try (ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(archiveBytes))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.isDirectory()) {
+                    continue;
+                }
+                String normalizedPath = normalizePath(entry.getName());
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int read;
+                while ((read = zis.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+                entries.put(normalizedPath, output.toByteArray());
+            }
+        } catch (IOException ignored) {
+            // Not a zip package or cannot be read as zip.
+        }
+        return entries;
+    }
+
+    private static String calculateNormalizedHash(Map<String, byte[]> entries) {
+        List<String> paths = new ArrayList<>(entries.keySet());
+        Collections.sort(paths);
+        StringBuilder builder = new StringBuilder();
+        for (String path : paths) {
+            builder.append(path).append('|');
+            builder.append(Base64.getEncoder().encodeToString(entries.get(path))).append('\n');
+        }
+        return FileHashUtils.calculateSHA256(builder.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static String calculateSemanticHash(Map<String, byte[]> entries) {
+        List<String> normalizedChunks = new ArrayList<>();
+        for (Map.Entry<String, byte[]> entry : entries.entrySet()) {
+            String normalizedContent = normalizeContent(entry.getValue(), entry.getKey());
+            normalizedChunks.add(entry.getKey() + "|" + normalizedContent);
+        }
+        normalizedChunks.sort(Comparator.naturalOrder());
+        String joined = String.join("\n", normalizedChunks);
+        return FileHashUtils.calculateSHA256(joined.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static String normalizeContent(byte[] bytes, String path) {
+        String lowerPath = path.toLowerCase();
+        if (!(lowerPath.endsWith(".java")
+                || lowerPath.endsWith(".js")
+                || lowerPath.endsWith(".ts")
+                || lowerPath.endsWith(".vue")
+                || lowerPath.endsWith(".xml")
+                || lowerPath.endsWith(".json")
+                || lowerPath.endsWith(".md")
+                || lowerPath.endsWith(".sql")
+                || lowerPath.endsWith(".txt")
+                || lowerPath.endsWith(".yml")
+                || lowerPath.endsWith(".yaml"))) {
+            return FileHashUtils.calculateSHA256(bytes);
+        }
+
+        String text = new String(bytes, StandardCharsets.UTF_8);
+        text = text.replaceAll("(?s)/\\*.*?\\*/", "");
+        text = text.replaceAll("(?m)//.*$", "");
+        text = text.replaceAll("(?m)#.*$", "");
+        text = text.replaceAll("\\s+", "");
+        return text;
+    }
+
+    private static String normalizePath(String rawPath) {
+        return rawPath.replace("\\", "/");
+    }
+
+    private static byte[] hexToBytes(String hex) {
+        byte[] out = new byte[hex.length() / 2];
+        for (int i = 0; i < hex.length(); i += 2) {
+            out[i / 2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4)
+                    + Character.digit(hex.charAt(i + 1), 16));
+        }
+        return out;
+    }
+
+    private static int hammingDistance(byte[] a, byte[] b) {
+        int len = Math.min(a.length, b.length);
+        int distance = 0;
+        for (int i = 0; i < len; i++) {
+            distance += Integer.bitCount((a[i] ^ b[i]) & 0xFF);
+        }
+        distance += Math.abs(a.length - b.length) * 8;
+        return distance;
+    }
+
+    public record ArchiveFingerprint(String normalizedHash, String semanticHash, int similarityBaseline) {
+    }
+}
+
+package cn.blockchain.copyrightsoft.utils;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
+public class FileHashUtils {
+
+    public static String calculateSHA256(byte[] data) {
+        return DigestUtils.sha256Hex(data);
+    }
+
+    public static byte[] hexStringToBytes(String hexString) {
+        int len = hexString.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(hexString.charAt(i), 16) << 4)
+                    + Character.digit(hexString.charAt(i + 1), 16));
+        }
+        return data;
+    }
+}
+
+package cn.blockchain.copyrightsoft.utils;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+@Component
+public class JwtUtils {
+
+    @Value("${jwt.secret:defaultSecretKeyForCopyrightSystem2026MustBeLongEnough}")
+    private String secret;
+
+    @Value("${jwt.expiration:86400000}")
+    private Long expiration;
+
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateToken(String username, Long userId, String role, String accountType, Long enterpriseId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        claims.put("role", role);
+        claims.put("accountType", accountType);
+        claims.put("enterpriseId", enterpriseId);
+        
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + expiration);
+
+        return Jwts.builder()
+                .claims(claims)
+                .subject(username)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(getSigningKey())
+                .compact();
+    }
+
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.getSubject();
+    }
+
+    public Long getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("userId", Long.class);
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("role", String.class);
+    }
+
+    public String getAccountTypeFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("accountType", String.class);
+    }
+
+    public Long getEnterpriseIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("enterpriseId", Long.class);
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
+
+package cn.blockchain.copyrightsoft.utils;
+
+import lombok.Data;
+
+@Data
+public class Result<T> {
+    private Integer code;
+    private String message;
+    private T data;
+
+    private Result(Integer code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
+    public static <T> Result<T> success(T data) {
+        return new Result<>(200, "success", data);
+    }
+
+    public static <T> Result<T> success(String message, T data) {
+        return new Result<>(200, message, data);
+    }
+
+    public static <T> Result<T> error(String message) {
+        return new Result<>(500, message, null);
+    }
+
+    public static <T> Result<T> error(Integer code, String message) {
+        return new Result<>(code, message, null);
+    }
+}
+
+package cn.blockchain.copyrightsoft.vo;
+
+import lombok.Data;
+import java.time.LocalDateTime;
+
+@Data
+public class QueryResult {
+    private Long id;
+    private String fileHash;
+    private String softwareName;
+    private String description;
+    private String ownerAddress;
+    private String txHash;
+    private Long blockNumber;
+    private Long timestamp;
+    private Long fileSize;
+    private String fileType;
+    // 添加用户ID字段
+    private Long userId;
+    private LocalDateTime createTime;
+}
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: copyrightsoft
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.100:3356/soft_copyright?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: xu880410@
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+fisco:
+  bcos:
+    cert-path: classpath:conf/
+    group-id: group0
+#    contract-address: 0x6849f21d1e455e9f0712b1e99fa4fcd23758e8f1
+    contract-address: 0x6ea6907f036ff456d2f0f0a858afa9807ff4b788
+minio:
+  endpoint: http://192.168.1.100:9050
+  access-key: minioadmin
+  secret-key: miniopassword
+  bucket-name: copyright-files
+
+# JWT配置
+jwt:
+  secret: defaultSecretKeyForCopyrightSystem2026MustBeLongEnough
+  expiration: 86400000  # 24小时
+
+logging:
+  level:
+    cn.blockchain.copyrightsoft: debug
+    org.fisco.bcos: debug
+
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+    <bean id="defaultConfigProperty" class="org.fisco.bcos.sdk.v3.config.model.ConfigProperty">
+        <property name="cryptoMaterial">
+            <map>
+                <entry key="certPath" value="conf" />
+                <entry key="useSMCrypto" value="false"/>
+                <!-- SSL certificate configuration -->
+                <!-- entry key="caCert" value="conf/ca.crt" /-->
+                <!-- entry key="sslCert" value="conf/sdk.crt" /-->
+                <!-- entry key="sslKey" value="conf/sdk.key" /-->
+                <!-- GM SSL certificate configuration -->
+                <!-- entry key="caCert" value="conf/gm/gmca.crt" /-->
+                <!-- entry key="sslCert" value="conf/gm/gmsdk.crt" /-->
+                <!-- entry key="sslKey" value="conf/gm/gmsdk.key" /-->
+                <!--entry key="enSslCert" value="conf/gm/gmensdk.crt" /-->
+                <!--entry key="enSslKey" value="conf/gm/gmensdk.key" /-->
+            </map>
+        </property>
+        <property name="network">
+            <map>
+                <entry key="peers">
+                    <list>
+                        <value>127.0.0.1:20200</value>
+                        <value>127.0.0.1:20201</value>
+                    </list>
+                </entry>
+                <entry key="defaultGroup" value="group0" />
+            </map>
+        </property>
+        <!--
+        <property name="amop">
+          <list>
+            <bean id="amopTopic1" class="org.fisco.bcos.sdk.v3.config.model.AmopTopic">
+              <property name="topicName" value="PrivateTopic1" />
+              <property name="password" value="" />
+              <property name="privateKey" value="" />
+              <property name="publicKeys">
+                <list>
+                  <value>conf/amop/consumer_public_key_1.pem</value>
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
+        -->
+        <property name="account">
+            <map>
+                <entry key="keyStoreDir" value="account" />
+                <entry key="accountAddress" value="" />
+                <entry key="accountFileFormat" value="pem" />
+                <entry key="password" value="" />
+                <entry key="accountFilePath" value="" />
+            </map>
+        </property>
+        <property name="threadPool">
+            <map>
+                <entry key="threadPoolSize" value="16" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="defaultConfigOption" class="org.fisco.bcos.sdk.v3.config.ConfigOption">
+        <constructor-arg name="configProperty">
+            <ref bean="defaultConfigProperty"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="bcosSDK" class="org.fisco.bcos.sdk.v3.BcosSDK">
+        <constructor-arg name="configOption">
+            <ref bean="defaultConfigOption"/>
+        </constructor-arg>
+    </bean>
+</beans>
+
+[cryptoMaterial]
+certPath = "."
+
+[network]
+peers=["192.168.1.104:20200"]
+
+[account]
+keyStoreDir = "."
+accountAddress = ""
+accountFileFormat = "pem"
+password = ""
+accountFile = "sdk.key"
+
+[threadPool]
+channelProcessorThreadSize = "1"
+receiptProcessorThreadSize = "1"
+maxBlockingQueueSize = "102400"
+
+package cn.blockchain.copyrightsoft;
+
+import cn.blockchain.copyrightsoft.utils.ArchiveFingerprintUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+class ArchiveFingerprintUtilsTests {
+
+    @Test
+    void shouldKeepSemanticHashWhenOnlyCommentChanges() throws Exception {
+        byte[] v1 = createZip(Map.of("src/Main.java", "public class Main { // comment A\n int value = 1; }\n"));
+        byte[] v2 = createZip(Map.of("src/Main.java", "public class Main { // comment B\n int value = 1; }\n"));
+
+        var fp1 = ArchiveFingerprintUtils.buildFingerprints(v1);
+        var fp2 = ArchiveFingerprintUtils.buildFingerprints(v2);
+
+        Assertions.assertNotEquals(fp1.normalizedHash(), fp2.normalizedHash());
+        Assertions.assertEquals(fp1.semanticHash(), fp2.semanticHash());
+        Assertions.assertEquals(100, ArchiveFingerprintUtils.calculateSimilarityScore(fp1.semanticHash(), fp2.semanticHash()));
+    }
+
+    @Test
+    void shouldLowerSimilarityWhenCoreLogicChanges() throws Exception {
+        byte[] v1 = createZip(Map.of("src/Main.java", "public class Main { int value = 1; }\n"));
+        byte[] v2 = createZip(Map.of("src/Main.java", "public class Main { int value = 2; }\n"));
+
+        var fp1 = ArchiveFingerprintUtils.buildFingerprints(v1);
+        var fp2 = ArchiveFingerprintUtils.buildFingerprints(v2);
+        int score = ArchiveFingerprintUtils.calculateSimilarityScore(fp1.semanticHash(), fp2.semanticHash());
+
+        Assertions.assertTrue(score < 100);
+    }
+
+    private byte[] createZip(Map<String, String> files) throws IOException {
+        Map<String, String> ordered = new LinkedHashMap<>(files);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
+            for (Map.Entry<String, String> entry : ordered.entrySet()) {
+                ZipEntry zipEntry = new ZipEntry(entry.getKey());
+                zos.putNextEntry(zipEntry);
+                zos.write(entry.getValue().getBytes(StandardCharsets.UTF_8));
+                zos.closeEntry();
+            }
+        }
+        return baos.toByteArray();
+    }
+}
+
+package cn.blockchain.copyrightsoft;
+
+import cn.blockchain.copyrightsoft.auth.AuthDomainRules;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+class AuthDomainRulesTests {
+
+    @Test
+    void shouldSupportLegacyUserRoleNormalization() {
+        Assertions.assertEquals(
+                AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER,
+                AuthDomainRules.normalizeRole(AuthDomainRules.ROLE_USER_LEGACY)
+        );
+    }
+
+    @Test
+    void shouldValidateAccountTypeRoleCompatibility() {
+        Assertions.assertTrue(AuthDomainRules.isRoleCompatibleWithAccountType(
+                AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL,
+                AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER
+        ));
+        Assertions.assertTrue(AuthDomainRules.isRoleCompatibleWithAccountType(
+                AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE,
+                AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER
+        ));
+        Assertions.assertFalse(AuthDomainRules.isRoleCompatibleWithAccountType(
+                AuthDomainRules.ACCOUNT_TYPE_ENTERPRISE,
+                AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER
+        ));
+    }
+}
+
+package cn.blockchain.copyrightsoft;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@SpringBootTest
+class CopyrightsoftApplicationTests {
+
+	@Test
+	void contextLoads() {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		String rawPassword = "admin123";
+		String encodedPassword = encoder.encode(rawPassword);
+
+		System.out.println("原始密码: " + rawPassword);
+		System.out.println("BCrypt 加密后: " + encodedPassword);
+		System.out.println("\n请在数据库中执行以下 SQL:");
+		System.out.println("INSERT INTO users (username, password, email, nickname, role, account_type, display_subject_name, status) VALUES ");
+		System.out.println("('admin', '" + encodedPassword + "', 'admin@copyrightsoft.com', '系统管理员', 'ADMIN', 'INDIVIDUAL', '系统管理员', 1);");
+	}
+
+}

@@ -16,6 +16,8 @@
 \usepackage{listings}
 \usepackage{fvextra}
 \usepackage{needspace}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
 
 \setstretch{1.5}
 \setlist[itemize]{leftmargin=2em}
@@ -73,6 +75,48 @@
     \caption{#2}
   \end{figure}
   \noindent 图注：#3
+}
+
+% 业务流程图通用样式
+\tikzset{
+  flowstartstop/.style={
+    rectangle,
+    rounded corners,
+    minimum width=2.8cm,
+    minimum height=0.75cm,
+    draw=black,
+    fill=gray!12,
+    align=center
+  },
+  flowprocess/.style={
+    rectangle,
+    minimum width=2.8cm,
+    minimum height=0.75cm,
+    draw=black,
+    fill=blue!6,
+    align=center
+  },
+  flowdecision/.style={
+    diamond,
+    aspect=2.1,
+    minimum width=2.6cm,
+    minimum height=0.8cm,
+    draw=black,
+    fill=orange!12,
+    align=center
+  },
+  flowline/.style={-{Latex[length=2.2mm]}, thick}
+  ,
+  seqactor/.style={
+    rectangle,
+    minimum width=2.5cm,
+    minimum height=0.75cm,
+    draw=black,
+    fill=green!8,
+    align=center
+  },
+  seqmsg/.style={-{Latex[length=2.2mm]}, thick},
+  seqreturn/.style={-{Latex[length=2mm]}, dashed}
 }
 
 \begin{document}
@@ -193,42 +237,172 @@
 \subsubsection{用户与权限模块}
 \indent\textbf{模块职责}：负责注册登录、主体识别、角色鉴权和会话管理。\par
 \indent\textbf{业务逻辑}：用户完成注册或登录后，系统统一建立身份上下文，并按主体类型（个人/企业）与角色类型执行访问范围控制；后续业务请求在进入业务处理前均进行身份合法性与权限边界校验，确保不同角色仅能访问被授权的数据与操作。\par
+\indent 该模块业务流程如图\ref{fig:user-auth-flow}所示。\par
 
 \textbf{输入输出}：输入账号凭据与注册信息，输出令牌、角色、主体上下文。
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=1.15cm]
+    \node (start) [flowstartstop] {用户发起注册/登录};
+    \node (verify) [flowprocess, below=of start] {校验账号与身份信息};
+    \node (ok) [flowdecision, below=of verify, yshift=-0.1cm] {校验通过?};
+    \node (ctx) [flowprocess, below=of ok, yshift=-0.1cm] {生成JWT与主体上下文};
+    \node (auth) [flowprocess, below=of ctx] {角色授权与访问范围绑定};
+    \node (end) [flowstartstop, below=of auth] {返回登录结果};
+    \node (fail) [flowprocess, right=2.8cm of ok] {返回认证失败信息};
+    \draw [flowline] (start) -- (verify);
+    \draw [flowline] (verify) -- (ok);
+    \draw [flowline] (ok) -- node[right]{是} (ctx);
+    \draw [flowline] (ctx) -- (auth);
+    \draw [flowline] (auth) -- (end);
+    \draw [flowline] (ok.east) -- node[above]{否} (fail.west);
+  \end{tikzpicture}
+  \caption{用户与权限模块业务流程图}
+  \label{fig:user-auth-flow}
+\end{figure}
 
 \subsubsection{版权申请与证据模块}
 \indent\textbf{模块职责}：负责软件文件上传、申请创建、摘要提取与证据落库。\par
 
 \indent\textbf{业务逻辑}：用户提交软件文件及业务信息后，系统先进行参数与文件完整性校验，再生成文件摘要、元数据摘要和相似性判断所需指纹，随后创建申请记录与证据记录，并返回申请编号用于后续状态跟踪。\par
+\indent 该模块业务流程如图\ref{fig:apply-evidence-flow}所示。\par
 
 \textbf{输入输出}：输入软件文件与业务字段，输出申请编号与初始处理状态。
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=1.15cm]
+    \node (start) [flowstartstop] {提交申请与软件文件};
+    \node (check) [flowprocess, below=of start] {校验参数与文件完整性};
+    \node (extract) [flowprocess, below=of check] {提取文件/元数据摘要};
+    \node (fingerprint) [flowprocess, below=of extract] {生成相似性指纹};
+    \node (save) [flowprocess, below=of fingerprint] {写入申请与证据记录};
+    \node (end) [flowstartstop, below=of save] {返回申请编号与初始状态};
+    \draw [flowline] (start) -- (check);
+    \draw [flowline] (check) -- (extract);
+    \draw [flowline] (extract) -- (fingerprint);
+    \draw [flowline] (fingerprint) -- (save);
+    \draw [flowline] (save) -- (end);
+  \end{tikzpicture}
+  \caption{版权申请与证据模块业务流程图}
+  \label{fig:apply-evidence-flow}
+\end{figure}
 
 \subsubsection{风险评估与复核模块}
 \indent\textbf{模块职责}：负责相似度评估、风险分级和人工复核闭环。\par
 
 \indent\textbf{业务逻辑}：系统将新申请与历史样本进行相似性比对，结合分值阈值和主体关系输出风险等级；低风险申请可直接进入后续确权流程，中高风险申请进入人工复核队列，由审核人员作出通过或驳回决策并触发状态迁移。\par
+\indent 该模块业务流程如图\ref{fig:risk-review-flow}所示。\par
 
 \textbf{输入输出}：输入申请记录与历史样本，输出风险等级、复核结论和状态迁移结果。
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=1.15cm]
+    \node (start) [flowstartstop] {读取待评估申请};
+    \node (compare) [flowprocess, below=of start] {与历史样本相似性比对};
+    \node (score) [flowprocess, below=of compare] {计算分值并判定风险等级};
+    \node (risk) [flowdecision, below=of score, yshift=-0.1cm] {是否中高风险?};
+    \node (review) [flowprocess, right=2.8cm of risk] {进入人工复核并给出结论};
+    \node (auto) [flowprocess, below=of risk, yshift=-0.1cm] {低风险自动进入确权流程};
+    \node (state) [flowprocess, below=of auto] {更新申请状态迁移结果};
+    \node (end) [flowstartstop, below=of state] {输出风险与复核结果};
+    \draw [flowline] (start) -- (compare);
+    \draw [flowline] (compare) -- (score);
+    \draw [flowline] (score) -- (risk);
+    \draw [flowline] (risk) -- node[right]{否} (auto);
+    \draw [flowline] (auto) -- (state);
+    \draw [flowline] (state) -- (end);
+    \draw [flowline] (risk.east) -- node[above]{是} (review.west);
+    \draw [flowline] (review.south) |- (state.east);
+  \end{tikzpicture}
+  \caption{风险评估与复核模块业务流程图}
+  \label{fig:risk-review-flow}
+\end{figure}
 
 \subsubsection{上链存证模块}
 \indent\textbf{模块职责}：负责证据摘要锚定、交易回执记录与上链状态更新。\par
 
 \indent\textbf{业务逻辑}：系统在确权节点将证据摘要提交至联盟链进行存证，获取交易哈希、区块高度与执行结果后回写业务数据，形成链上链下一致的确权记录；若交易失败则保留失败原因并进入异常处理分支。\par
+\indent 该模块业务流程如图\ref{fig:onchain-anchor-flow}所示。\par
 
 \textbf{输入输出}：输入证据根哈希与元数据哈希，输出链上交易凭证和确权结果。
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=1.15cm]
+    \node (start) [flowstartstop] {接收确权节点证据摘要};
+    \node (submit) [flowprocess, below=of start] {提交联盟链存证交易};
+    \node (receipt) [flowprocess, below=of submit] {获取交易哈希与区块回执};
+    \node (ok) [flowdecision, below=of receipt, yshift=-0.1cm] {交易成功?};
+    \node (success) [flowprocess, below=of ok, yshift=-0.1cm] {回写成功状态与确权结果};
+    \node (end) [flowstartstop, below=of success] {输出上链凭证};
+    \node (fail) [flowprocess, right=2.8cm of ok] {记录失败原因并进入异常分支};
+    \draw [flowline] (start) -- (submit);
+    \draw [flowline] (submit) -- (receipt);
+    \draw [flowline] (receipt) -- (ok);
+    \draw [flowline] (ok) -- node[right]{是} (success);
+    \draw [flowline] (success) -- (end);
+    \draw [flowline] (ok.east) -- node[above]{否} (fail.west);
+  \end{tikzpicture}
+  \caption{上链存证模块业务流程图}
+  \label{fig:onchain-anchor-flow}
+\end{figure}
 
 \subsubsection{查询溯源模块}
 \indent\textbf{模块职责}：提供按文件哈希和申请号的双通道查询能力。\par
 
 \indent\textbf{业务逻辑}：系统根据查询入口执行差异化检索策略：对外提供按文件哈希的公开核验，对内提供按申请号的流程追踪；查询结果统一整合申请状态、复核状态、上链凭证和证据摘要，保证用户可一站式查看完整链路信息。\par
+\indent 该模块业务流程如图\ref{fig:trace-query-flow}所示。\par
 
 \textbf{输入输出}：输入查询条件，输出版权状态、审核结果、交易回执和证据摘要。
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=1.15cm]
+    \node (start) [flowstartstop] {提交查询条件};
+    \node (route) [flowdecision, below=of start, yshift=-0.1cm] {入口类型?};
+    \node (hash) [flowprocess, left=2.9cm of route] {按文件哈希公开核验};
+    \node (appno) [flowprocess, right=2.9cm of route] {按申请号流程追踪};
+    \node (merge) [flowprocess, below=of route, yshift=-2.1cm] {聚合状态、回执与证据摘要};
+    \node (end) [flowstartstop, below=of merge] {返回统一查询结果};
+    \draw [flowline] (start) -- (route);
+    \draw [flowline] (route.west) -- node[above]{哈希} (hash.east);
+    \draw [flowline] (route.east) -- node[above]{申请号} (appno.west);
+    \draw [flowline] (hash.south) |- (merge.west);
+    \draw [flowline] (appno.south) |- (merge.east);
+    \draw [flowline] (merge) -- (end);
+  \end{tikzpicture}
+  \caption{查询溯源模块业务流程图}
+  \label{fig:trace-query-flow}
+\end{figure}
 
 \subsubsection{平台管理模块}
 \indent\textbf{模块职责}：负责后台治理能力，包括用户管理、角色分配、企业成员维护和全量记录检索。\par
 
 \indent\textbf{业务逻辑}：平台管理侧围绕“账号治理、权限治理、主体治理、记录治理”开展统一管理，支持对用户状态、角色权限、企业成员关系和全局数据进行维护与审计，确保平台运行可控、权限分配可查、治理动作可追溯。\par
+\indent 该模块业务流程如图\ref{fig:platform-admin-flow}所示。\par
 \textbf{输入输出}：输入管理操作参数，输出治理结果与统计视图数据。
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=1.15cm]
+    \node (start) [flowstartstop] {管理员发起治理操作};
+    \node (auth) [flowprocess, below=of start] {校验后台权限与操作范围};
+    \node (exec) [flowprocess, below=of auth] {执行账号/角色/主体/记录治理};
+    \node (audit) [flowprocess, below=of exec] {写入操作审计与状态变更日志};
+    \node (view) [flowprocess, below=of audit] {刷新统计视图与治理结果};
+    \node (end) [flowstartstop, below=of view] {返回管理端反馈};
+    \draw [flowline] (start) -- (auth);
+    \draw [flowline] (auth) -- (exec);
+    \draw [flowline] (exec) -- (audit);
+    \draw [flowline] (audit) -- (view);
+    \draw [flowline] (view) -- (end);
+  \end{tikzpicture}
+  \caption{平台管理模块业务流程图}
+  \label{fig:platform-admin-flow}
+\end{figure}
 
 
 \subsection{数据库设计}
@@ -517,7 +691,28 @@
 \indent\textbf{实现过程}：用户在前端提交注册或登录信息后，系统首先进行参数完整性校验与账号合法性检查。登录成功后生成访问令牌，并返回角色类型、主体类型、企业归属等身份上下文。后续请求统一基于令牌进行身份识别和权限判定，确保个人开发者、企业开发者、法务、审核员、管理员在各自授权范围内访问功能。\par
 \indent\textbf{关键实现点}：支持个人与企业双主体注册；企业注册时同步建立企业主体信息；登录后统一生成标准化角色标识，避免因角色字符串差异导致权限漂移。\par
 
-\designfigure{02-login.png}{模块一-登录与身份上下文实现截图}{
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (u) [seqactor] at (0,0) {用户};
+    \node (f) [seqactor] at (4,0) {前端};
+    \node (a) [seqactor] at (8,0) {认证服务};
+    \node (db) [seqactor] at (12,0) {用户库};
+    \draw (u.south) -- ++(0,-4.6);
+    \draw (f.south) -- ++(0,-4.6);
+    \draw (a.south) -- ++(0,-4.6);
+    \draw (db.south) -- ++(0,-4.6);
+    \draw [seqmsg] (u.south)+(0,-0.5) -- node[above]{提交注册/登录} (f.south)+(0,-0.5);
+    \draw [seqmsg] (f.south)+(0,-1.3) -- node[above]{调用认证接口} (a.south)+(0,-1.3);
+    \draw [seqmsg] (a.south)+(0,-2.1) -- node[above]{查询用户信息} (db.south)+(0,-2.1);
+    \draw [seqreturn] (db.south)+(0,-2.9) -- node[above]{返回账号数据} (a.south)+(0,-2.9);
+    \draw [seqmsg] (a.south)+(0,-3.7) -- node[above]{签发JWT与主体上下文} (f.south)+(0,-3.7);
+    \draw [seqreturn] (f.south)+(0,-4.5) -- node[above]{返回登录结果} (u.south)+(0,-4.5);
+  \end{tikzpicture}
+  \caption{登录与身份上下文时序图}
+\end{figure}
+
+\designfigure{02-login.png}{登录与身份上下文实现截图}{
 登录后返回令牌、角色与主体信息，作为后续接口访问控制依据。
 }
 
@@ -541,7 +736,29 @@ String token = jwtUtils.generateToken(
 \indent 4）\textbf{业务数据落库}：先创建申请主记录（状态初始为待评估），再写入证据记录（含各类哈希与元数据），随后将原始文件写入对象存储并回填文件存储 ID，最终返回申请编号供前端追踪。\par
 \indent\textbf{关键实现点}：采用“链下保存原文、链上保存摘要”策略；申请、证据、文件存储三类数据通过申请 ID 与文件存储 ID 关联形成完整证据链。文件哈希用于确权唯一性判定，规范化哈希与语义哈希用于后续相似性扫描，三者职责分离可同时兼顾“强一致校验”和“近似识别能力”。\par
 
-\designfigure{04-apply-form.png}{模块二-版权申请与证据生成截图}{
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (u) [seqactor] at (0,0) {用户};
+    \node (f) [seqactor] at (3.8,0) {前端};
+    \node (s) [seqactor] at (7.6,0) {申请服务};
+    \node (m) [seqactor] at (11.4,0) {对象存储/数据库};
+    \draw (u.south) -- ++(0,-5.4);
+    \draw (f.south) -- ++(0,-5.4);
+    \draw (s.south) -- ++(0,-5.4);
+    \draw (m.south) -- ++(0,-5.4);
+    \draw [seqmsg] (u.south)+(0,-0.6) -- node[above]{上传文件与表单} (f.south)+(0,-0.6);
+    \draw [seqmsg] (f.south)+(0,-1.4) -- node[above]{提交申请接口} (s.south)+(0,-1.4);
+    \draw [seqmsg] (s.south)+(0,-2.2) -- node[above]{完整性校验与摘要提取} (s.south)+(0.1,-2.2);
+    \draw [seqmsg] (s.south)+(0,-3.0) -- node[above]{写申请/证据记录并存文件} (m.south)+(0,-3.0);
+    \draw [seqreturn] (m.south)+(0,-3.8) -- node[above]{返回存储ID与落库结果} (s.south)+(0,-3.8);
+    \draw [seqreturn] (s.south)+(0,-4.6) -- node[above]{返回申请编号} (f.south)+(0,-4.6);
+    \draw [seqreturn] (f.south)+(0,-5.3) -- node[above]{展示提交成功} (u.south)+(0,-5.3);
+  \end{tikzpicture}
+  \caption{版权申请与证据生成时序图}
+\end{figure}
+
+\designfigure{04-apply-form.png}{版权申请与证据生成截图}{
 申请页完成文件上传、业务字段录入和申请结果反馈。
 }
 
@@ -572,7 +789,29 @@ applicationMapper.insert(application);
 \indent 4）\textbf{状态机控制}：仅待复核状态允许审核员执行“通过/驳回”；系统在复核接口中再次校验 \texttt{PENDING\_REVIEW} 状态，防止重复审核和越状态处理。\par
 \indent\textbf{关键实现点}：\texttt{maxScore} 采用“候选集合最大相似度”策略，解释性强且便于阈值治理；分级逻辑叠加“同主体修正”规则，可在拦截跨主体高相似风险的同时，减少同主体版本迭代的误判。\par
 
-\designfigure{14-audit-list.png}{模块三-风险评估与复核截图}{
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (rv) [seqactor] at (0,0) {审核员};
+    \node (f) [seqactor] at (3.8,0) {前端};
+    \node (r) [seqactor] at (7.6,0) {风控/复核服务};
+    \node (db) [seqactor] at (11.4,0) {申请与历史库};
+    \draw (rv.south) -- ++(0,-5.4);
+    \draw (f.south) -- ++(0,-5.4);
+    \draw (r.south) -- ++(0,-5.4);
+    \draw (db.south) -- ++(0,-5.4);
+    \draw [seqmsg] (rv.south)+(0,-0.6) -- node[above]{进入待复核列表} (f.south)+(0,-0.6);
+    \draw [seqmsg] (f.south)+(0,-1.4) -- node[above]{请求风险详情} (r.south)+(0,-1.4);
+    \draw [seqmsg] (r.south)+(0,-2.2) -- node[above]{加载样本并计算maxScore} (db.south)+(0,-2.2);
+    \draw [seqreturn] (db.south)+(0,-3.0) -- node[above]{返回风险等级与命中样本} (r.south)+(0,-3.0);
+    \draw [seqmsg] (rv.south)+(0,-3.8) -- node[above]{提交通过/驳回} (f.south)+(0,-3.8);
+    \draw [seqmsg] (f.south)+(0,-4.6) -- node[above]{更新复核结论与状态} (r.south)+(0,-4.6);
+    \draw [seqreturn] (r.south)+(0,-5.3) -- node[above]{返回处理结果} (f.south)+(0,-5.3);
+  \end{tikzpicture}
+  \caption{风险评估与人工复核时序图}
+\end{figure}
+
+\designfigure{14-audit-list.png}{风险评估与复核截图}{
 审核员可查看风险原因并对申请执行通过或驳回动作。
 }
 
@@ -604,7 +843,29 @@ return new SimilarityDecision(maxScore, "LOW", "...", false);
 \indent\textbf{实现过程}：对通过自动校验或人工复核的申请，系统执行链上确权流程。首先检查证据根哈希是否重复，再调用联盟链合约写入证据摘要；交易完成后回写交易哈希、区块高度、执行状态，并同步更新申请状态与版权记录。\par
 \indent\textbf{关键实现点}：上链前做重复性检查，避免重复确权；交易结果与业务状态双向绑定，确保链上链下一致。\par
 
-\designfigure{07-onchain-success.png}{模块四-链上确权结果截图}{
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (s) [seqactor] at (0,0) {确权服务};
+    \node (db) [seqactor] at (3.8,0) {业务数据库};
+    \node (bc) [seqactor] at (7.6,0) {联盟链合约};
+    \node (tx) [seqactor] at (11.4,0) {交易回执服务};
+    \draw (s.south) -- ++(0,-5.4);
+    \draw (db.south) -- ++(0,-5.4);
+    \draw (bc.south) -- ++(0,-5.4);
+    \draw (tx.south) -- ++(0,-5.4);
+    \draw [seqmsg] (s.south)+(0,-0.6) -- node[above]{查询证据与重复性校验} (db.south)+(0,-0.6);
+    \draw [seqreturn] (db.south)+(0,-1.4) -- node[above]{返回可上链数据} (s.south)+(0,-1.4);
+    \draw [seqmsg] (s.south)+(0,-2.2) -- node[above]{提交registerEvidence} (bc.south)+(0,-2.2);
+    \draw [seqmsg] (bc.south)+(0,-3.0) -- node[above]{生成交易回执} (tx.south)+(0,-3.0);
+    \draw [seqreturn] (tx.south)+(0,-3.8) -- node[above]{返回txHash/区块高度} (s.south)+(0,-3.8);
+    \draw [seqmsg] (s.south)+(0,-4.6) -- node[above]{回写申请状态与版权记录} (db.south)+(0,-4.6);
+    \draw [seqreturn] (db.south)+(0,-5.3) -- node[above]{确权完成} (s.south)+(0,-5.3);
+  \end{tikzpicture}
+  \caption{链上确权与回执落库时序图}
+\end{figure}
+
+\designfigure{07-onchain-success.png}{链上确权结果截图}{
 页面展示交易哈希和上链状态，支持用户对确权结果进行核验。
 }
 
@@ -622,7 +883,28 @@ onchainTx.setTxHash(receipt.getTransactionHash());
 \indent\textbf{实现过程}：系统提供按文件哈希和申请号两类查询入口。按哈希查询用于公开核验是否已确权；按申请号查询用于业务进度追踪。查询服务会聚合申请状态、复核结果、交易回执与证据摘要，统一返回可读性结果。\par
 \indent\textbf{关键实现点}：查询结果采用统一结构包装，避免不同入口返回字段不一致；对外接口暴露必要信息，对内接口补充流程细节，兼顾公开核验与内部审计。\par
 
-\designfigure{09-hash-query-result.png}{模块五-查询溯源实现截图}{
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (u) [seqactor] at (0,0) {查询用户};
+    \node (f) [seqactor] at (3.8,0) {前端};
+    \node (q) [seqactor] at (7.6,0) {查询服务};
+    \node (db) [seqactor] at (11.4,0) {记录/交易库};
+    \draw (u.south) -- ++(0,-5.0);
+    \draw (f.south) -- ++(0,-5.0);
+    \draw (q.south) -- ++(0,-5.0);
+    \draw (db.south) -- ++(0,-5.0);
+    \draw [seqmsg] (u.south)+(0,-0.6) -- node[above]{输入文件哈希/申请号} (f.south)+(0,-0.6);
+    \draw [seqmsg] (f.south)+(0,-1.4) -- node[above]{调用查询接口} (q.south)+(0,-1.4);
+    \draw [seqmsg] (q.south)+(0,-2.2) -- node[above]{按入口检索申请与回执} (db.south)+(0,-2.2);
+    \draw [seqreturn] (db.south)+(0,-3.0) -- node[above]{返回状态、交易与证据} (q.south)+(0,-3.0);
+    \draw [seqreturn] (q.south)+(0,-3.8) -- node[above]{封装统一结果} (f.south)+(0,-3.8);
+    \draw [seqreturn] (f.south)+(0,-4.9) -- node[above]{展示溯源详情} (u.south)+(0,-4.9);
+  \end{tikzpicture}
+  \caption{查询溯源与详情展示时序图}
+\end{figure}
+
+\designfigure{09-hash-query-result.png}{查询溯源实现截图}{
 查询页返回确权状态、交易信息和证据摘要，支持快速溯源。
 }
 
@@ -639,7 +921,28 @@ if (record != null) return convertToQueryResult(record);
 \indent\textbf{实现过程}：管理员进入后台后可进行用户管理、角色分配、账号状态维护、密码重置、企业检索与全量版权记录管理；企业管理员可进行成员管理与法务可见范围配置。治理动作均记录在系统日志与业务表中，保证可审计。\par
 \indent\textbf{关键实现点}：管理动作受角色权限与主体边界双重约束；企业角色调整时校验企业ID与角色兼容性，防止越权分配。\par
 
-\designfigure{16-admin-dashboard.png}{模块六-后台治理实现截图}{
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (ad) [seqactor] at (0,0) {管理员};
+    \node (f) [seqactor] at (3.8,0) {管理前端};
+    \node (am) [seqactor] at (7.6,0) {管理服务};
+    \node (db) [seqactor] at (11.4,0) {治理数据/日志库};
+    \draw (ad.south) -- ++(0,-5.0);
+    \draw (f.south) -- ++(0,-5.0);
+    \draw (am.south) -- ++(0,-5.0);
+    \draw (db.south) -- ++(0,-5.0);
+    \draw [seqmsg] (ad.south)+(0,-0.6) -- node[above]{发起用户/角色治理} (f.south)+(0,-0.6);
+    \draw [seqmsg] (f.south)+(0,-1.4) -- node[above]{提交管理接口请求} (am.south)+(0,-1.4);
+    \draw [seqmsg] (am.south)+(0,-2.2) -- node[above]{权限校验并执行治理写入} (db.south)+(0,-2.2);
+    \draw [seqreturn] (db.south)+(0,-3.0) -- node[above]{返回更新结果与审计ID} (am.south)+(0,-3.0);
+    \draw [seqreturn] (am.south)+(0,-3.8) -- node[above]{返回治理结果与统计} (f.south)+(0,-3.8);
+    \draw [seqreturn] (f.south)+(0,-4.9) -- node[above]{展示后台结果} (ad.south)+(0,-4.9);
+  \end{tikzpicture}
+  \caption{平台治理与后台管理时序图}
+\end{figure}
+
+\designfigure{16-admin-dashboard.png}{后台治理实现截图}{
 后台集中提供账号治理、角色管理、统计指标与版权记录管理能力。
 }
 

@@ -2,8 +2,10 @@ package cn.blockchain.copyrightsoft.service.impl;
 
 import cn.blockchain.copyrightsoft.auth.AuthDomainRules;
 import cn.blockchain.copyrightsoft.dto.*;
+import cn.blockchain.copyrightsoft.entity.CopyrightRecord;
 import cn.blockchain.copyrightsoft.entity.Enterprise;
 import cn.blockchain.copyrightsoft.entity.User;
+import cn.blockchain.copyrightsoft.mapper.CopyrightRecordMapper;
 import cn.blockchain.copyrightsoft.mapper.EnterpriseMapper;
 import cn.blockchain.copyrightsoft.mapper.UserMapper;
 import cn.blockchain.copyrightsoft.service.AuthService;
@@ -32,6 +34,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private EnterpriseMapper enterpriseMapper;
+
+    @Autowired
+    private CopyrightRecordMapper copyrightRecordMapper;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -361,6 +366,7 @@ public class AuthServiceImpl implements AuthService {
                         .ne(User::getRole, AuthDomainRules.ROLE_ADMIN)
                         .eq(User::getStatus, 1)
         ));
+        statistics.put("totalCopyrights", copyrightRecordMapper.selectCount(new LambdaQueryWrapper<CopyrightRecord>()));
 
         return statistics;
     }
