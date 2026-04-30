@@ -135,8 +135,6 @@
 
   \begin{center}
     \songti\zihao{-4}
-    著作权人：徐子辉\\[0.8em]
-    审核人：徐子辉\\[0.8em]
     完成日期：2026年4月26日
   \end{center}
 
@@ -579,7 +577,7 @@
 \subsection{接口设计}
 \indent 系统接口采用 REST 风格设计，统一通过 HTTP/HTTPS 传输，数据格式为 JSON。除登录与注册等公开接口外，其余接口均要求携带 JWT 令牌，并基于角色与主体范围执行访问控制。接口返回采用统一结果包装结构（状态码、消息、数据），便于前后端统一处理与错误追踪。
 
-\subsubsection{认证与账号接口（\texttt{/api/auth/**}）}
+\subsubsection{认证与账号接口}
 \indent 该组接口用于账号生命周期管理与身份信息维护，如表\ref{tab:auth-apis}所示。
 \Needspace{14\baselineskip}
 \begin{table}[H]
@@ -600,7 +598,7 @@
   \end{tabularx}
 \end{table}
 
-\subsubsection{版权业务接口（\texttt{/api/copyright/**}）}
+\subsubsection{版权业务接口}
 \indent 该组接口用于申请提交、状态查询、公开核验和记录检索，如表\ref{tab:copyright-apis}所示。
 \Needspace{14\baselineskip}
 \begin{table}[H]
@@ -622,7 +620,7 @@
   \end{tabularx}
 \end{table}
 
-\subsubsection{审核接口（\texttt{/api/audit/**}）}
+\subsubsection{审核接口}
 \indent 该组接口用于审核侧待办查询与复核处理，如表\ref{tab:audit-apis}所示。
 \Needspace{14\baselineskip}
 \begin{table}[H]
@@ -641,7 +639,7 @@
   \end{tabularx}
 \end{table}
 
-\subsubsection{管理接口（\texttt{/api/admin/**}）}
+\subsubsection{管理接口）}
 \indent 该组接口用于后台治理，覆盖用户、版权、统计与企业检索功能，如表\ref{tab:admin-apis}所示。
 \Needspace{14\baselineskip}
 \begin{table}[H]
@@ -666,7 +664,7 @@
   \end{tabularx}
 \end{table}
 
-\subsubsection{企业成员接口（\texttt{/api/enterprise/**}）}
+\subsubsection{企业成员接口}
 \indent 该组接口用于企业成员治理与法务可见范围配置，如表\ref{tab:enterprise-apis}所示。
 \Needspace{14\baselineskip}
 \begin{table}[H]

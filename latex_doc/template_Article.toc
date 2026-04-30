@@ -24,11 +24,11 @@
 \contentsline {subsubsection}{\numberline {3.3.1}数据库设计概要}{11}{subsubsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.2}核心数据表设计}{12}{subsubsection.3.3.2}%
 \contentsline {subsection}{\numberline {3.4}接口设计}{16}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}认证与账号接口（\texttt {/api/auth/**}）}{16}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}版权业务接口（\texttt {/api/copyright/**}）}{17}{subsubsection.3.4.2}%
-\contentsline {subsubsection}{\numberline {3.4.3}审核接口（\texttt {/api/audit/**}）}{17}{subsubsection.3.4.3}%
-\contentsline {subsubsection}{\numberline {3.4.4}管理接口（\texttt {/api/admin/**}）}{18}{subsubsection.3.4.4}%
-\contentsline {subsubsection}{\numberline {3.4.5}企业成员接口（\texttt {/api/enterprise/**}）}{18}{subsubsection.3.4.5}%
+\contentsline {subsubsection}{\numberline {3.4.1}认证与账号接口}{16}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}版权业务接口}{17}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}审核接口}{17}{subsubsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.4}管理接口）}{18}{subsubsection.3.4.4}%
+\contentsline {subsubsection}{\numberline {3.4.5}企业成员接口}{18}{subsubsection.3.4.5}%
 \contentsline {section}{\numberline {4}详细设计}{19}{section.4}%
 \contentsline {subsection}{\numberline {4.1}账号注册、登录与身份上下文}{19}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}版权申请提交与证据生成}{21}{subsection.4.2}%
