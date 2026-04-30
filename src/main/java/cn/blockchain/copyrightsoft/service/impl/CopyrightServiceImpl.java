@@ -47,6 +47,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+/**
+ * 版权申请与上链核心服务。
+ * <p>
+ * 该服务负责完整的业务链路：文件摘要计算 -> 相似度评估 -> 申请落库 -> 证据落库/对象存储 -> 区块链上链。
+ * 设计上将“人工复核”与“自动上链”统一为同一流程，并通过 application.status 与 onchain_tx.status 双轨记录业务状态。
+ */
 public class CopyrightServiceImpl implements CopyrightService {
     private static final int HIGH_RISK_THRESHOLD = 95;
     private static final int MEDIUM_RISK_THRESHOLD = 85;
@@ -99,6 +105,7 @@ public class CopyrightServiceImpl implements CopyrightService {
     @Transactional(rollbackFor = Exception.class)
     public ApplicationSubmitResponse submitApplication(MultipartFile file, ApplyCopyrightRequest request) {
         try {
+            // 先生成多种指纹：fileHash 用于精确去重，normalized/semantic 用于近似检测与风险判定。
             byte[] fileBytes = file.getBytes();
             String fileHash = FileHashUtils.calculateSHA256(fileBytes);
             ArchiveFingerprintUtils.ArchiveFingerprint fingerprint = ArchiveFingerprintUtils.buildFingerprints(fileBytes);
@@ -204,6 +211,7 @@ public class CopyrightServiceImpl implements CopyrightService {
             ApplicationSubmitResponse response = new ApplicationSubmitResponse();
             response.setApplicationNo(applicationNo);
             if (similarityDecision.requireReview()) {
+                // 命中中高风险时不直接上链，先进入人工复核，避免跨主体相似代码误登记。
                 response.setStatus("PENDING_REVIEW");
                 response.setTxHash(null);
                 log.info("申请进入人工审核, 申请号: {}, 评分: {}, 原因: {}",
@@ -225,6 +233,7 @@ public class CopyrightServiceImpl implements CopyrightService {
 
     @Override
     public ApplicationStatusResponse getApplicationStatus(String applicationNo) {
+        // 查询申请主状态，并拼接最新链上交易结果，前端据此展示“处理中/成功/失败”。
         LambdaQueryWrapper<CopyrightApplication> appWrapper = new LambdaQueryWrapper<>();
         appWrapper.eq(CopyrightApplication::getApplicationNo, applicationNo);
         CopyrightApplication application = applicationMapper.selectOne(appWrapper);
@@ -490,6 +499,7 @@ public class CopyrightServiceImpl implements CopyrightService {
         }
 
         if ("REJECTED".equals(reviewResult)) {
+            // 人工驳回时只更新申请状态，不触发上链。
             application.setStatus("REJECTED");
             application.setRiskReason(reviewNote);
             applicationMapper.updateById(application);
@@ -524,6 +534,7 @@ public class CopyrightServiceImpl implements CopyrightService {
                                   SimilarityDecision similarityDecision,
                                   String reviewResult,
                                   String reviewNote) {
+        // 先记录一条 PENDING 交易行，保证上链异常时也能追溯到失败原因。
         OnchainTx onchainTx = new OnchainTx();
         onchainTx.setApplicationId(application.getId());
         onchainTx.setContractName("SoftwareEvidenceAnchor");
@@ -554,6 +565,7 @@ public class CopyrightServiceImpl implements CopyrightService {
         log.info("开始执行区块链交易, 合约地址: {}, 证据根哈希: {}", contractAddress, evidence.getEvidenceRootHash());
 
         try {
+            // 上链前先查询是否已存在证据根，避免同证据重复注册导致业务语义冲突。
             byte[] hashBytes = FileHashUtils.hexStringToBytes(evidence.getEvidenceRootHash());
             var existingRecord = contract.queryEvidence(hashBytes);
             if (existingRecord != null && existingRecord.getValue5()) {
@@ -595,6 +607,7 @@ public class CopyrightServiceImpl implements CopyrightService {
             throw new RuntimeException(errorMsg);
         }
 
+        // 仅在交易成功后落正式版权记录，保持“链上状态”为业务真值来源。
         CopyrightRecord record = new CopyrightRecord();
         record.setFileHash(evidence.getFileHash());
         record.setSoftwareName(request.getSoftwareName());
@@ -642,6 +655,7 @@ public class CopyrightServiceImpl implements CopyrightService {
     }
 
     private SimilarityDecision evaluateSimilarity(String semanticHash, User currentUser) {
+        // 仅扫描最近样本，在可接受性能下完成风险筛查。
         LambdaQueryWrapper<CopyrightRecord> wrapper = new LambdaQueryWrapper<>();
         wrapper.isNotNull(CopyrightRecord::getSemanticHash)
                 .orderByDesc(CopyrightRecord::getCreatedAt)

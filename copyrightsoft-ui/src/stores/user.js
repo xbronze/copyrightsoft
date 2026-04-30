@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
 
+/**
+ * 用户登录态 Store。
+ * 该 store 同步维护内存状态与 localStorage，确保刷新后仍可恢复鉴权上下文。
+ */
 export const useUserStore = defineStore('user', {
   state: () => ({
     token: localStorage.getItem('token') || null,
@@ -73,6 +77,7 @@ export const useUserStore = defineStore('user', {
     },
 
     updateUserInfo(username, userId, role, accountType, enterpriseId, enterpriseRole, enterpriseLegalScope) {
+      // 仅覆盖传入字段，未传值字段沿用已有状态，避免局部更新导致信息丢失。
       this.username = username
       this.userId = userId
       this.role = role

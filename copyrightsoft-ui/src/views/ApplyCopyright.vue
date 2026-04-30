@@ -106,6 +106,10 @@
 </template>
 
 <script setup>
+/**
+ * 版权申请页面。
+ * 提交后先拿到申请编号，再根据申请状态轮询查询，直到进入终态（成功/失败）再停止。
+ */
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -164,6 +168,7 @@ const stopPolling = () => {
 
 const startPollingStatus = (applicationNo) => {
   stopPolling()
+  // 使用固定间隔轮询以平衡时效与后端压力；组件卸载或命中终态时主动停止。
   pollingTimer.value = setInterval(async () => {
     try {
       const res = await getApplicationStatus(applicationNo)
@@ -198,6 +203,7 @@ const submitForm = async () => {
         const res = await submitApplication(formData)
         result.value = res.data
         if (!terminalStatuses.includes(result.value.status)) {
+          // 对 PENDING_REVIEW / AUTO_CHECKED 等中间态继续追踪，减少用户手动刷新成本。
           startPollingStatus(result.value.applicationNo)
         }
         ElMessage.success('版权申请提交成功！')

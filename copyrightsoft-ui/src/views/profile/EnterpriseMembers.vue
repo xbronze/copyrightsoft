@@ -102,6 +102,10 @@
 </template>
 
 <script setup>
+/**
+ * 企业成员管理页（企业管理员）。
+ * 提供成员增改、启停与法务可见范围切换，数据范围由后端按企业主体隔离。
+ */
 import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
@@ -207,6 +211,7 @@ const toggleStatus = async (row) => {
 }
 
 const toggleLegalScope = async (row) => {
+  // LEGAL 角色支持 SELF/ALL 双态切换，便于快速调整法务可见范围。
   try {
     const nextScope = row.enterpriseLegalScope === 'ALL' ? 'SELF' : 'ALL'
     await updateEnterpriseLegalScope(row.id, nextScope)

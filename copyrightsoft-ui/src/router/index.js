@@ -1,6 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 
+/**
+ * 前端路由表与统一鉴权入口。
+ * - meta.requiresAuth: 需要登录
+ * - meta.requiresAdmin / requiresAuditor: 平台角色校验
+ * - meta.developerOnly / enterpriseRoles: 主体角色校验
+ */
 const routes = [
   {
     path: '/',
@@ -107,7 +113,7 @@ const router = createRouter({
   routes
 })
 
-// 路由守卫
+// 统一路由守卫：按“登录 -> 平台角色 -> 主体角色 -> 法务范围”顺序拦截，避免条件冲突。
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   const rawRole = localStorage.getItem('role')
@@ -133,6 +139,7 @@ router.beforeEach((to, from, next) => {
   } else if (enterpriseRole === 'LEGAL'
     && to.path === '/profile/enterprise-records'
     && enterpriseLegalScope !== 'ALL') {
+    // 法务仅在 ALL 范围下可看企业全量记录，否则回退到个人记录页。
     next('/profile/records')
   } else {
     next()

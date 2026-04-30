@@ -22,6 +22,12 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
+/**
+ * 管理后台接口。
+ * <p>
+ * 聚合账号管理、版权记录查询、统计信息与企业检索能力。
+ * 该控制器仅做请求编排与异常映射，核心业务规则下沉到 service 层。
+ */
 public class AdminController {
 
     @Autowired

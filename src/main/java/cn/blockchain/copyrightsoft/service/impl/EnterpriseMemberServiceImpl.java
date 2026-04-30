@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
+/**
+ * 企业成员管理服务（企业管理员专用）。
+ * <p>
+ * 负责企业成员的分页查询、创建、编辑、状态控制和法务可见范围配置，
+ * 所有写操作都限制在“当前企业管理员所属 enterpriseId”范围内。
+ */
 public class EnterpriseMemberServiceImpl implements EnterpriseMemberService {
     private final UserMapper userMapper;
     private final AuthService authService;
@@ -143,6 +149,7 @@ public class EnterpriseMemberServiceImpl implements EnterpriseMemberService {
     }
 
     private User requireEnterpriseOwner() {
+        // 在服务层再次校验企业管理员身份，防止仅依赖前端路由限制造成越权。
         User currentUser = authService.getCurrentUser();
         if (currentUser == null) {
             throw new IllegalStateException("当前用户未登录");
@@ -155,6 +162,7 @@ public class EnterpriseMemberServiceImpl implements EnterpriseMemberService {
     }
 
     private User getMemberWithinEnterprise(Long memberId, Long enterpriseId) {
+        // 读取成员后必须确认 enterpriseId 一致，避免跨企业横向越权。
         User member = userMapper.selectById(memberId);
         if (member == null) {
             throw new IllegalArgumentException("成员不存在");

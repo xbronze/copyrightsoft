@@ -13,6 +13,11 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/enterprise")
+/**
+ * 企业成员管理接口。
+ * <p>
+ * 封装企业成员查询、创建、编辑、状态切换与法务可见范围调整能力。
+ */
 public class EnterpriseMemberController {
     private final EnterpriseMemberService enterpriseMemberService;
 

@@ -135,6 +135,10 @@
 </template>
 
 <script setup>
+/**
+ * 个人版权记录页。
+ * 支持按关键词/业务状态分页查询，并通过申请编号拉取单条记录详情。
+ */
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus, Search } from '@element-plus/icons-vue'
@@ -203,6 +207,7 @@ const formatTime = (timeStr) => {
 }
 
 const viewDetail = async (row) => {
+  // 详情接口以申请编号作为稳定业务主键，避免直接暴露内部数据库 ID 语义。
   if (!row?.applicationNo) {
     ElMessage.warning('该记录缺少申请编号，无法查看详情')
     return

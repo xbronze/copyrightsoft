@@ -58,6 +58,10 @@
 </template>
 
 <script setup>
+/**
+ * 审核工作台页面。
+ * 审核员按状态与关键词筛选记录，并提交通过/驳回结论。
+ */
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getAuditRecords, submitAuditAction } from '@/api/audit'
@@ -92,6 +96,7 @@ const loadRecords = async () => {
 }
 
 const submitAudit = async (row, status) => {
+  // 驳回必须填写原因，保证审核结论可追溯。
   try {
     const { value } = await ElMessageBox.prompt(
       status === 'APPROVED' ? '请输入通过备注（可选）' : '请输入驳回原因',

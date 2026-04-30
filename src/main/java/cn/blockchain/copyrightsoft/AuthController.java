@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
+/**
+ * 认证与个人资料接口。
+ * <p>
+ * 对外提供登录、个人/企业注册、当前登录信息查询、资料更新与密码修改。
+ */
 public class AuthController {
 
     @Autowired

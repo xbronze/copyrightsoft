@@ -18,6 +18,12 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
+/**
+ * JWT 认证过滤器。
+ * <p>
+ * 从 Authorization: Bearer token 中提取用户信息并写入 SecurityContext，
+ * 后续鉴权规则统一基于 Spring Security 的 ROLE_* 权限模型执行。
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -47,6 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(username, null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+                // 认证成功后注入上下文；若 token 无效则保持匿名访问，交由后续访问控制拒绝。
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

@@ -1,4 +1,8 @@
 <script setup>
+/**
+ * 应用总布局组件。
+ * 根据当前路由切换三套布局（普通页/管理审核页/个人中心页），并统一承载顶部用户操作入口。
+ */
 import { RouterView, useRouter, useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -45,9 +49,8 @@ const handleUserCommand = (command) => {
   }
 }
 
-// 判断是否在个人中心页面
+// 布局切换标记：控制是否进入侧边栏模式与对应导航。
 const isProfilePage = computed(() => route.path.startsWith('/profile'))
-// 判断是否在管理员页面
 const isAdminPage = computed(() => route.path.startsWith('/admin'))
 const isAuditPage = computed(() => route.path.startsWith('/audit'))
 </script>

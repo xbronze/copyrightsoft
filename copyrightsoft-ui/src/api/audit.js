@@ -1,5 +1,6 @@
 import request from './request'
 
+// 审核 API：审核列表、详情与审核动作提交。
 export function getAuditRecords(params) {
   return request({
     url: '/audit/records',

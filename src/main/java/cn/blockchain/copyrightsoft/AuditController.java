@@ -12,6 +12,11 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/audit")
+/**
+ * 审核工作台接口。
+ * <p>
+ * 提供审核列表、审核详情、版权记录审核与人工复核操作入口。
+ */
 public class AuditController {
 
     private final CopyrightService copyrightService;

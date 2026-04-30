@@ -1,5 +1,6 @@
 import request from './request'
 
+// 版权业务 API：申请提交、状态查询、哈希/申请号检索与记录分页。
 export function applyCopyright(formData) {
   return request({
     url: '/copyright/apply',

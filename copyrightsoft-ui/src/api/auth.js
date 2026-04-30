@@ -1,5 +1,6 @@
 import request from './request'
 
+// 认证 API：登录注册、个人资料与密码维护。
 export function login(credentials) {
   return request({
     url: '/auth/login',

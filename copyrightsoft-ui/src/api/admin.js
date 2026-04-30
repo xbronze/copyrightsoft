@@ -1,5 +1,6 @@
 import request from './request'
 
+// 管理后台 API：账号管理、企业检索、全量版权查询与统计。
 export function getUsers(params) {
   return request({
     url: '/admin/users',

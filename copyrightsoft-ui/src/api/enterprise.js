@@ -1,5 +1,6 @@
 import request from './request'
 
+// 企业成员 API：成员查询、增改、状态与法务可见范围管理。
 export function getEnterpriseMembers(params) {
   return request({
     url: '/enterprise/members',

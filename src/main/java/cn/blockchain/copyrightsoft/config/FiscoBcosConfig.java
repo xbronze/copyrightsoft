@@ -18,6 +18,12 @@ import java.nio.file.Path;
 @Slf4j
 @Data
 @Configuration
+/**
+ * FISCO BCOS 客户端配置。
+ * <p>
+ * 运行时将 classpath 下的链配置文件提取到临时目录，并动态修正 config.toml 中的证书路径，
+ * 避免不同运行目录导致 SDK 无法读取证书的问题。
+ */
 public class FiscoBcosConfig {
 
     @Value("${fisco.bcos.cert-path}")
@@ -87,6 +93,7 @@ public class FiscoBcosConfig {
                 File outputFile = tempDir.resolve(fileName).toFile();
 
                 if ("config.toml".equals(fileName)) {
+                    // config.toml 内 certPath/keyStoreDir 必须指向当前进程可访问的绝对路径。
                     String content = new String(inputStream.readAllBytes());
 
                     content = content.replaceAll("certPath\\s*=\\s*\"[^\"]*\"", "certPath = \"" + tempDirPath + "\"");

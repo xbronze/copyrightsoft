@@ -300,6 +300,11 @@
 </template>
 
 <script setup>
+/**
+ * 管理后台主页。
+ * 覆盖两类核心能力：账号管理（增删改、角色分配、状态切换）与版权记录总览。
+ * 页面内额外维护“最近企业选择缓存”，减少管理员频繁分配企业账号时的重复检索成本。
+ */
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { User, Check, Document, Search } from '@element-plus/icons-vue'
@@ -370,6 +375,7 @@ const loadRecentEnterprises = () => {
 }
 
 const saveRecentEnterprise = (enterprise) => {
+  // 使用去重 + 头插策略保留最近使用企业，提升角色分配操作效率。
   if (!enterprise || !enterprise.id) return
   const merged = [enterprise, ...recentEnterprises.value.filter(item => item.id !== enterprise.id)].slice(0, 8)
   recentEnterprises.value = merged
@@ -545,6 +551,7 @@ const handleResetPassword = async (user) => {
 const searchEnterprises = async (keyword) => {
   try {
     if (!keyword) {
+      // 空关键词先展示本地缓存，再融合后端结果，保证下拉框首屏可用。
       enterpriseOptions.value = [...recentEnterprises.value]
     }
     enterpriseLoading.value = true
@@ -602,6 +609,7 @@ const submitRoleChange = async () => {
       roleDialog.value.enterpriseId
     )
     if (roleDialog.value.role === 'ENTERPRISE_DEVELOPER') {
+      // 角色切换为企业开发者时写入最近企业缓存，便于后续重复操作。
       const selected = enterpriseOptions.value.find(item => item.id === roleDialog.value.enterpriseId)
       saveRecentEnterprise(selected)
     }

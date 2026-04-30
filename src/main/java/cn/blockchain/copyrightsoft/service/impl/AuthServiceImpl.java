@@ -24,6 +24,12 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service
+/**
+ * 认证与账号管理服务。
+ * <p>
+ * 对外提供登录、注册、个人资料维护，以及管理员侧账号增删改查。
+ * 该实现同时维护“全局角色”和“主体信息（个人/企业）”的一致性，防止角色与主体错配。
+ */
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
@@ -97,6 +103,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void registerEnterprise(RegisterRequest request) {
+        // 企业注册流程会先创建企业实体，再创建 OWNER 角色账号并绑定 enterpriseId。
         validateUsernameNotExists(request.getUsername());
         if (!StringUtils.hasText(request.getEnterpriseName())) {
             throw new RuntimeException("企业名称不能为空");
@@ -119,6 +126,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private void registerIndividualUser(RegisterRequest request) {
+        // 个人注册仅允许 INDIVIDUAL 主体，防止客户端伪造主体类型。
         String requestedAccountType = request.getAccountType();
         if (StringUtils.hasText(requestedAccountType)
                 && !AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL.equals(requestedAccountType)) {
@@ -287,6 +295,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if (AuthDomainRules.ROLE_INDIVIDUAL_DEVELOPER.equals(role)) {
+            // 切回个人角色时必须清空企业绑定字段，避免权限脏数据残留。
             user.setRole(role);
             user.setAccountType(AuthDomainRules.ACCOUNT_TYPE_INDIVIDUAL);
             user.setEnterpriseId(null);
@@ -296,6 +305,7 @@ public class AuthServiceImpl implements AuthService {
                 user.setDisplaySubjectName(user.getNickname());
             }
         } else if (AuthDomainRules.ROLE_ENTERPRISE_DEVELOPER.equals(role) || AuthDomainRules.ROLE_ENTERPRISE_LEGAL.equals(role)) {
+            // 企业角色分配必须验证企业可用性，否则会出现不可用企业账号仍可登录的问题。
             if (enterpriseId == null) {
                 throw new IllegalArgumentException("企业开发者必须提供 enterpriseId");
             }
@@ -445,6 +455,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private void applyRoleAndSubject(User user, String role, Long enterpriseId) {
+        // 管理员创建/编辑账号统一走该方法，保证字段写入规则一致。
         if (!StringUtils.hasText(role)) {
             throw new IllegalArgumentException("角色不能为空");
         }

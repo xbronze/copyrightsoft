@@ -14,6 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RestController
 @RequestMapping("/api/copyright")
+/**
+ * 版权申请与查询接口。
+ * <p>
+ * 包含申请提交流程、申请状态查询、哈希查询、申请号查询及个人/企业记录分页查询。
+ */
 public class CopyrightController {
 
     private final CopyrightService copyrightService;
