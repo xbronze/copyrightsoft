@@ -1,0 +1,52 @@
+@startuml
+title 3.1 整体流程业务时序图
+hide footbox
+autonumber
+
+actor "用户端" as User
+participant "版权服务" as Service
+participant "MySQL" as DB
+participant "MinIO" as OSS
+participant "审核端" as Reviewer
+participant "链上合约" as Chain
+
+User -> Service: 提交文件与元数据
+activate Service
+
+Service -> DB: 查询 fileHash 是否已存在
+DB --> Service: 查询结果
+Service -> DB: 查询 normalizedHash 是否已存在
+DB --> Service: 查询结果
+
+Service -> OSS: 上传原始文件
+OSS --> Service: 返回 fileStorageId
+Service -> DB: 写入 application/evidence
+
+Service -> DB: 加载最近200条 semanticHash 候选
+DB --> Service: 返回候选样本
+Service -> Service: 计算 maxScore 与 sameSubject
+
+alt 需要人工复核
+  Service -> DB: 更新 application.status=PENDING_REVIEW
+  Service --> User: 返回申请受理（待人工复核）
+  Reviewer -> Service: 提交复核结论
+
+  alt 复核驳回
+    Service -> DB: 更新 application.status=REJECTED
+    Service --> Reviewer: 返回复核完成（驳回）
+  else 复核通过
+    Service -> Chain: registerEvidence(rootHash, metadataHash)
+    Chain --> Service: txHash, blockNumber
+    Service -> DB: 写入版权记录并更新 ONCHAIN_SUCCESS
+    Service --> Reviewer: 返回复核完成（上链成功）
+  end
+
+else 自动通过
+  Service -> Chain: registerEvidence(rootHash, metadataHash)
+  Chain --> Service: txHash, blockNumber
+  Service -> DB: 写入版权记录并更新 ONCHAIN_SUCCESS
+  Service --> User: 返回上链成功
+end
+
+deactivate Service
+@enduml

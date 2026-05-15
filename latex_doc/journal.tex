@@ -1,10 +1,15 @@
-\documentclass[UTF8,a4paper,12pt]{ctexart}
+% 版式：A4 单栏；正文五号（ctex zihao=5）；全文 1.5 倍行距 \setstretch{1.5}。
+% 篇幅目标约 6--8 页（含参考文献）；节段配比：摘要约半页，引言/相关工作/系统实现/实验各约 1 页，方法约 2--2.5 页，结论约半页。
+\documentclass[UTF8,a4paper,zihao=5]{ctexart}
 \usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{setspace}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage{titlesec}
 \usepackage[superscript,sort,compress]{cite}
 \makeatletter
 \renewcommand{\@cite}[2]{\textsuperscript{[#1\if@tempswa , #2\fi]}}
@@ -14,222 +19,255 @@
   pdfborder={0 0 0}
 }
 \setlength{\emergencystretch}{2em}
-\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\geometry{a4paper,left=2.4cm,right=2.4cm,top=2.4cm,bottom=2.4cm}
 
-\title{面向软件归档的双层摘要相似试探与风险分流方法}
+\setstretch{1.5}
+
+\AtBeginDocument{\setlength{\parindent}{2\ccwd}}
+
+\titlespacing*{\section}{0pt}{0.95\baselineskip}{0.52\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.72\baselineskip}{0.38\baselineskip}
+
+\setlist[itemize]{itemsep=2pt plus 1pt minus 1pt, parsep=0pt, topsep=5pt plus 1pt minus 1pt}
+\setlist[enumerate]{itemsep=2pt plus 1pt minus 1pt, parsep=0pt, topsep=5pt plus 1pt minus 1pt}
+
+\setlength{\abovedisplayskip}{6pt plus 2pt minus 3pt}
+\setlength{\belowdisplayskip}{6pt plus 2pt minus 3pt}
+\setlength{\abovedisplayshortskip}{4pt plus 2pt}
+\setlength{\belowdisplayshortskip}{4pt plus 2pt}
+
+\title{面向软件归档的双层摘要相似试探、风险分流与链上可审计方法}
 \author{作者姓名\thanks{作者单位与电子邮箱}}
 \date{\today}
 
 \begin{document}
 \maketitle
+\vspace{-0.6\baselineskip}
 
 \begin{abstract}
-软件\textbf{归档条目}（单文件、目录树或 ZIP 等压缩包）在 CI/CD 门禁、外包交付验收、开源合规筛查与内部制品风控等链路中高频流转；上述场景需要在\textbf{低算力、可审计、可配置}前提下，对\textbf{重复投递、表层改写（注释/空白/换行等噪声）及跨提交者可疑同质制品}进行\textbf{前置试探分流}，而非输出侵权或相似性终局结论。本文提出与具体垂类业务解耦的可部署范式：对归档完成\textbf{路径规整}后，构建\textbf{双层摘要}——\textbf{规范化摘要}（路径排序后串联、统一编码、对原始字节敏感）用于\textbf{精确去重}；\textbf{表层归一化内容摘要}（文本类条目经声明式表层归一化后按路径序串联再哈希，非文本条目采用原始字节摘要参与串联，规则\textbf{版本化备案}）用于\textbf{表层改写容忍}下的对齐与检索。在两枚表层归一化内容摘要之间定义\textbf{摘要距离分}：将摘要比特串的哈明距离经缩放与裁剪映射至 $[0,100]$。该分值\textbf{不具有}语义或局部敏感指纹意义下的单调解释，\textbf{非}侵权或克隆相似度度量，\textbf{仅作}与阈值联动的\textbf{风险分流信号}。结合提交者关系与规则优先级，流水线输出可解释的风险等级与处置建议（如自动放行与人工复核），并保留字段级\textbf{审计留痕}。本文给出复杂度讨论、适用边界、集成架构与评估协议；实证将在脱敏数据集上独立完成并于定稿汇报。
+许多软件制品以压缩包、目录或单文件形式在组织间流转。在流水线门禁、外包验收、开源合规检查与内部制品治理场景中，常见需求是：以可控算力完成前置筛查、保留可复核证据，并支持策略按业务动态调优。针对“整包哈希对表层改写不敏感、重型相似检测难以直接用于门禁分流”的工程矛盾，本文提出一套轻量可审计的方法框架。
+
+方法上，本文先对归档路径进行规范化，再构建两层 SHA-256 摘要：第一层用于字节级一致性判定；第二层对文本内容进行表层归一化（去注释、压缩空白、统一换行）后摘要，非文本文件以固定格式引入原始内容摘要。进一步地，本文定义基于第二层摘要哈明距离的分值 $S\in[0,100]$，并明确其仅用于风险分流，不解释为语义相似度或法律意义上的实质性相似。为增强治理闭环，本文将规则版本、阈值策略、判定分支与证据摘要纳入可追溯日志，并设计链上锚定与离线回放一致性校验流程。
+
+本文同时给出代价敏感阈值优化、消融设计、统计检验与稳健性评估协议，为后续在脱敏数据集上复现实验和形成可发表结果提供标准化模板。该框架定位于“筛查与分流”层，不替代司法鉴定或深度代码相似分析。
 \end{abstract}
 
-\noindent\textbf{关键词：}软件制品；归档摘要；表层归一化；相似试探；风险分流；可审计风控
+\noindent 关键词：软件制品；归档摘要；表层归一化；相似试探；风险分流；可审计风控
 
-\vspace{0.5em}
-\noindent\textbf{Abstract:}
-Software \emph{archive entries} (single files, directory trees, or compressed bundles such as ZIP) frequently flow through CI/CD gates, outsourced acceptance, open-source compliance screening, and internal artifact risk control. These settings demand \emph{prescreening triage} under constrained compute with \emph{auditability} and \emph{policy configurability}, targeting duplicate submissions, superficially rewritten bundles (comments/whitespace/newline noise), and suspiciously homogeneous drops across submitters---without issuing final infringement or similarity adjudication. We present a deployable, domain-agnostic pipeline: after \emph{path canonicalization}, we construct a \emph{dual-layer digest}. A \emph{canonical archive digest} concatenates sorted paths with unified encoding and raw-byte--sensitive material for \emph{strict deduplication}. A \emph{surface-normalized content digest} applies declarative text normalization (strip comments, collapse whitespace, unify newlines; non-text entries contribute fixed-length raw-byte digests in series), with rules \emph{versioned for reproducibility}, concatenated in deterministic path order for \emph{superficial rewrite tolerance}. Between two surface-normalized content digests we define a \emph{digest distance score} by scaling and clipping the Hamming distance on digest bits to $[0,100]$. This score is \emph{not} a semantic metric nor a locality-sensitive fingerprint; it is \emph{only} a triage signal coupled with thresholds. Together with submitter relationship and prioritized rules, the system yields interpretable risk bands and recommended actions (e.g., auto-pass vs.\ manual review) with field-level audit trails. We discuss complexity, applicability limits, deployment topology, and an evaluation protocol; empirical results will be reported on a de-identified dataset in the final version.
+\vspace{0.35em}
+\noindent Abstract:
+Software is often exchanged as archives or folders. CI/CD checks, outsourced acceptance, compliance screening, and internal controls need a lightweight way---with logs and tunable rules---to flag likely duplicates, superficially rewritten bundles, and suspicious cross-submitter drops before legal review. We do \emph{not} issue final infringement judgments.
 
-\noindent\textbf{Key words:} software artifact; archive digest; surface normalization; similarity probe; risk triage; auditable risk control
+We normalize paths, then compute two SHA-256 digests. The first hashes raw bytes for strict equality. The second hashes a surface-normalized text concatenation (strip comments, squeeze whitespace, unify newlines); non-text entries contribute fixed-length raw digests as specified. Rules are versioned for reproducibility. A score $S\in[0,100]$ is derived from bitwise differences between second-layer digests; it is \emph{not} a semantic similarity measure or legal proof, only a triage hint with thresholds. Submitter-aware rules yield actions and audit fields. Empirical numbers will be added after experiments on de-identified data.
+
+\noindent Key words: software artifact; archive digest; surface normalization; similarity probe; risk triage; blockchain auditability
 
 \section{引言}
 \subsection{问题背景与核心痛点}
-软件交付物在 CI/CD、制品库、外包验收、开源合规与内部托管等链路中常以\textbf{压缩包或快照归档}交换；路径编码异构、表层噪声普遍，风控或质检需在\textbf{低时延}下识别可疑同质投递。实践中的\textbf{三类核心痛点}为：（1）\textbf{整包哈希}对注释、空白、格式等\textbf{表层改写}易导致漏检；（2）代码相似检测（如 MOSS、AST/图方法或大模型路线）往往带来较高算力与时延成本，输出多为相似性报告，\textbf{可解释性与门禁决策}难以直接对齐；（3）工业场景更需要\textbf{风险分流与队列压缩}（放行/复核/升级），而非仅给出相似度排序。
+实际工程中，压缩包路径写法不统一，且存在刻意“表层改写”规避简单校验的行为。常见问题包括：（1）仅使用整包哈希时，注释或空白修改即可改变摘要，导致疑似同源制品漏检；（2）重型相似检测工具计算开销较高，输出往往面向分析而非门禁处置，审核人员难以快速据此决策；（3）线上治理更需要“自动分流”而非单一相似度排序，即明确哪些样本进入人工复核、哪些按策略直接放行。
 
-\subsection{现有方法的局限与本文缺口}
-\textbf{整包哈希}与制品库侧指纹擅长完全一致或字节级去重，但对表层变换敏感，难以支撑“归一化后一致”的试探。\textbf{SimHash 等局部敏感哈希}旨在使相近输入映射为相近指纹，哈明距离具有候选检索语义；本文采用的 SHA-256 具有\textbf{雪崩效应}，输入微小差异即可导致摘要比特大幅跳变，\textbf{不存在}“相似文档 $\rightarrow$ 相似摘要”的单调对应。\textbf{MOSS、Winnowing 等文本/令牌相似工具}面向教学抄袭等场景成熟\cite{moss,winnowing2003}，典型输出为候选对与相似片段，与\textbf{归档条目集合 + 分流阈值 + 审计字段}的一体化门禁仍有落差。\textbf{AST/PDG 与大模型克隆检测}对语义克隆更敏感\cite{mdpi2023review,llmCloneSurvey2023}；实证研究亦表明将大模型用于代码分析类任务仍存在能力与成本边界\cite{fang2024llmcode}，在线门禁中常受算力、时延、可审计参数化制约。综上，缺少一种\textbf{轻量、可审计、可配置}、面向\textbf{归档条目}的\textbf{双层摘要 + 摘要距离分 + 规则分流}一体化\textbf{试探范式}；本文填补该\textbf{工程落地}缺口。\textbf{本文不面向理论意义上的语义相似或克隆检测创新，而面向工程落地与风控范式：}输出定位为\textbf{试探分流建议}，不替代司法鉴定、深度克隆检测或最终合规判定。
+\subsection{现有做法与本文补充什么}
+整包哈希适合“字节完全一致”去重，但对“表层改写”不敏感。SimHash 等局部敏感哈希强调“相似输入得到相近指纹”；SHA-256 的扩散特性则相反：微小改动也可能导致摘要显著变化，因此分值大小不能解释为语义接近程度。MOSS、Winnowing 等工具聚焦相似片段检索\cite{moss,winnowing2003}；基于语法树或大模型的方法更偏向深层克隆分析\cite{mdpi2023review,llmCloneSurvey2023}，在门禁场景中的成本与时延压力更大\cite{fang2024llmcode}。本文面向“压缩包级、规则透明、算力可控”的前置筛查任务，核心目标是缩小人工复核集合并提升审计可追溯性。本文属于工程方法研究，而非通用语义相似理论；输出仅作为筛查证据，不替代司法鉴定或深度检测。
 
 \subsection{本文贡献}
-本文贡献可归纳为\textbf{四条可核验的学术与工程贡献}：
 \begin{enumerate}[leftmargin=2em]
-  \item \textbf{双层摘要机制：}规范化摘要（精确去重）与表层归一化内容摘要（表层改写容忍）分工明确，路径排序后确定性串联，保证同一归档的可复现摘要。
-  \item \textbf{摘要距离分定义：}在固定长度摘要比特上定义哈明距离，经线性缩放、取整与裁剪得到 $[0,100]$ 分值；阐明其与语义、局部敏感指纹的本质区别及\textbf{仅作分流阈值信号}的性质。
-  \item \textbf{提交者关系联动规则：}形式化风险模板，约束 $T_h>T_m$，优先级为跨提交者 $>$ 高分段 $>$ 中分段 $>$ 低风险默认，抑制同提交者重复投递噪声。
-  \item \textbf{可审计流水线与评估协议：}从解析、摘要、规则到处置与留痕的步骤闭环；指标覆盖检测、运营与系统维度；消融与阈值敏感性可复现实验设计。
+  \item 双层摘要：第一层抓字节级相同；第二层在轻量规整后抓「表面改过仍可能同源」，路径顺序固定，结果可复现。
+  \item 在两份第二层摘要之间定义分数 $S$，说明它与「语义相似」不是一回事，只适合配合阈值做分流。
+  \item 把「是否跨提交者」写进简单规则模板（含 $T_h>T_m$ 与优先级），减轻同一人重复投递带来的误报。
+  \item 设计链上锚定与离线回放校验流程，使规则版本、判定分支与证据摘要具备不可抵赖的审计属性。
+  \item 给出从接入到留痕的步骤、评价与消融思路，便于他人按同样协议复现实验。
 \end{enumerate}
 
 \subsection{研究定位}
-本文定位为\textbf{工程落地风控方案}：在 API/CI 网关侧以\textbf{低算力试探}缩小人工复核面，强调\textbf{可解释、可审计、可配置、低时延}。方法\textbf{不主张}新的语义相似度理论，也\textbf{不提供}侵权或同质最终结论；与通用 clone/plagiarism 研究的分界在于对象（归档条目集合）、决策（风险分流而非相似度报告）、约束（审计与参数版本化）与输出（规则分支与复验字段）。
+本文站在「上传网关或流水线门口」：便宜、快、可记账、参数可改。和经典克隆检测论文的差别可以概括为四点：整包（多文件）为对象；输出的是分级与处置建议；阈值与规则要版本号；接口返回足够信息方便复核。
 
 \subsection{论文结构}
-第~\ref{sec:related} 节综述相关工作并与本文划界；第~\ref{sec:method} 节给出五步法、双层摘要、摘要距离分、规则模板、复杂度与适用边界；第~\ref{sec:impl} 节描述部署架构与审计字段；第~\ref{sec:exp} 节给出实验与消融协议；第~\ref{sec:results} 节在无实测数据前提下给出预期结论与分析框架；第~\ref{sec:conclusion} 节总结并展望。
+第~\ref{sec:related} 节对照相近工作；第~\ref{sec:method} 节写处理步骤、两层摘要、分数 $S$、规则与复杂度；第~\ref{sec:impl} 节写部署与日志字段；第~\ref{sec:exp} 节写如何做实验与如何读结果；第~\ref{sec:conclusion} 节小结并谈后续可做事项。
 
 \section{相关工作}
 \label{sec:related}
 
 \subsection{软件制品去重}
-制品库与构建链路广泛使用文件级或整包哈希、内容寻址存储等进行去重与缓存一致性校验\cite{swh2020}；厂商制品门禁侧重恶意与策略合规。该类方法对\textbf{字节级一致}高效可靠，但对\textbf{表层改写}易导致假阴性。\textbf{与本文对比：}本文保留\textbf{规范化摘要}承担强一致去重，并增设\textbf{表层归一化内容摘要}以拓展试探覆盖面，二者并行服务于门禁前置层。
+仓库与构建系统大量使用文件哈希或内容寻址存储做去重\cite{swh2020}，厂商门禁也常查恶意与策略。这类办法对「字节一模一样」很稳，但对「改了注释」的包容易当成新药。本文在第一层保留「强一致」摘要，另加第二层对付表面噪声，二者可同时用在门禁前段。
 
 \subsection{代码相似检测}
-代码相似检测涵盖文本、令牌、树、图及混合路线\cite{mdpi2023review}；Winnowing、MOSS 等广泛应用\cite{winnowing2003,moss}；CCFinder、DECKARD 等支撑大规模克隆候选发现\cite{ccfinder,deckard}。\textbf{与本文对比：}上述方法焦点常为\textbf{相似性度量或候选检索}；本文焦点为\textbf{归档条目级双层摘要}与\textbf{风险分流决策模板}，算力路径以轻量哈希与定长比特比较为主，可作为它们的\textbf{前置并联}环节而非替代。
+文献里既有按文本、记号、树、图等不同粒度比较的综述与工具\cite{mdpi2023review,moss,winnowing2003,ccfinder,deckard}。它们多数回答「有多像、像在哪」，本文回答「这一步该不该进人工队列」，算力以固定长度哈希与比特运算为主，必要时可与重型工具并联。
 
 \subsection{局部敏感指纹}
-SimHash 等\textbf{局部敏感}哈希使相近文档映射为相近指纹，便于哈明阈值筛选近重复网页或文档\cite{simhash2006}。\textbf{SimHash 与本文 SHA-256 的本质差异：}前者在设计上追求\textbf{局部敏感性}（相近输入 $\rightarrow$ 相近指纹）；SHA-256 为密码学摘要，强调\textbf{雪崩效应}与冲突阻力，\textbf{不具有}“输入相似度”与“摘要比特相似度”之间的\textbf{单调语义对应}。本文\textbf{摘要距离分}绑定于\textbf{表层归一化规则后的串联串}，\textbf{不得}解读为通用语义距离。
+SimHash 等让相似文档得到相近指纹，便于设阈值筛「近似重复」\cite{simhash2006}。SHA-256 设计目标不同：微小改动也会让输出剧烈变化，因此本文的分数 $S$ 只能绑定在「第二层规整规则之后的那一长串」上理解，不要把它解释成通用的语义相似度。
 
 \subsection{工业风控与人机协同}
-教育与工业工具普遍强调“算法提示相似，人工完成判断”\cite{moss,novak2019}。制品门禁与合规流水线需要\textbf{可审计参数}（阈值、规则版本）、\textbf{低时延}与\textbf{队列运营指标}。制品库与 CI 产品常分别提供去重与策略门禁能力；\textbf{与本文对比：}本文将\textbf{归档解析、路径规整、双层摘要、摘要距离分检索、规则分流与审计留痕}纳入\textbf{同一可复现叙述}，便于在 API/CI 网关一站式落地与复盘。
+业界共识多是「机器提示、人拍板」\cite{moss,novak2019}。制品库与 CI 往往分散提供去重与策略能力；本文把解压、路径整理、两层摘要、打分、规则与写日志串成一条叙述，方便在 API 或流水线里一次性落地。
 
-\subsection{研究差异总结}
-本文与相近研究可从四维度区分：\textbf{对象}——以多文件\textbf{归档条目}为单元，而非单文件片段比对为主；\textbf{决策}——输出\textbf{风险分流建议}（放行/复核等），而非相似度排行榜；\textbf{约束}——显式纳入提交者关系、阈值与规则\textbf{版本化}及审计字段；\textbf{输出}——返回命中标识、摘要距离分、关系判定、触发分支与处置依据，支持复核复验。整体上，本文为\textbf{轻量前置试探闸门}，可与 SimHash、AST、神经网络检测器等\textbf{并联}以增强召回或解释链。
+\subsection{区块链存证与可验证审计}
+已有软件版权治理实践强调证据链完整性与过程可追溯性\cite{cnReg2002,cnRules2013,sft01582023}。联盟链可作为“时间戳与证据锚定层”，将判定摘要、策略版本与操作元数据固化，降低链下日志被篡改后的复核不确定性。本文不将链上结果直接等价为侵权结论，而是将其作为筛查过程的可验证佐证。
+
+综上，与相近工作相比：我们把整包多文件当作一个对象；优先输出分流建议而不是相似度榜单；把提交者关系、阈值与规则版本写死可追溯；接口返回命中编号、分数、触发了哪条规则等，便于复查。整体是门口第一道筛子，以后若要更强召回，可再接 SimHash、语法树或模型。
 
 \section{方法}
 \label{sec:method}
 
 \subsection{系统流程（五步）}
-系统在接收\textbf{软件归档制品}（或可映射为归档条目集合的上传单元）时，按下述\textbf{五步}执行：
+收到一个压缩包（或视作若干路径—内容对）时，按顺序做五件事：
 \begin{enumerate}[leftmargin=2em]
-  \item \textbf{归档解析：}解压或遍历归档，枚举条目集合 $\{(p_i,c_i)\}$；不可解析的单文件输入退化为单条目特例。
-  \item \textbf{路径规整：}统一编码与路径分隔符语义，形成可排序的稳定路径键（实现侧应记录规则版本）。
-  \item \textbf{双层摘要计算：}对路径排序后按确定性顺序串联，分别计算\textbf{规范化摘要}与\textbf{表层归一化内容摘要}（见第~\ref{sec:dual-digest} 节）。
-  \item \textbf{摘要距离分与检索：}在历史池或候选集合上比对\textbf{表层归一化内容摘要}，计算\textbf{摘要距离分}；检索可由检测阈值 $T_d$ 过滤候选。
-  \item \textbf{风险分级与审计留痕：}规则引擎综合摘要距离分、提交者关系与优先级输出风险等级与处置建议，并写入审计字段（见第~\ref{sec:impl} 节）。
+  \item 解压或遍历，列出内部文件。
+  \item 把路径写法统一，便于排序和后面拼接。
+  \item 路径排好序后，分别算第一层、第二层摘要（见下节）。
+  \item 用第二层摘要去库里比对，算分数 $S$；可用阈值 $T_d$ 先缩小候选。
+  \item 按规则给出风险等级和建议动作，并把关键字段写入日志。
 \end{enumerate}
 
 \subsection{双层摘要构建}
 \label{sec:dual-digest}
-设上传归档 $A=\{(p_i,c_i)\}_{i=1}^{n}$，$p_i$ 为路径，$c_i$ 为原始字节内容。对所有 $p_i$ \textbf{字典序排序}后按下标顺序处理（\textbf{拼接顺序：路径排序后串联}，保证确定性）。
+记归档为 $A=\{(p_i,c_i)\}_{i=1}^{n}$：$p_i$ 是路径，$c_i$ 是文件原始字节。所有路径按字典序排好后，依次拼接（顺序写死，任何人复算都得到同一串）。
 
-\textbf{规范化摘要} $H_{\mathrm{can}}$（路径规整后对\textbf{原始字节敏感}，用于\textbf{强一致去重}）：
+第一层（规范化归档摘要）$H_{\mathrm{can}}$：对原始内容敏感，用于「字节级是否同一包」。
 \begin{equation}
 H_{\mathrm{can}} = \mathrm{SHA256}\Big(\bigoplus_{i=1}^{n}\bigl(\mathrm{norm}(p_i) \parallel \mathrm{Base64}(c_i)\bigr)\Big),
 \end{equation}
-其中 $\mathrm{norm}(\cdot)$ 为路径规整映射，$\parallel$ 为字节连接，$\bigoplus$ 为按排序后顺序的字节串拼接（实现需在规则版本中固定分隔符与编码）。
+$\mathrm{norm}(\cdot)$ 表示路径规整；$\parallel$ 为拼接；$\bigoplus$ 表示按排序后的次序连接（分隔符与编码在规则版本里写清）。
 
-\textbf{表层归一化内容摘要} $H_{\mathrm{surf}}$：对\textbf{文本类}条目将内容变换为 $\tilde{c}_i$（声明式\textbf{表层归一化}：去注释、压缩连续空白、统一换行等；编码统一到约定字符集）；对\textbf{非文本类}条目以 $\tilde{c}_i=\mathrm{Hex}\bigl(\mathrm{SHA256}(c_i)\bigr)$ 等形式嵌入\textbf{原始字节的固定长度摘要}参与串联（具体嵌入格式版本化备案）。则
+第二层（表层归一化内容摘要）$H_{\mathrm{surf}}$：文本文件先把正文变成 $\tilde{c}_i$（例如去注释、压空白、统一换行，编码统一到约定字符集）；非文本文件则把「该文件原始字节的 SHA-256」按约定格式嵌进串联串（具体格式同样版本化）。然后：
 \begin{equation}
 H_{\mathrm{surf}} = \mathrm{SHA256}\Big(\bigoplus_{i=1}^{n}\bigl(\mathrm{norm}(p_i) \parallel \tilde{c}_i\bigr)\Big).
 \end{equation}
 
-\textbf{文本/非文本判定}由部署策略声明（扩展名、魔数或 MIME），并纳入规则版本。\textbf{规则版本化备案}用于复验：任一归一化步骤变更须递增版本号并留存文档。
+哪些是文本、哪些是二进制，由部署方按扩展名或文件头等声明；规则一改就要升版本号并留说明，方便事后对账。
 
 \subsection{摘要距离分}
 \label{sec:digest-score}
-设两枚表层归一化内容摘要的十六进制串为 $h_a,h_b$（各对应 SHA-256 的 32 字节共 256 比特）。将其转为字节序列；若长度不一致，对较短一侧按实现约定补齐或按最大比特长度计算惩罚（须在规则版本中固定）。\textbf{哈明距离} $d_H(h_a,h_b)$ 定义为：两串对齐后逐字节异或，统计结果中二进制位为 1 的个数（等价于对称差比特总数）。
+取两份第二层摘要的十六进制串 $h_a,h_b$（SHA-256 为 256 比特）。若长度处理有特殊约定（如补齐或罚分），也写在规则版本里。哈明距离 $d_H$：两串对齐后逐字节异或，数一共有多少个二进制位为 1。
 
-设摘要比特长度 $L$（对 SHA-256，$L{=}256$）。定义\textbf{裁剪函数} $\mathrm{clip}(x,a,b)=\min(\max(x,a),b)$；\textbf{取整函数} $\mathrm{round}(\cdot)$ 为四舍五入到整数。\textbf{摘要距离分}
+记摘要比特长度为 $L$（此处 $L=256$）。$\mathrm{clip}(x,a,b)$ 表示把 $x$ 限制在 $[a,b]$；$\mathrm{round}$ 为四舍五入取整。定义：
 \begin{equation}
 S(h_a,h_b) = \mathrm{clip}\left(\mathrm{round}\left(100 \times \left(1-\frac{d_H(h_a,h_b)}{L}\right)\right),\,0,\,100\right).
 \end{equation}
 
-\textbf{三条性质（须在使用中强制遵守）：}
-\begin{enumerate}[leftmargin=2em]
-  \item \textbf{$S=100$：}当且仅当两枚表层归一化内容摘要比特完全一致（在既定串联与归一化版本下），对应\textbf{归一化层面完全一致}。
-  \item \textbf{$S<100$ 无语义单调性：}由于 SHA-256 的雪崩效应，$S$ 与源代码“语义接近程度”\textbf{无}可用单调关系；不得将 $S$ 解释为语义相似度。
-  \item \textbf{分流信号：}$S$ \textbf{仅作}与 $T_d,T_h,T_m$ 等阈值结合的\textbf{风险分流信号}，不构成侵权、克隆或合规终局判断。
-\end{enumerate}
+使用时要记住三条：（1）$S=100$ 表示两份第二层摘要在当前规则下完全一致；（2）$S<100$ 时，分数高低不代表源代码语义有多接近；（3）$S$ 只宜与阈值配合做分流，不能代替侵权或合规裁决。
 
 \subsection{风险评估规则（形式化模板）}
-设检测阈值 $T_d$ 用于候选检索；高风险阈值 $T_h$、中风险阈值 $T_m$，且\textbf{$T_h>T_m$}。记 $\mathrm{Cross}$ 为跨提交者命中，$\neg\mathrm{Cross}$ 为同提交者命中。规则模板：
+$T_d$ 用于检索阶段筛候选；$T_h$、$T_m$ 为处置用阈值，且 $T_h>T_m$。$\mathrm{Cross}$ 表示「命中记录来自另一提交者」。可写成：
 \begin{align*}
   & (S \geq T_h) \wedge \mathrm{Cross} \Rightarrow \text{高风险，人工复核};\\
   & (S \geq T_h) \wedge \neg\mathrm{Cross} \Rightarrow \text{降级为中风险，人工复核};\\
   & (T_m \leq S < T_h) \Rightarrow \text{中风险，人工复核};\\
-  & (S < T_m) \Rightarrow \text{低风险，策略定义自动放行或低优先级队列}.
+  & (S < T_m) \Rightarrow \text{低风险，由策略决定放行或低优先级}.
 \end{align*}
-\textbf{优先级（冲突消解）：}跨提交者条件 $>$ 高分段条件 $>$ 中分段条件 $>$ 低风险默认。输出须包含触发分支编号或标识以便审计。
+若多条同时适用，优先级为：跨提交者 $>$ 高分段 $>$ 中分段 $>$ 默认低风险。日志里应记下触发了哪一条。
+
+\subsection{代价敏感阈值优化}
+仅以检测指标选择阈值，往往难以反映人工复核成本。为此定义代价敏感目标：在验证集上联合优化漏检、误报与复核工作量。设 $FN,FP$ 分别为漏检与误报样本数，$N_{\mathrm{review}}$ 为进入人工复核队列的样本数，$C_{\mathrm{FN}},C_{\mathrm{FP}},\lambda$ 为对应代价系数，则
+\begin{equation}
+J(T_h,T_m)=C_{\mathrm{FN}}\cdot FN + C_{\mathrm{FP}}\cdot FP + \lambda\cdot N_{\mathrm{review}},
+\end{equation}
+\begin{equation}
+\min_{T_h,T_m}\ J(T_h,T_m),\quad \text{s.t.}\ T_h>T_m.
+\end{equation}
+工程上可采用网格搜索或贝叶斯优化，在验证集求得候选阈值，再在独立测试集报告最终性能与成本变化。
 
 \subsection{算法复杂度与工程意义}
-设归档总字节规模为 $B$，历史比对窗口规模为 $M$。解析与表层归一化为 $O(B)$，摘要计算为 $O(B)$；与窗口内候选的摘要距离分为定长比特运算，单次 $O(1)$，共 $O(M)$。总时间
+若归档总大小为 $B$，每次只与最近 $M$ 条历史比对，则解压与规整约为 $O(B)$，摘要约 $O(B)$，打分每次固定长度、共 $O(M)$，合计
 \begin{equation}
 T(B,M)=O(B+M).
 \end{equation}
-\textbf{工程意义：}固定窗口 $M$ 使比对开销\textbf{常数级上有界}，便于承诺线上 SLA；摘要长度固定使单次比较\textbf{低时延、可预测}。
-
-\subsection{适用边界}
-本文方法\textbf{仅适用于前置试探分流}：\textbf{不替代}司法鉴定、深度克隆检测或法务终判；\textbf{不构成}侵权或相似性结论；对深度重构、跨语言语义漂移、非文本主导工程等情形可能存在漏检或误判，应通过并联更强检测器或人工复核处置。
+$M$ 固定时，比对耗时上有顶，便于承诺响应时间。本文只是门禁前的粗筛：大改结构、多语言混编、二进制很多的包都可能仍会漏判或误判，需要更强的工具或人工接手。
 
 \section{系统实现}
 \label{sec:impl}
 
 \subsection{部署架构}
-典型拓扑为：\textbf{API/CI 网关}接收归档 $\rightarrow$ \textbf{解析与路径规整}模块 $\rightarrow$ \textbf{双层摘要}计算组件 $\rightarrow$ \textbf{规则引擎}（阈值与提交者策略）$\rightarrow$ \textbf{处置动作}（放行、阻塞、入复核队列）与\textbf{审计存储}。可与现有制品库、工单系统通过异步消息或回调集成；图示可与正文并排或在修订稿中补充架构图。
+典型链路：接口或流水线接收压缩包 $\rightarrow$ 解压与路径整理 $\rightarrow$ 算两层摘要 $\rightarrow$ 规则引擎（阈值、提交者）$\rightarrow$ 返回放行/拦截/进队列，并写数据库或日志。可与现有工单、制品库用消息或回调对接；门禁路径上解析与摘要宜同步完成以满足时延；人工队列可异步写入。
+
+\subsection{链上锚定与离线回放}
+在现有链路上增加证据锚定步骤：对每次判定记录构造证据对象
+\[
+E=(H_{\mathrm{can}},H_{\mathrm{surf}},S,\text{risk\_level},\text{rule\_id},\text{rule\_ver},t,\text{operator\_id}),
+\]
+并计算
+\[
+e=\mathrm{SHA256}(\mathrm{serialize}(E)).
+\]
+系统将 $e$、业务索引与时间戳写入联盟链交易；链下保存完整字段。复核时重算 $e'$ 并与链上记录比对，若 $e'=e$ 则可证明该判定记录自上链后未被篡改。该机制用于增强审计可信度，不改变原有分流决策逻辑。
+
+\subsection{实现环境与组件映射}
+结合当前系统实现，前端可采用 Vue，服务端采用 Spring Boot，链下数据库使用 MySQL，文件对象存储使用 MinIO，联盟链网络采用 FISCO BCOS（如 3.11.0 版本）。其中，摘要计算与风险判定在应用服务侧完成，链上仅保存证据锚点与必要索引，避免将源码或敏感内容直接上链。
 
 \subsection{审计字段清单}
-建议每条判定至少持久化：\textbf{原始归档哈希}；\textbf{规范化摘要}与\textbf{表层归一化内容摘要}；\textbf{摘要距离分}；\textbf{风险等级}；\textbf{提交者关系判定}（同提交者/跨提交者）；\textbf{规则分支标识}与\textbf{规则/阈值版本号}；\textbf{时间戳}；\textbf{操作者或自动化主体标识}；可选\textbf{命中历史制品 ID}列表。
+建议至少记下：原始包哈希；两层摘要值；分数 $S$；风险档位；是否跨提交者；命中哪条规则、规则与阈值版本号；时间；操作者或自动化任务 ID；可选列出命中的历史包编号。
 
 \subsection{可解释返回内容}
-接口返回除等级外，应包含：\textbf{命中对象标识}、\textbf{摘要距离分}、\textbf{提交者关系}、\textbf{触发规则分支}、\textbf{处置依据引用}（策略文档版本或规则条目），以支持独立复验与复盘。
+除等级外，接口宜返回：命中谁、分数多少、提交者关系、规则分支、依据哪版策略文档，便于复核同事不必猜。
 
 \subsection{规则与阈值版本化}
-\textbf{阈值} $T_d,T_h,T_m$、\textbf{表层归一化规则}与路径规整策略均应以版本号发布；审计记录绑定版本号，满足\textbf{可追溯、可审计}与合规复查需求。
+$T_d,T_h,T_m$、文本规整办法、路径写法等，一律用版本号发布；每条判定绑定版本号，日后审计才能对上号。
 
-\section{实验设计}
+\section{实验设计与分析框架}
 \label{sec:exp}
 
 \subsection{数据集协议}
-数据集须披露\textbf{来源}（开源快照、企业脱敏库或合成配对）、\textbf{标注准则}、\textbf{划分方式}。样本类型定义建议如下：\textbf{正样本}——同源归档经表层改写（注释/空白/换行等）；\textbf{负样本}——明确不同源；\textbf{难负样本}——同技术栈不同业务逻辑；\textbf{跨提交者样本}——不同账号或命名空间投递的高相似归档。划分按时间或提交批次切分，避免信息泄漏；标注可采用双人独立标注加仲裁。
+写清数据从哪来、如何标注、训练/验证/测试怎么划分。建议区分：正例（同源包改注释/空白等）；负例（明确不同源）；难负例（技术栈像但业务不同）；跨提交者的高相似例。划分尽量按时间或批次，避免「提前看见未来」。
 
 \subsection{基线设置}
 \begin{itemize}[leftmargin=2em]
-  \item \textbf{A：}仅整包或文件级 SHA-256（无归档条目双层摘要）。
-  \item \textbf{B：}仅\textbf{规范化摘要}比对（无表层归一化内容串联）。
-  \item \textbf{Ours：}完整方案：双层摘要 + 摘要距离分 + 提交者联动规则。
+  \item A：只对整包或单文件做 SHA-256，不做本文双层摘要。
+  \item B：只用第一层摘要，不做文本规整与第二层串联。
+  \item Ours：两层摘要 + 分数 $S$ + 提交者规则。
 \end{itemize}
 
 \subsection{评价指标}
 \begin{itemize}[leftmargin=2em]
-  \item \textbf{检测指标：}Precision、Recall、F1、AUC（在既定标注口径下）。
-  \item \textbf{运营指标：}复核命中率、无效复核量、端到端时延、队列长度 proxy。
-  \item \textbf{系统指标：}吞吐（归档/秒）、CPU/内存增量开销。
+  \item 检测类：Precision、Recall、F1、AUC（按既定标注定义正负）。
+  \item 运营类：复核是否「打得准」、无效复核多少、端到端耗时、队列长度等。
+  \item 系统类：每秒处理多少个包、额外 CPU/内存。
 \end{itemize}
 
 \subsection{阈值选择}
-两阶段：先在验证集上扫 $T_d$ \textbf{保障召回}；再在业务成本函数下联合选取 $T_h,T_m$（满足 $T_h>T_m$），平衡复核人力与漏检风险。
+先在验证集上扫 $T_d$，尽量不放过该抓的；再结合人力成本选 $T_h,T_m$（保持 $T_h>T_m$）。
 
 \subsection{消融实验（固定四组）}
 \begin{enumerate}[leftmargin=2em]
-  \item 移除\textbf{表层归一化}（仅保留规范化路径或其他弱化设定）。
-  \item 移除\textbf{同提交者降级}分支。
-  \item 移除或替换\textbf{历史窗口策略}（全量比对或极端窗口）。
-  \item \textbf{阈值敏感性：}扰动 $T_d,T_h,T_m$ 观察检测与运营指标变化。
+  \item 去掉第二层用到的文本规整。
+  \item 去掉「同提交者降档」规则。
+  \item 去掉历史窗口限制（改为与全库比）。
+  \item 系统性地改动阈值，观察指标变化。
 \end{enumerate}
 
 \subsection{实验承诺}
-全部实证将在\textbf{脱敏数据集}上独立完成；最终版本将替换本节及以下分析中的实测数值，并补充伦理与数据治理说明。
+终稿需在脱敏数据集上补齐完整结果，并附数据合规说明、标注口径与复现实验脚本版本信息。
 
-\section{结果与分析}
-\label{sec:results}
+\subsection{预期结果与分析框架}
+对比上，Ours 应比 A 更能收回「只改表面」的同源包；比 B 更能对齐「注释/空白扰动」后的同一归档。分数与阈值一起决定复审边界；不要把 $S$ 当语义排序。
 
-本节在无最终实测数据条件下给出\textbf{预期结论与分析框架}；不填报具体数值。
+运营上，期望在人力不变时减少无效复核负担、提升高风险样本进入人工队列的比例；端到端延迟需满足业务承诺，可通过历史流量回放与压测联合验证。
 
-\subsection{主结果（预期）}
-预期 \textbf{Ours} 相对 \textbf{A} 在\textbf{表层改写}情形下具有更高召回；相对 \textbf{B}，表层归一化串联有助于在路径一致前提下对齐“注释/空白扰动”后的同质归档。\textbf{摘要距离分}与阈值共同决定进入复核的边界；分值\textbf{不得}按语义大小解读 ranking。
+阈值放低通常会让更多人进复核、召回相关指标往往变好，但人更忙；阈值抬高则相反。因 $S<100$ 时分数与语义不同步，阈值应视作运维参数，用验证集加线上回放联合调。
 
-\subsection{业务收益（预期）}
-预期在固定人力下提高\textbf{复核命中率}、降低\textbf{无效复核}比例；时延应保持在既定 SLA 内。定量结论待实测填入。
+误差典型来源：大面积重写仍会使第二层摘要差异很大；多语言混编；二进制误判类型导致串联失真。
 
-\subsection{阈值分析}
-阈值降低通常提升进入复核的流量及与召回相关的指标，但增加人工负载；提高阈值则相反。由于 $S<100$ 段\textbf{无语义单调性}，阈值应作为\textbf{运营参数}在验证集与回放数据中联合标定。
+此外要注意样本是否片面、标注口径是否一致、线上环境与试验是否一致。自动化结果只能建议分流；是否违规仍由人与制度判断；涉诉材料组织可参考既有鉴定与技术规范文献\cite{sft01582023,spcCase2021,spcGame2023}。
 
-\subsection{误差分析（典型三类）}
-\begin{enumerate}[leftmargin=2em]
-  \item \textbf{深度重构漏检：}逻辑等价的大规模重写使表层归一化后仍不收敛。
-  \item \textbf{多语言漂移：}跨语言或混编导致归一化层无法对齐。
-  \item \textbf{非文本误判：}二进制资源占比高或类型判定错误导致串联表征失真。
-\end{enumerate}
+\subsection{统计检验与稳健性评估}
+建议对关键指标采用 bootstrap 置信区间报告（例如 $95\%$ CI），并在主对比中补充显著性检验（如置换检验或 McNemar 检验，按任务定义选择）。稳健性上，至少报告三类切片结果：按时间切片、按语言类型切片、按提交者关系切片，以评估方法在分布变化下的稳定程度。
 
-\subsection{有效性威胁}
-包括\textbf{数据集偏差}、\textbf{标注口径}与\textbf{部署环境差异}。自动化输出仅为\textbf{试探分流建议}；最终合规或侵权判断由策略与有权主体作出；涉诉场景的证据链组织可参考司法鉴定与技术规范文献的精神\cite{sft01582023,spcCase2021,spcGame2023}。
+\subsection{结果呈现模板（终稿填充）}
+为保证论文可审阅性，建议在终稿至少提供以下三张主表：
+\begin{itemize}[leftmargin=2em]
+  \item 主对比表：A/B/Ours 的 Precision、Recall、F1、AUC、平均时延、人工复核率；
+  \item 消融表：去规整、去跨提交者规则、去历史窗口后的性能与运营指标变化；
+  \item 审计表：链上写入成功率、上链延迟、离线回放一致性通过率。
+\end{itemize}
+若版面允许，可增加一张阈值-成本曲线图，展示在不同 $T_h,T_m$ 下召回与复核负担的权衡关系。
 
 \section{结论与展望}
 \label{sec:conclusion}
 
-\subsection{结论}
-针对引言所述\textbf{整包哈希表层漏检、重检测器不适配门禁、工业需分流而非单纯相似报告}三类痛点，本文给出\textbf{双层摘要}（规范化摘要精确去重 + 表层归一化内容摘要改写容忍）、\textbf{摘要距离分}（非语义、非局部敏感、仅分流信号）与\textbf{提交者关系联动}的规则化\textbf{风险分流}框架，并强调\textbf{可审计、可解释、可配置、低时延}的工程属性。方法定位为\textbf{试探分流建议}，不构成相似性或侵权判定。
+针对“整包哈希易漏检表层改写、重型工具不易直接用于门禁分流、治理流程缺少可审计闭环”等问题，本文提出两层摘要、基于摘要距离的分值 $S$、提交者感知的规则分流，以及链上锚定与回放校验机制。该方法强调低成本、可复现、可追溯和可调优，输出定位为筛查建议而非法律结论。
 
-\subsection{展望（工程化三条）}
-\begin{enumerate}[leftmargin=2em]
-  \item \textbf{并联} SimHash/MinHash、AST 或令牌特征作多通道候选生成与解释增强。
-  \item \textbf{扩展} 许可证声明、第三方物料清单与二进制组件识别的预处理，减少非源码噪声干扰。
-  \item \textbf{多租户大规模验证}与\textbf{阈值自动优化}（在运营成本约束下回放标定）。
-\end{enumerate}
+后续可在同一流水线并联 SimHash、语法特征、许可证扫描或深度克隆检测模型，进一步提升召回能力；在多租户与跨项目场景开展长期 A/B 试验，并探索在线阈值自适应。本文定位为前置轻量筛查层，需与人工审核、组织制度和司法鉴定环节协同运行。
 
-\subsection{定位重申}
-本文为\textbf{轻量前置风控闸门}与\textbf{可审计流水线范式}；\textbf{不做法务或合规终判}，须与人工策略及必要时司法鉴定等手段衔接。
-
+\begingroup
+\footnotesize
+\setstretch{1.2}
 \begin{thebibliography}{99}
 
 \bibitem{swh2020} DI LUNA G A, et al. The Software Heritage Graph Dataset: Public Software Development Under One Roof[C]//Proceedings of the IEEE/ACM 42nd International Conference on Software Engineering (ICSE). New York: ACM, 2020: 138--148.
@@ -263,5 +301,6 @@ T(B,M)=O(B+M).
 \bibitem{spcGame2023} 最高人民法院知识产权法庭. 网络游戏计算机软件无代码比对时的实质性相似判断[EB/OL]. 2023.
 
 \end{thebibliography}
+\endgroup
 
 \end{document}
