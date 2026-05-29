@@ -18,6 +18,7 @@
   hidelinks,
   pdfborder={0 0 0}
 }
+\newcommand{\code}[1]{\allowbreak\texttt{#1}\allowbreak}
 
 \geometry{a4paper,left=2.4cm,right=2.4cm,top=2.4cm,bottom=2.4cm}
 \setstretch{1.5}
@@ -125,19 +126,23 @@ S = \mathrm{clip}\left(\mathrm{round}\left(100 \times \left(1-\frac{d_H(h_a,h_b)
 审计字段方面，系统在记录层保留相似度分值、风险等级、风险原因、复核结论、复核备注、审核状态、审核人、审核时间以及链上交易凭证等信息，形成从“样本评分”到“最终确权”的全过程追踪链。该设计使方法不仅可用于在线分流，也可支撑事后复核、责任定位与证据回放。
 
 \section{系统实现}
+\begingroup
+\sloppy
+\setlength{\emergencystretch}{2em}
 \subsection{实现架构与模块划分}
 系统采用前后端分离架构，前端基于 Vue 负责申请提交、状态查询与审核交互，后端基于 Spring Boot 提供统一 API 与状态机执行。后端在服务层按职责拆分为三类核心模块：版权业务模块（申请、风险评估、上链、查询）、认证鉴权模块（登录、主体与角色一致性校验）和企业治理模块（企业成员与法务可见范围管理）。该划分使“业务规则”“权限规则”和“组织治理规则”在代码层保持解耦，便于后续按模块独立演化。
 
 \subsection{后端核心服务实现}
-后端核心流程由 \texttt{CopyrightServiceImpl} 实现，关键入口包括 \texttt{submitApplication}、\texttt{reviewApplication}、\texttt{queryByApplicationNo} 等。申请提交流程中，系统在单事务内依次完成文件哈希与双指纹生成、重复性校验、对象存储写入、申请与证据落库、风险评分与分流决策；在非复核路径下继续执行上链并写入正式版权记录。为保证业务可追溯性，上链动作通过独立的 \texttt{onchain\_tx} 记录维护 \texttt{PENDING/SUCCESS/FAILED} 执行状态，并与申请状态联动更新。
+后端核心流程由 \code{CopyrightServiceImpl} 实现，关键入口包括 \code{submitApplication}、\code{reviewApplication} 和 \code{queryByApplicationNo} 等。申请提交流程中，系统在单事务内依次完成文件哈希与双指纹生成、重复性校验、对象存储写入、申请与证据落库、风险评分与分流决策；在非复核路径下继续执行上链并写入正式版权记录。为保证业务可追溯性，上链动作通过独立的 \code{onchain\_tx} 记录维护 \code{PENDING}、\code{SUCCESS} 和 \code{FAILED} 等执行状态，并与申请状态联动更新。
 
-鉴权与主体模型由 \texttt{AuthServiceImpl} 和 \texttt{AuthDomainRules} 协同实现。系统在登录阶段对账号主体与角色兼容性进行校验，统一签发 JWT，并在请求过滤阶段写入安全上下文。企业侧管理由 \texttt{EnterpriseMemberServiceImpl} 负责，所有成员写操作都被限制在当前企业管理员所属 \texttt{enterpriseId} 范围内，从服务层防止跨企业越权。
+鉴权与主体模型由 \code{AuthServiceImpl} 与 \code{AuthDomainRules} 协同实现。系统在登录阶段对账号主体与角色兼容性进行校验，统一签发 JWT，并在请求过滤阶段写入安全上下文。企业侧管理由 \code{EnterpriseMemberServiceImpl} 负责，所有成员写操作均限制在当前企业管理员所属 \code{enterpriseId} 范围内，从服务层防止跨企业越权。
 
 \subsection{前端业务编排与交互逻辑}
-前端通过 API 分层封装业务请求，并在路由守卫中按“登录态-平台角色-企业角色-法务范围”顺序执行访问控制。申请页在提交后先获得申请编号与初始状态，再对中间态进行定时轮询，直到进入 \texttt{ONCHAIN\_SUCCESS} 或 \texttt{ONCHAIN\_FAILED} 等终态。审核页围绕待审核列表、通过/驳回动作构建审核闭环；管理页与企业成员页分别承载平台级账号治理和企业内部成员治理。该编排方式使前端交互语义与后端状态机保持一致，减少了页面状态与业务状态不一致的问题。
+前端通过 API 分层封装业务请求，并在路由守卫中按“登录态-平台角色-企业角色-法务范围”顺序执行访问控制。申请页在提交后先获得申请编号与初始状态，再对中间态进行定时轮询，直到进入 \code{ONCHAIN\_SUCCESS} 或 \code{ONCHAIN\_FAILED} 等终态。审核页围绕待审核列表、通过/驳回动作构建审核闭环；管理页与企业成员页分别承载平台级账号治理和企业内部成员治理。该编排方式使前端交互语义与后端状态机保持一致，减少了页面状态与业务状态不一致的问题。
 
 \subsection{链上链下协同与一致性保障}
-系统采用“链下存原文、链上存摘要”的协同模式。链下部分由 MySQL 与 MinIO 共同维护完整证据链：\texttt{file\_storage} 保存原文件位置，\texttt{copyright\_application} 与 \texttt{copyright\_evidence} 保存申请和指纹证据，\texttt{copyright\_records} 保存确权结果；链上部分通过 FISCO BCOS 合约 \texttt{registerEvidence} 写入证据根摘要并返回交易回执。为降低重复登记风险，系统在调用上链前先查询链上是否已存在同一证据根；若交易失败则保留失败信息并回写 \texttt{ONCHAIN\_FAILED}，避免“状态成功但链上失败”的伪一致。
+系统采用“链下存原文、链上存摘要”的协同模式。链下部分由 MySQL 与 MinIO 共同维护完整证据链：\code{file\_storage} 保存原文件位置，\code{copyright\_application} 与 \code{copyright\_evidence} 分别保存申请和指纹证据，\code{copyright\_records} 保存确权结果。链上部分通过 FISCO BCOS 合约 \code{registerEvidence} 写入证据根摘要并返回交易回执。为降低重复登记风险，系统在调用上链前先查询链上是否已存在同一证据根；若交易失败则保留失败信息并回写 \code{ONCHAIN\_FAILED}，避免“状态成功但链上失败”的伪一致。
+\endgroup
 
 \section{实验设计与结果分析}
 \subsection{实验目标与问题定义}
@@ -168,15 +173,19 @@ S = \mathrm{clip}\left(\mathrm{round}\left(100 \times \left(1-\frac{d_H(h_a,h_b)
   \centering
   \caption{主对比结果}
   \label{tab:main-result}
-  \begin{tabular}{lcccccccc}
-    \toprule
-    方法 & Precision(\%) & Recall(\%) & F1(\%) & 复核率(\%) & 误报率(\%) & 漏报率(\%) & 时延(ms) & 吞吐(req/s) \\
-    \midrule
-    Baseline-1 & 97.1 & 44.6 & 61.1 & 10.8 & 1.9 & 55.4 & 132 & 118 \\
-    Baseline-2 & 82.5 & 88.4 & 85.3 & 34.2 & 17.5 & 11.6 & 221 & 83 \\
-    Ours       & 92.6 & 91.1 & 91.8 & 18.3 & 7.4 & 8.9 & 184 & 96 \\
-    \bottomrule
-  \end{tabular}
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lcccccccc}
+      \toprule
+      方法 & Precision(\%) & Recall(\%) & F1(\%) & 复核率(\%) & 误报率(\%) & 漏报率(\%) & 时延(ms) & 吞吐(req/s) \\
+      \midrule
+      Baseline-1 & 97.1 & 44.6 & 61.1 & 10.8 & 1.9 & 55.4 & 132 & 118 \\
+      Baseline-2 & 82.5 & 88.4 & 85.3 & 34.2 & 17.5 & 11.6 & 221 & 83 \\
+      Ours       & 92.6 & 91.1 & 91.8 & 18.3 & 7.4 & 8.9 & 184 & 96 \\
+      \bottomrule
+    \end{tabular}%
+  }
 \end{table}
 
 \subsection{消融实验}
