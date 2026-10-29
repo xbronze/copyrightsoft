@@ -1,0 +1,1074 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+
+\usepackage[left=2.6cm,right=2.6cm,top=2.8cm,bottom=2.8cm]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{indentfirst}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{fvextra}
+\usepackage{needspace}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+
+\setstretch{1.5}
+\setlist[itemize]{leftmargin=2em}
+\setlist[enumerate]{leftmargin=2em}
+\setlength{\parindent}{2em}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  pdftitle={版权云链平台操作手册},
+  pdfauthor={著作权人}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{版权云链平台 V1.0 操作手册}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{15pt}
+
+\titleformat{\section}{\songti\bfseries\zihao{4}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\songti\bfseries\zihao{4}}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.6em}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+% 操作截图宏：存在图片文件时直接插入，否则渲染统一占位框，便于后续补图。
+\newcommand{\opshot}[3]{
+  \begin{figure}[H]
+    \centering
+    \IfFileExists{figures/#1}{
+      \setlength{\fboxsep}{0pt}
+      \setlength{\fboxrule}{0.8pt}
+      \fbox{\includegraphics[width=0.94\textwidth]{figures/#1}}
+    }{
+      \IfFileExists{latex_doc/figures/#1}{
+        \setlength{\fboxsep}{0pt}
+        \setlength{\fboxrule}{0.8pt}
+        \fbox{\includegraphics[width=0.94\textwidth]{latex_doc/figures/#1}}
+      }{
+        \setlength{\fboxsep}{0pt}
+        \setlength{\fboxrule}{0.8pt}
+        \fbox{\parbox[c][4.8cm][c]{0.94\textwidth}{
+          \centering\color{gray}\small
+          截图占位：\texttt{#1}\\[4pt]
+          请在此处替换为实际操作界面截图
+        }}
+      }
+    }
+    \caption{#2}
+  \end{figure}
+  \noindent 图注：#3
+}
+
+% 操作提示框
+\newcommand{\notice}[1]{%
+  \par\vspace{0.6em}\noindent
+  {\setlength{\fboxsep}{6pt}%
+   \colorbox{gray!8}{\parbox{\dimexpr\linewidth-12pt\relax}{%
+     \setlength{\parindent}{2em}\small #1}}}%
+  \par\vspace{0.6em}%
+}
+
+% 业务流程图通用样式
+\tikzset{
+  flowstartstop/.style={
+    rectangle,
+    rounded corners,
+    minimum width=3.2cm,
+    minimum height=0.75cm,
+    draw=black,
+    fill=gray!12,
+    align=center,
+    font=\small
+  },
+  flowprocess/.style={
+    rectangle,
+    minimum width=3.2cm,
+    minimum height=0.75cm,
+    draw=black,
+    fill=blue!6,
+    align=center,
+    font=\small
+  },
+  flowdecision/.style={
+    diamond,
+    aspect=2.1,
+    minimum width=2.6cm,
+    minimum height=0.8cm,
+    draw=black,
+    fill=orange!12,
+    align=center,
+    font=\small
+  },
+  flowline/.style={-{Latex[length=2.2mm]}, thick}
+}
+
+\begin{document}
+\songti
+\zihao{-4}
+
+\begin{titlepage}
+  \centering
+  \vspace*{2.5cm}
+  {\songti\zihao{2}\bfseries 操作手册\par}
+  \vspace{1.1cm}
+  {\songti\zihao{3}\bfseries 软件全称：版权云链平台\par}
+  \vspace{0.5cm}
+  {\songti\zihao{-4}版本号：V1.0\par}
+  \vspace{2.2cm}
+
+  \begin{center}
+    \songti\zihao{-4}
+    完成日期：2026年4月26日
+  \end{center}
+
+  \vfill
+\end{titlepage}
+
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{引言}
+
+\subsection{编写目的}
+\indent 本手册是“版权云链平台”的配套操作手册，用于指导平台各类用户完成账号注册与登录、版权存证申请、版权溯源查询、版权记录管理、人工复核以及后台治理等日常操作。手册内容与《软件设计说明书》中的功能设计、业务流程和状态定义保持一致，并通过“操作步骤 + 界面截图 + 图注说明”的方式，完整演示软件从进入系统到完成业务闭环的操作流程。\par
+
+\indent 本手册可作为用户培训材料、项目交付文档和软件著作权申请材料使用。文中截图均以实际运行界面为准，示例数据仅用于说明操作过程，不代表真实业务数据。\par
+
+\subsection{适用对象}
+\indent 平台按角色与主体类型划分功能范围。不同身份的读者可结合表\ref{tab:reader-role}定位与自身相关的操作章节。\par
+
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{适用对象与主要操作范围}
+  \label{tab:reader-role}
+  \begin{tabularx}{0.96\textwidth}{p{0.16\textwidth} p{0.14\textwidth} p{0.22\textwidth} Y}
+    \toprule
+    角色 & 主体类型 & 典型身份 & 主要操作范围 \\
+    \midrule
+    个人开发者 & 个人 & 独立开发者、个人作者 & 注册登录、版权申请、我的版权记录、溯源查询、个人信息维护 \\
+    企业开发者 & 企业 & 企业研发人员 & 注册登录、版权申请、本人版权记录、溯源查询、个人信息维护 \\
+    企业管理员 & 企业 & 企业账号负责人 & 企业开发者全部功能，另含企业版权记录、企业成员管理、法务可见范围配置 \\
+    企业法务 & 企业 & 企业法务人员 & 企业版权记录查阅（法务范围为“全企业”时）、个人信息维护 \\
+    审核员 & 个人 & 平台审核人员 & 审核工作台、待复核记录查询、通过或驳回操作 \\
+    管理员 & 个人 & 平台运营人员 & 管理后台、账号治理、角色分配、统计概览、全量版权记录管理 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{运行环境与访问方式}
+\indent 平台为浏览器/服务器（B/S）架构，用户无需安装客户端，通过浏览器访问即可使用。建议客户端环境如表\ref{tab:client-env}所示。\par
+
+\Needspace{12\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{客户端运行环境建议}
+  \label{tab:client-env}
+  \begin{tabularx}{0.96\textwidth}{l Y}
+    \toprule
+    项目 & 建议配置 \\
+    \midrule
+    操作系统 & Windows 10 及以上、macOS 11 及以上、Ubuntu 20.04 及以上 \\
+    浏览器 & Chrome 90 及以上、Edge 90 及以上（需启用 JavaScript） \\
+    屏幕分辨率 & 不低于 1366$\times$768，推荐 1920$\times$1080 以获得完整表格与弹窗展示 \\
+    网络环境 & 可正常访问平台前端页面、后端接口与文件存储服务 \\
+    浏览器设置 & 允许使用本地存储（localStorage），用于保存登录令牌与登录态 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\indent 平台主要功能入口与访问路径如表\ref{tab:entry-path}所示。实际访问域名以平台部署环境或管理员提供的地址为准，表中路径为相对路径。\par
+
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{主要功能入口与访问路径}
+  \label{tab:entry-path}
+  \begin{tabularx}{0.96\textwidth}{p{0.20\textwidth} p{0.30\textwidth} Y}
+    \toprule
+    功能入口 & 相对路径 & 说明 \\
+    \midrule
+    前台首页 & / & 公开访问，提供文件哈希快速查询入口 \\
+    用户登录 & /login & 输入用户名与密码登录系统 \\
+    用户注册 & /register & 个人或企业主体注册 \\
+    版权申请 & /apply & 仅个人开发者、企业开发者可进入 \\
+    哈希查询 & /query-hash & 支持公开查询，无需登录 \\
+    版权详情 & /copyright/\{申请编号\} & 按申请编号展示确权详情 \\
+    个人中心 & /profile/records & 登录后按角色展示记录、成员与个人信息 \\
+    审核工作台 & /audit/review & 仅审核员与管理员可进入 \\
+    管理后台 & /admin/dashboard & 仅管理员可进入 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{术语与状态约定}
+\indent 为便于理解后续操作说明，表\ref{tab:terms}对文中出现的关键术语进行统一解释。业务状态、审核状态与风险等级的完整枚举可参见《软件设计说明书》附录。\par
+
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{常用术语说明}
+  \label{tab:terms}
+  \begin{tabularx}{0.96\textwidth}{p{0.22\textwidth} Y}
+    \toprule
+    术语 & 说明 \\
+    \midrule
+    文件哈希 & 对上传文件原始字节计算得到的 SHA-256 摘要，为 64 位十六进制字符串，用于唯一标识文件内容 \\
+    证据摘要 & 包括文件哈希、元数据哈希、证据根哈希等，用于链下校验与链上锚定 \\
+    链上凭证 & 确权交易写入联盟链后返回的交易哈希与区块高度，可用于公开核验 \\
+    业务状态 & 版权申请在业务流转中的阶段，如“自动核验完成”“待人工复核”“上链成功”等 \\
+    审核状态 & 人工复核环节的处理结果，包括“待审核”“审核通过”“审核驳回” \\
+    风险等级 & 相似性评估结果分级，分为低风险、中风险、高风险 \\
+    主体 & 账号归属对象，分为个人主体与企业主体 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{阅读约定}
+\indent 本手册统一采用以下编排约定：\par
+
+\begin{enumerate}
+  \item 操作步骤以连续编号呈现，编号顺序即实际操作顺序；涉及界面按钮时，按钮名称以“【】”标注，例如【登录】【提交存证】。
+  \item 每个功能模块均配界面截图，截图下方“图注”用于说明界面关键区域、操作结果或注意事项。
+  \item 带灰色底纹的段落为操作提示，用于说明前置条件、限制规则或风险提醒，不属于必须执行的步骤。
+  \item 截图中出现的用户名、软件名称、哈希值和交易信息均为演示数据，实际使用时以系统返回结果为准。
+\end{enumerate}
+
+\section{系统登录与账号注册}
+
+\subsection{访问系统}
+\indent 打开浏览器，在地址栏输入平台访问地址（例如部署环境提供的首页地址），进入平台首页。未登录状态下，页面顶部导航栏右侧显示【登录】与【注册】两个按钮；已登录状态下显示当前用户名及下拉菜单。\par
+
+\notice{首次使用平台需先注册账号；已拥有账号可直接登录。平台首页的版权溯源查询功能对未登录访客开放，登录后可进一步使用版权申请、记录管理与后台治理等功能。}
+
+\subsection{注册个人账号}
+\indent 个人开发者通过注册页创建个人主体账号，操作步骤如下：\par
+
+\begin{enumerate}
+  \item 在首页右上角点击【注册】，进入“用户注册”页面；
+  \item 在“主体类型”中选择“个人”；
+  \item 依次填写用户名、密码、确认密码、邮箱，按需填写手机号与昵称；
+  \item 点击页面底部【注册】按钮提交注册信息；
+  \item 注册成功后，页面提示“注册成功！请登录”，并自动跳转至登录页；
+  \item 如已存在账号，可点击页面下方“立即登录”直接进入登录页。
+\end{enumerate}
+
+\opshot{02-login.png}{个人用户注册页面}{
+个人注册需选择“个人”主体类型，并填写用户名、密码、邮箱等必填信息；注册成功后自动跳转登录页。
+}
+
+\indent 注册表单的字段约束如表\ref{tab:register-field}所示，填写不符合规则时页面会在对应输入框下方给出校验提示，需修正后方可提交。\par
+
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{个人账号注册字段说明}
+  \label{tab:register-field}
+  \begin{tabularx}{0.96\textwidth}{p{0.16\textwidth} p{0.12\textwidth} p{0.24\textwidth} Y}
+    \toprule
+    字段 & 是否必填 & 校验规则 & 说明 \\
+    \midrule
+    主体类型 & 必填 & 个人/企业 & 决定账号主体类型及后续功能范围 \\
+    用户名 & 必填 & 3--20 个字符，全局唯一 & 作为登录凭据，注册后不可重复 \\
+    密码 & 必填 & 不少于 6 位 & 登录密码 \\
+    确认密码 & 必填 & 与密码一致 & 防止密码输入错误 \\
+    邮箱 & 必填 & 符合邮箱格式 & 用于账号联系与身份识别 \\
+    手机号 & 选填 & 11 位手机号 & 便于后续联系 \\
+    昵称 & 选填 & 不超过 50 个字符 & 用于界面展示 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{注册企业账号}
+\indent 企业主体注册与企业管理员账号创建同时完成，操作步骤如下：\par
+
+\begin{enumerate}
+  \item 在注册页“主体类型”中选择“企业”；
+  \item 填写用户名、密码、确认密码、邮箱等基础信息；
+  \item 填写“企业名称”，并按需填写“统一社会信用代码”；
+  \item 点击【注册】提交；系统将创建企业主体信息，并将当前账号设置为该企业的管理员（OWNER）；
+  \item 注册成功后跳转登录页，使用企业管理员账号登录即可使用企业版权记录与企业成员管理功能。
+\end{enumerate}
+
+\opshot{op-register-enterprise.png}{企业账号注册页面}{
+选择“企业”主体类型后，注册表单会额外显示“企业名称”和“统一社会信用代码”输入项，企业名称必填。
+}
+
+\notice{企业名称需与营业执照主体保持一致；统一社会信用代码为可选项，建议填写以便后续审计核对。企业管理员后续可在“企业成员管理”中新增企业开发者或企业法务成员。}
+
+\subsection{登录系统}
+\indent 已注册用户按以下步骤登录平台：\par
+
+\begin{enumerate}
+  \item 在首页右上角点击【登录】，或在浏览器中直接访问登录页；
+  \item 在“用户名”输入框填写账号用户名；
+  \item 在“密码”输入框填写登录密码，可点击密码框右侧图标切换明文显示；
+  \item 点击【登录】按钮，或在输入框中按回车键提交；
+  \item 校验通过后，页面提示“登录成功！”，并按角色自动跳转至对应页面。
+\end{enumerate}
+
+\opshot{op-login.png}{用户登录页面}{
+登录页包含用户名、密码两个输入项与【登录】按钮；页面下方提供“立即注册”入口，未注册用户可由此进入注册页。
+}
+
+\indent 登录成功后，系统会保存访问令牌、用户名、角色、主体类型、企业归属及企业角色等信息，作为后续页面访问与接口调用的身份依据。不同角色登录后的默认落地页与入口如表\ref{tab:login-redirect}所示。\par
+
+\Needspace{14\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{登录后默认落地页与功能入口}
+  \label{tab:login-redirect}
+  \begin{tabularx}{0.96\textwidth}{p{0.20\textwidth} p{0.24\textwidth} Y}
+    \toprule
+    角色 & 登录后默认页面 & 其他功能入口 \\
+    \midrule
+    管理员（ADMIN） & 管理后台 & 左侧菜单可切换“审核工作台”，顶部可“返回前台” \\
+    审核员（AUDITOR） & 前台首页 & 顶部用户下拉菜单进入“审核工作台” \\
+    个人开发者 & 前台首页 & 顶部“版权申请”、用户下拉菜单“个人中心” \\
+    企业开发者 & 前台首页 & 顶部“版权申请”、个人中心内的记录与信息页 \\
+    企业管理员 & 前台首页 & 版权申请、企业版权记录、企业成员管理、个人信息 \\
+    企业法务 & 前台首页 & 个人中心（法务范围为“全企业”时可查看企业版权记录） \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\notice{若输入正确账号密码后仍无法登录，请确认账号是否被管理员禁用、密码是否最近被重置；连续登录失败时建议联系平台管理员核对账号状态。}
+
+\subsection{退出登录}
+\indent 需要结束当前会话时，可采用以下任一方式退出：\par
+
+\begin{enumerate}
+  \item 前台页面：点击顶部右侧用户名，展开下拉菜单后选择【退出登录】；
+  \item 个人中心、审核工作台或管理后台：点击左侧边栏底部的红色【退出登录】按钮；
+  \item 退出后系统清除本地登录态并跳转登录页，如需继续使用须重新登录。
+\end{enumerate}
+
+\section{主界面说明}
+
+\subsection{界面整体布局}
+\indent 平台界面分为前台页面、个人中心、审核工作台和管理后台四种布局。前台页面采用“顶部导航 + 内容区 + 页脚”的结构，个人中心、审核工作台与管理后台采用“左侧菜单 + 右侧内容区”的结构。前台首页如图\ref{fig:home}所示。\par
+
+\opshot{09-hash-query-result.png}{平台首页（版权溯源查询入口）}{
+首页中央为版权溯源查询区，顶部导航栏提供首页、版权申请、登录注册及用户菜单入口；未登录访客也可直接使用哈希查询。
+}
+\label{fig:home}
+
+\indent 前台页面各部分说明如下：\par
+
+\begin{itemize}
+  \item \textbf{顶部导航栏}：左侧为平台标识“版权云链”，点击可返回首页；中部为“首页”“版权申请”菜单；右侧为登录/注册按钮或当前用户下拉菜单。
+  \item \textbf{内容区}：展示当前功能页面，首页为版权溯源查询区，其他页面为表单、列表或详情内容。
+  \item \textbf{页脚}：展示平台版权信息与系统说明文字。
+\end{itemize}
+
+\subsection{首页查询区}
+\indent 首页提供面向公众的版权溯源入口，包含标题“软件版权溯源查询”、说明文字、文件哈希输入框与【搜索】按钮。用户输入完整的 SHA-256 文件哈希后，点击【搜索】或按回车键，即可跳转至哈希查询页并自动执行查询。具体操作步骤见第\ref{sec:query}章。\par
+
+\subsection{顶部导航与用户菜单}
+\indent 顶部导航菜单会根据登录状态和角色动态显示，具体可见范围如表\ref{tab:top-menu}所示。\par
+
+\Needspace{14\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{顶部导航与用户下拉菜单说明}
+  \label{tab:top-menu}
+  \begin{tabularx}{0.96\textwidth}{p{0.20\textwidth} p{0.26\textwidth} Y}
+    \toprule
+    菜单项 & 可见条件 & 功能说明 \\
+    \midrule
+    首页 & 所有访客 & 返回首页，使用版权溯源查询 \\
+    版权申请 & 已登录且角色为个人开发者或企业开发者 & 进入版权存证申请页面 \\
+    登录/注册 & 未登录 & 进入登录页或注册页 \\
+    用户下拉菜单 & 已登录 & 展示用户名，展开后可进入个人中心、审核工作台、管理后台或退出登录 \\
+    管理后台 & 管理员 & 进入后台治理页面 \\
+    审核工作台 & 审核员、管理员 & 进入人工复核页面 \\
+    个人中心 & 已登录用户 & 进入个人记录、企业记录、成员管理与个人信息页面 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{个人中心、审核台与管理后台布局}
+\indent 三类后台型页面的布局差异如表\ref{tab:layout-compare}所示。左侧菜单仅展示当前角色有权访问的功能，无权限的菜单项不会出现。\par
+
+\Needspace{18\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{页面布局与适用角色对比}
+  \label{tab:layout-compare}
+  \begin{tabularx}{0.96\textwidth}{p{0.15\textwidth} p{0.18\textwidth} p{0.26\textwidth} Y}
+    \toprule
+    页面类型 & 布局形式 & 左侧菜单 & 适用角色 \\
+    \midrule
+    前台页面 & 顶部导航 + 内容区 + 页脚 & 无 & 所有访客、个人开发者、企业开发者 \\
+    个人中心 & 左侧菜单 + 顶部欢迎条 + 内容区 & 我的版权记录、企业版权记录、企业成员管理、个人信息 & 已登录用户（菜单按角色显示） \\
+    审核工作台 & 左侧菜单 + 顶部欢迎条 + 内容区 & 管理后台（管理员可见）、审核工作台 & 审核员、管理员 \\
+    管理后台 & 左侧菜单 + 顶部欢迎条 + 内容区 & 管理后台、审核工作台 & 管理员 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{版权存证申请}
+\label{sec:apply}
+
+\subsection{功能说明与前置条件}
+\indent 版权存证申请是平台的核心业务入口。开发者上传软件文件并填写软件名称、描述后，系统自动完成文件校验、摘要提取、相似性评估与风险分级；低风险申请自动进入上链流程，中高风险申请转入人工复核。申请提交后，页面会持续展示申请编号、业务状态与交易哈希，便于用户跟踪处理结果。\par
+
+\notice{使用版权申请功能需同时满足以下条件：（1）已登录且角色为个人开发者或企业开发者；（2）上传文件大小不超过 100MB；（3）同一文件内容（相同文件哈希）在平台内只能存在一条有效的版权记录。}
+
+\subsection{操作步骤}
+\indent 版权存证申请的具体操作步骤如下：\par
+
+\begin{enumerate}
+  \item 登录后，在顶部导航栏点击【版权申请】；也可在“我的版权记录”页面点击【新增版权】进入申请页；
+  \item 在“软件名称”输入框填写待存证软件的名称，该项为必填；
+  \item 在“软件描述”文本框中填写软件功能、版本或用途说明，该项为选填；
+  \item 在“上传文件”区域拖拽文件至虚线框内，或点击“点击上传”选择本地文件；系统限制单次上传 1 个文件，支持任意格式，文件大小不超过 100MB；
+  \item 确认信息无误后，点击【提交存证】；提交过程中按钮显示“存证中...”，请勿重复点击；
+  \item 提交成功后，页面提示“版权申请提交成功！”，并在下方“申请结果”区域展示申请编号、申请状态、交易哈希等信息；
+  \item 若申请处于中间状态（如“待人工复核”“自动核验完成”），页面每 3 秒自动查询一次最新状态，直至进入“上链成功”或“上链失败”等终态后停止；
+  \item 如需继续查询，可点击结果区域的【查询存证信息】跳转至哈希查询页；如需重新填写，可点击【重置】清空表单并停止状态查询。
+\end{enumerate}
+
+\opshot{04-apply-form.png}{版权存证申请页面}{
+申请页包含软件名称、软件描述、上传文件三个区域，底部提供【提交存证】与【重置】按钮；上传区提示支持任意格式且文件不超过 100MB。
+}
+
+\opshot{op-apply-result.png}{版权申请结果展示}{
+提交成功后，页面下方展示“申请结果”，包括申请编号、申请状态、交易哈希；若上链失败还会显示失败原因，并可点击按钮跳转查询存证信息。
+}
+
+\indent 申请结果区域各字段的含义如表\ref{tab:apply-result-field}所示。\par
+
+\Needspace{14\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{申请结果字段说明}
+  \label{tab:apply-result-field}
+  \begin{tabularx}{0.96\textwidth}{p{0.18\textwidth} Y}
+    \toprule
+    字段 & 说明 \\
+    \midrule
+    申请编号 & 本次申请的唯一业务编号，后续查询、审核与追溯均以此编号为依据 \\
+    申请状态 & 当前业务状态，如“自动核验完成”“待人工复核”“上链成功”“上链失败”“已驳回” \\
+    失败原因 & 仅在上链失败等异常场景显示，用于定位失败环节 \\
+    交易哈希 & 链上确权成功后返回的交易凭证；未上链时不显示或显示为“-” \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{业务状态说明}
+\indent 申请提交后，业务状态会随处理进度变化。用户可依据表\ref{tab:apply-status}判断当前进度并决定后续操作。\par
+
+\Needspace{18\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{版权申请业务状态说明}
+  \label{tab:apply-status}
+  \begin{tabularx}{0.96\textwidth}{p{0.28\textwidth} p{0.18\textwidth} Y}
+    \toprule
+    业务状态 & 界面显示 & 说明与后续操作 \\
+    \midrule
+    SUBMITTED & 已提交 & 申请已受理，系统正在处理；可等待页面自动刷新状态 \\
+    AUTO\_CHECKED & 自动核验完成 & 低风险申请已通过评估，即将或正在进入上链流程 \\
+    PENDING\_REVIEW & 待人工复核 & 命中中高风险，需等待审核员在审核工作台处理；期间无需重复提交 \\
+    ONCHAIN\_SUCCESS & 上链成功 & 确权完成，已生成交易哈希与区块高度，可在记录或查询页核验 \\
+    ONCHAIN\_FAILED & 上链失败 & 链上写入异常，需联系平台管理员排查后重新处理 \\
+    REJECTED & 已驳回 & 人工复核未通过，不触发上链；可查看复核备注了解原因 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{注意事项}
+\begin{enumerate}
+  \item 若上传文件与平台已确权文件的内容完全一致，系统会拦截提交并提示“该文件已存在版权记录”，此时无需重复申请，可直接通过哈希查询核验归属。
+  \item 文件在校验阶段会进行完整性、扩展名与内容一致性检查；压缩包损坏、传输中断或伪造扩展名均可能导致提交失败，请重新选择完好的文件。
+  \item 点击【重置】或在页面跳转后，自动状态查询会停止；如需查看最终结果，可前往“我的版权记录”或哈希查询页。
+  \item 处于“待人工复核”的申请需要审核员处理，处理时效由平台审核安排决定，请勿重复提交相同申请。
+\end{enumerate}
+
+\section{版权溯源查询}
+\label{sec:query}
+
+\subsection{首页快速查询}
+\indent 未登录访客与已登录用户均可使用版权溯源查询。操作步骤如下：\par
+
+\begin{enumerate}
+  \item 进入平台首页；
+  \item 在“请输入文件哈希值（SHA-256）”输入框中粘贴完整的文件哈希；
+  \item 点击【搜索】按钮，或按回车键；
+  \item 页面跳转至“通过文件哈希查询”页，并自动带入哈希值执行查询；
+  \item 查询完成后，页面展示版权归属、链上凭证与业务状态等信息。
+\end{enumerate}
+
+\subsection{哈希查询页面操作}
+\indent 在哈希查询页中，用户也可直接输入或修改哈希后点击【查询】。页面顶部提供【返回首页】按钮，便于返回首页重新查询。查询结果如图\ref{fig:hash-query}所示。\par
+
+\opshot{op-hash-query-result.png}{文件哈希查询结果页面}{
+查询结果以键值对形式展示申请编号、软件名称、文件哈希、版权拥有者、交易哈希、区块高度、业务状态与审核状态等字段，便于公开核验。
+}
+\label{fig:hash-query}
+
+\indent 查询结果字段说明如表\ref{tab:hash-query-field}所示。\par
+
+\Needspace{20\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{哈希查询结果字段说明}
+  \label{tab:hash-query-field}
+  \begin{tabularx}{0.96\textwidth}{p{0.18\textwidth} Y}
+    \toprule
+    字段 & 说明 \\
+    \midrule
+    申请编号 & 该文件对应的版权申请编号 \\
+    软件名称 & 申请时填写的软件名称 \\
+    文件哈希 & 被查询文件的 SHA-256 摘要，用于确认查询对象 \\
+    版权拥有者 & 确权主体名称或拥有者地址 \\
+    软件描述 & 申请时填写的软件说明 \\
+    交易哈希 & 联盟链上确权交易的哈希值 \\
+    区块高度 & 交易被打包所在区块的高度 \\
+    业务状态 & 当前业务状态，如“上链成功”“待人工复核”等 \\
+    审核状态 & 人工复核状态，如“待审核”“审核通过”“审核驳回” \\
+    创建时间/更新时间 & 申请创建时间与最近更新时间 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{查询结果判读}
+\indent 查询结果通常分为以下三种情况：\par
+
+\begin{enumerate}
+  \item \textbf{查询到记录}：表示该文件已在平台完成或正在办理版权存证。可重点核对“文件哈希”“版权拥有者”“交易哈希”“区块高度”与“业务状态”，其中状态为“上链成功”时，链上凭证可作为公开核验依据。
+  \item \textbf{提示“未找到相关版权记录”}：表示该哈希尚未在平台确权，或输入内容不完整、包含多余字符。建议从版权记录详情页复制完整哈希后重试。
+  \item \textbf{状态为“待人工复核”}：表示文件已被受理但尚未完成链上确权，需等待审核员处理后再查询。
+\end{enumerate}
+
+\notice{文件哈希为 64 位十六进制字符串，查询时必须完整输入，且不支持模糊匹配。若从聊天工具或文档复制哈希，请注意避免带入空格、换行或省略号。}
+
+\subsection{按申请编号查询详情}
+\indent 除按文件哈希查询外，平台还支持按申请编号查看完整详情。用户可在“我的版权记录”或“企业版权记录”中点击【详情】，系统按申请编号加载记录详情；管理员也可在管理后台“版权记录管理”中点击【查看详情】，以新窗口打开版权详情页。版权详情页展示申请编号、业务状态、软件名称、归属主体、文件哈希、证据根哈希、元数据哈希、拥有者地址、交易哈希、区块高度、审核状态、软件描述及创建/更新时间等信息。\par
+
+\section{版权记录管理}
+
+\subsection{我的版权记录}
+\indent 个人开发者、企业开发者与企业管理员可在个人中心查看本人提交的版权记录。操作步骤如下：\par
+
+\begin{enumerate}
+  \item 点击顶部右侧用户名，在下拉菜单中选择【个人中心】，系统默认进入“我的版权记录”页面；
+  \item 页面顶部展示记录总数与【新增版权】按钮，点击可直接进入版权申请页；
+  \item 使用“搜索软件名称/申请编号”输入框按关键词检索记录；
+  \item 使用“业务状态”下拉框筛选“上链成功”“上链失败”“已提交”等状态；
+  \item 点击【搜索】执行查询，点击【重置】清空筛选条件并恢复默认列表；
+  \item 列表底部通过分页控件切换页码或调整每页条数（10/20/50/100 条）。
+\end{enumerate}
+
+\opshot{op-my-records.png}{我的版权记录列表}{
+列表展示 ID、申请编号、软件名称、业务状态、文件哈希、交易哈希、区块高度、存证时间与操作列；顶部提供关键词检索、状态筛选与新增版权入口。
+}
+
+\indent 列表主要字段与操作如表\ref{tab:my-records}所示。\par
+
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{我的版权记录列表字段说明}
+  \label{tab:my-records}
+  \begin{tabularx}{0.96\textwidth}{p{0.18\textwidth} Y}
+    \toprule
+    字段/操作 & 说明 \\
+    \midrule
+    申请编号 & 版权申请的唯一业务编号 \\
+    软件名称 & 申请时填写的软件名称 \\
+    业务状态 & 当前处理状态，鼠标无需悬停即可直接查看中文状态 \\
+    文件哈希/交易哈希 & 用于核验与追溯；内容较长时自动换行展示 \\
+    区块高度 & 上链成功后返回的区块高度 \\
+    存证时间 & 申请创建时间 \\
+    详情 & 点击后以弹窗形式展示该申请的完整证据与审核信息 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{查看版权记录详情}
+\indent 在记录列表中点击某条记录的【详情】，系统按申请编号加载详情并以弹窗形式展示，字段包括申请编号、业务状态、软件名称、归属主体、文件哈希、证据根哈希、元数据哈希、交易哈希、区块高度、审核状态、风险等级、相似度评分、风险原因、复核结论、复核备注、软件描述、创建时间与更新时间。\par
+
+\opshot{07-onchain-success.png}{版权记录详情弹窗}{
+详情弹窗集中展示证据摘要、链上凭证与审核结论；用户可据此核对文件哈希、交易哈希与风险等级，确认确权结果。
+}
+
+\indent 详情中的风险与复核字段说明如下：\par
+
+\begin{itemize}
+  \item \textbf{风险等级}：低风险表示相似度较低，可自动流转；中风险通常需人工复核；高风险表示跨主体高相似，需强制复核。
+  \item \textbf{相似度评分}：系统与历史样本比对得到的最高相似度分值，分值越高表示与既有作品越接近。
+  \item \textbf{风险原因}：命中风险规则时的说明文字，用于解释分级依据。
+  \item \textbf{复核结论/复核备注}：审核员的处理结果与说明，驳回时备注中会给出原因。
+\end{itemize}
+
+\subsection{版权详情页}
+\indent 版权详情页以独立页面形式展示单条版权记录，可通过“/copyright/\{申请编号\}”路径访问。与弹窗相比，详情页额外展示“拥有者地址”，适合需要完整核对链上归属信息的场景。页面顶部提供【返回】按钮，点击可回到上一页面。\par
+
+\subsection{企业版权记录}
+\indent 企业管理员，以及法务范围为“全企业”的企业法务，可在个人中心左侧菜单看到“企业版权记录”入口。该页面展示本企业范围内的版权记录，操作步骤如下：\par
+
+\begin{enumerate}
+  \item 在个人中心左侧菜单点击【企业版权记录】；
+  \item 通过关键词输入框按“软件名称/申请编号”检索；
+  \item 通过“业务状态”下拉框筛选“上链成功”“上链失败”“待复核”；
+  \item 点击【搜索】执行查询，使用分页控件浏览更多记录。
+\end{enumerate}
+
+\opshot{op-enterprise-records.png}{企业版权记录列表}{
+企业版权记录展示申请编号、软件名称、企业主体、业务状态、风险等级、相似度与提交时间，便于企业统一掌握成员提交的存证情况。
+}
+
+\subsection{企业成员管理}
+\indent 企业管理员可在“企业成员管理”中维护本企业成员及其法务可见范围。操作步骤如下：\par
+
+\begin{enumerate}
+  \item 在个人中心左侧菜单点击【企业成员管理】；
+  \item 点击右上角【新增成员】，在弹窗中填写用户名、密码、昵称、邮箱、手机号，并选择企业角色（开发者/法务）；
+  \item 当企业角色选择“法务”时，需设置“法务范围”（仅本人/全企业）；
+  \item 点击【保存】完成新增，列表自动刷新；
+  \item 对已有成员，可点击【编辑】修改资料，点击【禁用/启用】切换成员状态；
+  \item 对法务成员，可点击【切换法务范围】在“仅本人”和“全企业”之间快速调整。
+\end{enumerate}
+
+\opshot{op-enterprise-members.png}{企业成员管理页面}{
+成员列表展示用户名、昵称、企业角色、法务范围、邮箱与状态；企业管理员可新增成员、编辑资料、启停账号并切换法务可见范围。
+}
+
+\notice{企业成员的用户名需全局唯一；成员角色为“开发者”时拥有版权申请权限，角色为“法务”时按法务范围查看企业记录。企业管理员自身角色不可在此页面删除或降级，如需调整请联系平台管理员。}
+
+\section{审核工作台}
+\label{sec:audit}
+
+\subsection{进入审核工作台}
+\indent 审核员与管理员可使用人工复核功能。进入方式如下：\par
+
+\begin{enumerate}
+  \item 使用审核员或管理员账号登录；
+  \item 在前台页面点击顶部右侧用户名，在下拉菜单中选择【审核工作台】；或直接在浏览器中访问审核工作台路径；
+  \item 进入后左侧菜单显示“审核工作台”，管理员还会看到“管理后台”菜单；
+  \item 页面顶部显示当前审核员账号，右上角提供【返回前台】按钮。
+\end{enumerate}
+
+\subsection{待复核列表与筛选}
+\indent 审核工作台默认筛选“待审核”记录，列表展示 ID、软件名称、权利主体、主体类型、文件哈希、状态与操作列。操作说明如下：\par
+
+\begin{enumerate}
+  \item 在“审核状态”下拉框选择“待审核”“已通过”或“已驳回”，切换后列表自动刷新；
+  \item 在搜索框输入软件名称、文件哈希或权利主体关键词，点击【搜索】执行检索；
+  \item 使用列表底部分页控件浏览更多记录。
+\end{enumerate}
+
+\opshot{14-audit-list.png}{审核工作台待复核列表}{
+列表按审核状态筛选，展示软件名称、权利主体、主体类型与文件哈希；每条记录提供【通过】【驳回】操作按钮。
+}
+
+\subsection{审核通过}
+\indent 对确认无版权冲突的申请执行通过操作：\par
+
+\begin{enumerate}
+  \item 在目标记录的操作列点击【通过】；
+  \item 系统弹出“审核通过”对话框，可填写通过备注（选填）；
+  \item 点击【提交】；
+  \item 页面提示“审核提交成功”，列表自动刷新，该记录状态变为“审核通过”；
+  \item 通过后将触发链上确权流程，申请业务状态最终变为“上链成功”或“上链失败”。
+\end{enumerate}
+
+\subsection{审核驳回}
+\indent 对存在侵权风险或材料不符合要求的申请执行驳回操作：\par
+
+\begin{enumerate}
+  \item 在目标记录的操作列点击【驳回】；
+  \item 系统弹出“审核驳回”对话框，必须填写驳回原因，未填写时无法提交；
+  \item 点击【提交】；
+  \item 页面提示“审核提交成功”，记录状态变为“审核驳回”，申请业务状态变为“已驳回”，且不会触发上链。
+\end{enumerate}
+
+\opshot{op-audit-dialog.png}{审核通过/驳回操作弹窗}{
+审核弹窗用于填写通过备注或驳回原因；驳回原因必填，提交后审核结论与备注将写入记录，供后续追溯。
+}
+
+\subsection{审核结果与业务流转}
+\indent 审核结论与后续业务状态对应关系如表\ref{tab:audit-flow}所示。\par
+
+\Needspace{12\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{审核结论与业务流转}
+  \label{tab:audit-flow}
+  \begin{tabularx}{0.96\textwidth}{p{0.18\textwidth} p{0.22\textwidth} Y}
+    \toprule
+    审核结论 & 审核状态 & 后续处理 \\
+    \midrule
+    通过 & APPROVED / 审核通过 & 触发链上确权，业务状态转为“上链成功”或“上链失败” \\
+    驳回 & REJECTED / 审核驳回 & 申请终止，业务状态为“已驳回”，不触发上链 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{审核注意事项}
+\begin{enumerate}
+  \item 仅“待人工复核”状态的申请允许审核；已通过或已驳回的记录，对应按钮会置灰，防止重复处理。
+  \item 驳回原因会展示在申请人的记录详情与复核备注中，请填写清晰、可核实的说明。
+  \item 审核结论提交后不可在页面撤销；如确需调整，请联系平台管理员处理。
+  \item 审核员账号仅能访问审核工作台，不具备账号治理与角色分配权限。
+\end{enumerate}
+
+\section{平台管理后台}
+\label{sec:admin}
+
+\subsection{进入管理后台}
+\indent 管理员登录后会自动跳转至管理后台；也可在左侧菜单点击【管理后台】进入。管理后台左侧菜单包含“管理后台”和“审核工作台”两个入口，顶部显示当前管理员账号及【返回前台】按钮。非管理员角色无法看到该入口，直接访问后台路径也会被路由拦截并返回首页。\par
+
+\subsection{统计概览}
+\indent 管理后台顶部展示三张统计卡片：总用户数、活跃用户、版权记录总数，数据在进入页面时自动加载，可用于快速了解平台规模与业务量。\par
+
+\opshot{16-admin-dashboard.png}{管理后台首页（账号管理）}{
+页面顶部展示总用户数、活跃用户与版权记录总数三张统计卡片；下方以标签页形式提供“人员账号管理”和“版权记录管理”功能。
+}
+
+\subsection{人员账号管理}
+\indent “人员账号管理”标签页用于平台账号治理，主要操作如下：\par
+
+\begin{enumerate}
+  \item \textbf{检索账号}：在“搜索用户名/昵称/邮箱”输入框填写关键词，点击搜索图标执行查询；
+  \item \textbf{新增账号}：点击【新增账号】，在弹窗填写用户名、密码、昵称、邮箱、手机号，选择角色与状态；角色为企业开发者时必须选择所属企业；
+  \item \textbf{编辑账号}：点击【编辑】修改昵称、邮箱、手机号、角色、状态等信息，用户名不可修改；
+  \item \textbf{启用/禁用}：点击【禁用】或【启用】，在确认框中确认后生效；
+  \item \textbf{重置密码}：点击【重置密码】，确认后系统生成新密码并在弹窗中展示，需将新密码告知对应用户；
+  \item \textbf{删除账号}：点击【删除】，确认后删除该账号，操作不可恢复；
+  \item \textbf{设置角色}：点击【设置角色】，在下拉菜单中选择“个人开发者”“企业开发者”或“审核员”；选择企业开发者时需检索并选择启用状态的企业。
+\end{enumerate}
+
+\opshot{op-admin-user-dialog.png}{新增/编辑账号弹窗}{
+账号弹窗包含用户名、密码、昵称、邮箱、手机号、角色与状态；角色选择企业开发者时，会额外显示“所属企业”检索选择框。
+}
+
+\opshot{op-admin-role-dialog.png}{设置用户角色弹窗}{
+角色设置弹窗展示目标用户与目标角色；切换为企业开发者时必须选择所属企业，且只能选择启用状态的企业。
+}
+
+\notice{企业开发者账号必须绑定企业；未选择企业或选择已禁用企业时，系统会给出提示并阻止提交。删除账号与重置密码属于高风险操作，请在确认无误后执行，并保留操作记录。}
+
+\subsection{版权记录管理}
+\indent 切换到“版权记录管理”标签页，可查看平台全量版权记录。操作如下：\par
+
+\begin{enumerate}
+  \item 在关键词输入框按“软件名称/文件哈希/申请编号”检索；
+  \item 使用“业务状态”下拉框筛选“上链成功”“上链失败”“已提交”“待人工复核”；
+  \item 在列表中查看软件名称、文件哈希、拥有者地址、交易哈希、描述、业务状态与申请时间；
+  \item 点击【查看详情】，系统以新窗口打开该申请编号对应的版权详情页，便于进一步核对。
+\end{enumerate}
+
+\opshot{op-admin-copyrights.png}{管理后台版权记录管理}{
+该标签页展示全量版权记录，支持关键词与业务状态筛选，并提供“查看详情”入口跳转至版权详情页。
+}
+
+\subsection{后台操作注意事项}
+\begin{enumerate}
+  \item 管理后台仅对管理员角色开放，管理员同时可使用审核工作台，但账号治理与角色分配仅限管理后台。
+  \item 角色调整受主体边界约束：企业开发者必须绑定有效企业，审核员与个人开发者不绑定企业。
+  \item 账号删除、密码重置、角色变更等治理动作会写入业务表与系统日志，用于审计追溯。
+  \item 进行批量维护前建议先通过关键词检索确认目标账号，避免误操作。
+\end{enumerate}
+
+\section{个人中心}
+
+\subsection{入口与菜单}
+\indent 已登录用户点击顶部右侧用户名，在下拉菜单中选择【个人中心】即可进入。个人中心左侧菜单按角色动态显示，具体可见范围如表\ref{tab:profile-menu}所示。\par
+
+\Needspace{14\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{个人中心菜单可见范围}
+  \label{tab:profile-menu}
+  \begin{tabularx}{0.96\textwidth}{p{0.24\textwidth} p{0.28\textwidth} Y}
+    \toprule
+    菜单项 & 可见条件 & 功能说明 \\
+    \midrule
+    我的版权记录 & 个人开发者、企业开发者、企业管理员 & 查看本人提交的版权记录 \\
+    企业版权记录 & 企业管理员；或企业法务且法务范围为“全企业” & 查看本企业版权记录 \\
+    企业成员管理 & 企业管理员 & 维护企业成员与法务可见范围 \\
+    个人信息 & 已登录用户 & 查看并修改个人资料、修改登录密码 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{个人信息维护}
+\indent 在个人中心左侧菜单点击【个人信息】，页面提供“基本信息”和“修改密码”两个标签页。基本信息页操作步骤如下：\par
+
+\begin{enumerate}
+  \item 查看用户名（只读）与角色标签；
+  \item 修改昵称、邮箱、手机号；
+  \item 点击【保存修改】提交，页面提示“保存成功”后自动刷新显示最新信息；
+  \item 如需放弃修改，点击【重置】恢复为服务端当前保存的资料。
+\end{enumerate}
+
+\opshot{op-profile-info.png}{个人信息页面}{
+基本信息页展示用户名、昵称、邮箱、手机号、角色与注册时间；用户名不可修改，其余资料可编辑并保存。
+}
+
+\indent 字段校验规则：昵称不超过 50 个字符；邮箱需符合邮箱格式；手机号需为 11 位有效号码。校验不通过时输入框下方会给出提示。\par
+
+\subsection{修改登录密码}
+\indent 在“修改密码”标签页中，按以下步骤操作：\par
+
+\begin{enumerate}
+  \item 输入原密码；
+  \item 输入新密码（不少于 6 位）；
+  \item 再次输入新密码进行确认，两次输入必须一致；
+  \item 点击【修改密码】提交；
+  \item 修改成功后页面提示“密码修改成功，请重新登录”，系统在约 1.5 秒后自动退出并跳转登录页；
+  \item 使用新密码重新登录即可。
+\end{enumerate}
+
+\notice{修改密码后当前登录态会失效，属于正常安全机制；请确保新密码已牢记后再提交。如原密码输入错误，系统会提示修改失败，需核对后重试。}
+
+\section{典型业务流程演示}
+
+\subsection{整体操作流程}
+\indent 平台围绕“提交—评估—复核—上链—查询”形成完整闭环，整体操作流程如图\ref{fig:overall-flow}所示。开发者提交申请后，系统先完成校验与相似性评估；低风险申请自动上链，中高风险申请进入审核工作台；审核通过后上链，驳回则流程终止；最终用户可通过记录列表或哈希查询核验确权结果。\par
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=1.2cm]
+    \node (start) [flowstartstop] {开发者登录平台};
+    \node (form) [flowprocess, below=of start] {填写软件信息并上传文件};
+    \node (check) [flowprocess, below=of form] {完整性校验与摘要提取};
+    \node (score) [flowprocess, below=of check] {相似性评估与风险分级};
+    \node (risk) [flowdecision, below=of score, yshift=-0.1cm] {中高风险?};
+    \node (auto) [flowprocess, below=of risk, yshift=-0.1cm] {自动上链存证};
+    \node (end1) [flowstartstop, below=of auto] {返回交易凭证};
+    \node (audit) [flowprocess, right=2.6cm of risk] {审核员复核并提交结论};
+    \node (review) [flowdecision, below=of audit, yshift=-0.1cm] {复核通过?};
+    \node (chain2) [flowprocess, below=of review, yshift=-0.1cm] {链上确权并回写回执};
+    \node (end2) [flowstartstop, below=of chain2] {返回确权结果};
+    \node (reject) [flowstartstop, right=1.8cm of review] {驳回并终止流程};
+    \draw [flowline] (start) -- (form);
+    \draw [flowline] (form) -- (check);
+    \draw [flowline] (check) -- (score);
+    \draw [flowline] (score) -- (risk);
+    \draw [flowline] (risk) -- node[right]{否（低风险）} (auto);
+    \draw [flowline] (auto) -- (end1);
+    \draw [flowline] (risk.east) -- node[above]{是} (audit.west);
+    \draw [flowline] (audit) -- (review);
+    \draw [flowline] (review) -- node[right]{通过} (chain2);
+    \draw [flowline] (chain2) -- (end2);
+    \draw [flowline] (review.east) -- node[above]{驳回} (reject.west);
+  \end{tikzpicture}
+  \caption{平台整体操作流程图}
+  \label{fig:overall-flow}
+\end{figure}
+
+\subsection{场景一：个人开发者提交原创软件并自动上链}
+\indent 本场景演示原创软件从申请到确权成功的完整操作过程，适用于相似度较低、风险等级为低风险的申请。\par
+
+\begin{enumerate}
+  \item 个人开发者注册账号并登录，登录后默认进入前台首页；
+  \item 点击顶部【版权申请】，填写软件名称与软件描述；
+  \item 上传待存证的软件压缩包，点击【提交存证】；
+  \item 页面返回申请编号，业务状态显示“自动核验完成”；
+  \item 系统完成相似性评估，判定为低风险后自动进入上链流程；
+  \item 页面状态自动刷新为“上链成功”，并显示交易哈希；
+  \item 用户进入【个人中心】→【我的版权记录】，找到该申请并点击【详情】，核对证据摘要与交易哈希；
+  \item 将文件哈希提供给合作方或第三方，对方通过首页查询入口即可公开核验确权信息。
+\end{enumerate}
+
+\subsection{场景二：中高风险申请进入人工复核}
+\indent 当申请与历史样本相似度较高时，系统会将其转入人工复核。本场景涉及开发者与审核员两类角色。\par
+
+\begin{enumerate}
+  \item 开发者按场景一步骤提交申请，页面状态显示“待人工复核”；
+  \item 审核员登录后通过用户下拉菜单进入【审核工作台】；
+  \item 在“待审核”列表中根据软件名称、权利主体或文件哈希定位目标申请；
+  \item 核对申请信息后，点击【通过】或【驳回】；
+  \item 选择通过时填写备注并提交，系统触发链上确权，业务状态最终变为“上链成功”；
+  \item 选择驳回时必须填写驳回原因，提交后业务状态变为“已驳回”，不触发上链；
+  \item 开发者可在“我的版权记录”详情中查看复核结论与复核备注。
+\end{enumerate}
+
+\subsection{场景三：第三方公开核验版权归属}
+\indent 本场景无需登录，适用于交易对手、合作方或监管方核验软件是否已在平台确权。\par
+
+\begin{enumerate}
+  \item 打开平台首页，在版权溯源查询区输入待核验文件的 SHA-256 哈希；
+  \item 点击【搜索】，页面跳转至哈希查询页并自动查询；
+  \item 在查询结果中核对软件名称、版权拥有者、文件哈希与交易哈希；
+  \item 若业务状态为“上链成功”，记录中的交易哈希与区块高度可作为链上存证凭证；
+  \item 若提示“未找到相关版权记录”，说明该文件尚未在平台确权，可建议对方先行提交存证。
+\end{enumerate}
+
+\section{常见问题与故障处理}
+
+\subsection{登录与账号类问题}
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{登录与账号常见问题}
+  \begin{tabularx}{0.96\textwidth}{p{0.24\textwidth} p{0.26\textwidth} Y}
+    \toprule
+    现象 & 可能原因 & 处理方法 \\
+    \midrule
+    提示用户名或密码错误 & 账号密码输入有误，或密码已被重置 & 核对用户名与密码；如忘记密码，请联系管理员重置 \\
+    登录后立即跳回登录页 & 登录令牌失效或本地登录态被清除 & 重新登录；检查浏览器是否禁用本地存储 \\
+    提示账号不可用 & 账号被管理员禁用 & 联系管理员确认账号状态 \\
+    看不到“版权申请”菜单 & 当前角色不是个人开发者或企业开发者 & 使用开发者账号登录，或联系管理员调整角色 \\
+    注册时提示用户名已存在 & 用户名已被占用 & 更换用户名后重新注册 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{申请与上传类问题}
+\Needspace{18\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{版权申请常见问题}
+  \begin{tabularx}{0.96\textwidth}{p{0.24\textwidth} p{0.26\textwidth} Y}
+    \toprule
+    现象 & 可能原因 & 处理方法 \\
+    \midrule
+    提示“该文件已存在版权记录” & 文件内容与平台已确权文件完全一致 & 无需重复提交，直接通过哈希查询核验归属 \\
+    上传后无法提交 & 未选择文件或软件名称为空 & 补充必填项后重新提交 \\
+    上传失败或长时间无响应 & 文件超过 100MB、网络中断或压缩包损坏 & 压缩文件后重试，检查网络并确认文件可正常解压 \\
+    状态长期为“待人工复核” & 申请命中中高风险，等待审核处理 & 耐心等待审核结果，无需重复提交 \\
+    状态为“上链失败” & 链上服务异常或交易执行失败 & 记录申请编号并联系平台管理员排查 \\
+    状态为“已驳回” & 人工复核未通过 & 在记录详情中查看复核备注，按原因调整后重新申请 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{查询、审核与后台类问题}
+\Needspace{20\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{查询、审核与后台常见问题}
+  \begin{tabularx}{0.96\textwidth}{p{0.24\textwidth} p{0.26\textwidth} Y}
+    \toprule
+    现象 & 可能原因 & 处理方法 \\
+    \midrule
+    哈希查询提示未找到记录 & 哈希不完整、含空格或该文件未确权 & 从详情页复制完整哈希重试；确认对方是否已提交存证 \\
+    查询结果无交易哈希 & 申请尚未完成上链 & 查看业务状态，待“上链成功”后再查询 \\
+    审核按钮置灰 & 记录已通过或已驳回 & 属正常状态保护，不可重复审核 \\
+    驳回时无法提交 & 未填写驳回原因 & 在弹窗中填写具体原因后提交 \\
+    管理员看不到管理后台入口 & 当前账号不是管理员 & 使用管理员账号登录 \\
+    企业版权记录菜单不可见 & 非企业管理员，或法务范围为“仅本人” & 由企业管理员调整成员角色或法务范围 \\
+    修改密码后被迫退出 & 系统安全机制要求重新登录 & 使用新密码重新登录即可 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{附录}
+
+\subsection{附录A：角色与功能权限矩阵}
+\indent 表\ref{tab:role-matrix}汇总各角色可使用的核心功能。“可”表示菜单可见且操作被允许，“—”表示不可见或无权操作；首页哈希查询对所有访客开放，表中不再单列。\par
+
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{角色与功能权限矩阵}
+  \label{tab:role-matrix}
+  \small
+  \begin{tabularx}{0.98\textwidth}{p{0.17\textwidth} C C C C C C}
+    \toprule
+    角色 & 版权申请 & 我的记录 & 企业记录 & 成员管理 & 审核工作台 & 管理后台 \\
+    \midrule
+    个人开发者 & 可 & 可 & — & — & — & — \\
+    企业开发者 & 可 & 可 & — & — & — & — \\
+    企业管理员 & 可 & 可 & 可 & 可 & — & — \\
+    企业法务 & — & — & 可（全企业范围） & — & — & — \\
+    审核员 & — & — & — & — & 可 & — \\
+    管理员 & — & — & — & — & 可 & 可 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\indent 补充说明：所有已登录用户均可进入“个人信息”页面维护资料与修改密码；管理员与审核员可通过顶部用户下拉菜单进入审核工作台；企业法务仅在法务范围为“全企业”时可查看企业版权记录。\par
+
+\subsection{附录B：状态与提示信息对照}
+\Needspace{16\baselineskip}
+\begin{table}[H]
+  \centering
+  \caption{常用状态与提示信息对照}
+  \begin{tabularx}{0.96\textwidth}{p{0.26\textwidth} p{0.20\textwidth} Y}
+    \toprule
+    状态/提示 & 类别 & 含义与处理建议 \\
+    \midrule
+    已提交 & 业务状态 & 申请已受理，等待系统处理 \\
+    自动核验完成 & 业务状态 & 低风险申请已通过评估，进入上链流程 \\
+    待人工复核 & 业务状态 & 命中中高风险，等待审核员处理 \\
+    上链成功 & 业务状态 & 确权完成，可核验交易哈希与区块高度 \\
+    上链失败 & 业务状态 & 链上写入异常，联系管理员排查 \\
+    已驳回 & 业务状态 & 人工复核未通过，不触发上链 \\
+    待审核/审核通过/审核驳回 & 审核状态 & 审核环节的处理进度与结论 \\
+    低风险/中风险/高风险 & 风险等级 & 相似性评估分级结果 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{附录C：操作手册截图清单}
+\indent 表\ref{tab:shot-list}列出本手册使用的全部截图文件名及采集要求，便于后续统一替换为真实界面截图。截图中已有实图的条目可直接沿用，其余条目按“截图占位”标识补充。\par
+
+{\small
+\begin{longtable}{p{0.05\textwidth} p{0.23\textwidth} p{0.08\textwidth} p{0.52\textwidth}}
+  \caption{操作手册截图清单}\label{tab:shot-list}\\
+  \toprule
+  序号 & 文件名 & 所在章节 & 截图内容与采集要求 \\
+  \midrule
+  \endfirsthead
+  \toprule
+  序号 & 文件名 & 所在章节 & 截图内容与采集要求 \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endlastfoot
+  1 & 02-login.png & 2.2 & 用户注册页（个人主体），需完整显示表单字段与注册按钮 \\
+  2 & op-register-enterprise.png & 2.3 & 企业注册页，需显示企业名称与统一社会信用代码输入项 \\
+  3 & op-login.png & 2.4 & 用户登录页，需显示用户名、密码输入框与登录按钮 \\
+  4 & 09-hash-query-result.png & 3.1 & 平台首页，需显示顶部导航与版权溯源查询区 \\
+  5 & 04-apply-form.png & 4.2 & 版权申请页，需显示软件名称、描述、上传区与提交按钮 \\
+  6 & op-apply-result.png & 4.2 & 申请结果区域，需显示申请编号、业务状态与交易哈希 \\
+  7 & op-hash-query-result.png & 5.2 & 哈希查询结果页，需完整显示全部结果字段 \\
+  8 & op-my-records.png & 6.1 & 我的版权记录列表，需显示检索栏、表格与分页 \\
+  9 & 07-onchain-success.png & 6.2 & 版权记录详情弹窗，需显示证据摘要与链上凭证 \\
+  10 & op-enterprise-records.png & 6.5 & 企业版权记录列表，需显示筛选条件与记录字段 \\
+  11 & op-enterprise-members.png & 6.6 & 企业成员管理页，需显示成员列表与操作按钮 \\
+  12 & 14-audit-list.png & 7.2 & 审核工作台待复核列表，需显示筛选与通过/驳回按钮 \\
+  13 & op-audit-dialog.png & 7.3/7.4 & 审核通过或驳回弹窗，需显示备注/原因输入框 \\
+  14 & 16-admin-dashboard.png & 8.2/8.3 & 管理后台首页，需显示统计卡片与账号管理标签页 \\
+  15 & op-admin-user-dialog.png & 8.3 & 新增/编辑账号弹窗，需显示角色与所属企业选择项 \\
+  16 & op-admin-role-dialog.png & 8.3 & 设置用户角色弹窗，需显示目标用户与角色选择 \\
+  17 & op-admin-copyrights.png & 8.4 & 管理后台版权记录管理标签页，需显示筛选与列表 \\
+  18 & op-profile-info.png & 9.2 & 个人信息页，需显示基本资料表单与保存按钮 \\
+\end{longtable}
+}
+
+\subsection{附录D：操作建议}
+\begin{enumerate}
+  \item 建议使用 Chrome 或 Edge 最新版本浏览器，并保持浏览器缩放比例为 100\%，避免表格或弹窗显示不完整。
+  \item 上传软件文件前先确认文件可正常解压、内容完整；大文件上传期间请保持网络稳定，不要关闭页面。
+  \item 文件哈希、交易哈希等长字符串建议通过页面复制或截图保存，避免手工输入产生误差。
+  \item 涉及账号删除、密码重置、角色调整等后台操作时，建议先检索确认目标账号，操作后及时通知相关用户。
+  \item 如遇状态长时间不更新、上链失败或权限异常，请记录申请编号、操作时间与提示信息，并联系平台管理员处理。
+\end{enumerate}
+
+\end{document}
