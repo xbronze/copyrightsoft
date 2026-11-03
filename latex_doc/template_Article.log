@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.22)  19 MAY 2026 13:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.22)  3 NOV 2026 18:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1362,7 +1362,7 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.669 \Needspace{14\baselineskip}
                                  ]
-<figures/02-login.png, id=548, 838.63312pt x 693.34032pt>
+<figures/02-login.png, id=547, 838.63312pt x 693.34032pt>
 File: figures/02-login.png Graphic file (type png)
 <use figures/02-login.png>
 Package pdftex.def Info: figures/02-login.png  used on input line 715.
@@ -1398,7 +1398,7 @@ l.730 ...�后续流程。具体步骤如下：\par
  copy)>]
 
 [21]
-<figures/04-apply-form.png, id=569, 851.43094pt x 693.34032pt>
+<figures/04-apply-form.png, id=568, 851.43094pt x 693.34032pt>
 File: figures/04-apply-form.png Graphic file (type png)
 <use figures/04-apply-form.png>
 Package pdftex.def Info: figures/04-apply-form.png  used on input line 761.
@@ -1420,7 +1420,7 @@ l.769 \end{codeblock}
                       <./figures/04-apply-form.png (PNG copy)>]
 
 [23]
-<figures/14-audit-list.png, id=583, 1445.4pt x 699.36281pt>
+<figures/14-audit-list.png, id=582, 1445.4pt x 699.36281pt>
 File: figures/14-audit-list.png Graphic file (type png)
 <use figures/14-audit-list.png>
 Package pdftex.def Info: figures/14-audit-list.png  used on input line 814.
@@ -1442,7 +1442,7 @@ l.837 \end{codeblock}
                       <./figures/14-audit-list.png (PNG copy)>]
 
 [25]
-<figures/07-onchain-success.png, id=595, 1445.4pt x 699.36281pt>
+<figures/07-onchain-success.png, id=594, 1445.4pt x 699.36281pt>
 File: figures/07-onchain-success.png Graphic file (type png)
 <use figures/07-onchain-success.png>
 Package pdftex.def Info: figures/07-onchain-success.png  used on input line 868
@@ -1464,7 +1464,7 @@ as been already used, duplicate ignored
 l.881 ...�要，统一返回可读性结果。\par
                                                    <./figures/07-onchain-succes
 s.png (PNG copy)>]
-<figures/09-hash-query-result.png, id=602, 851.43094pt x 693.34032pt>
+<figures/09-hash-query-result.png, id=601, 851.43094pt x 693.34032pt>
 File: figures/09-hash-query-result.png Graphic file (type png)
 <use figures/09-hash-query-result.png>
 Package pdftex.def Info: figures/09-hash-query-result.png  used on input line 9
@@ -1487,7 +1487,7 @@ as been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.942 
        <./figures/09-hash-query-result.png (PNG copy)>]
-<figures/16-admin-dashboard.png, id=615, 1445.4pt x 699.36281pt>
+<figures/16-admin-dashboard.png, id=614, 1445.4pt x 699.36281pt>
 File: figures/16-admin-dashboard.png Graphic file (type png)
 <use figures/16-admin-dashboard.png>
 Package pdftex.def Info: figures/16-admin-dashboard.png  used on input line 945
@@ -1677,14 +1677,14 @@ LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2022/07/14>
  ***********
 Package rerunfilecheck Info: File `template_Article.out' has not changed.
-(rerunfilecheck)             Checksum: B0FB97698FBC6F4AF6249D9C84AA7CC5;5200.
+(rerunfilecheck)             Checksum: F24A326F0D5BC0FBAB8E0CC1FB70F53A;5192.
  ) 
 Here is how much of TeX's memory you used:
- 31316 strings out of 473578
- 607536 string characters out of 5722181
- 952673 words of memory out of 5000000
- 53179 multiletter control sequences out of 15000+600000
- 633872 words of font info for 313 fonts, out of 8000000 for 9000
+ 31312 strings out of 473578
+ 607475 string characters out of 5722181
+ 952666 words of memory out of 5000000
+ 53177 multiletter control sequences out of 15000+600000
+ 633602 words of font info for 312 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  88i,12n,92p,1206b,794s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simfang.ttf><c:/Windows/Fonts/
@@ -1692,9 +1692,9 @@ simfang.ttf><c:/Windows/Fonts/simfang.ttf><c:/Windows/Fonts/simfang.ttf><c:/Win
 dows/Fonts/simfang.ttf><c:/Windows/Fonts/simfang.ttf><c:/Windows/Fonts/simfang.
 ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts
 /simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windo
-ws/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simhei.ttf><
+ws/Fonts/simsun.ttc><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><
 c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simh
-ei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fo
+ei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fo
 nts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Wi
 ndows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.tt
 f><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/s
@@ -1702,7 +1702,7 @@ imhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows
 /Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:
 /Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei
 .ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Font
-s/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Wind
+s/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Wind
 ows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc>
 <c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/sim
 sun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/F
@@ -1728,22 +1728,22 @@ nts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Wi
 ndows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.tt
 c><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/s
 imsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows
-/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><d:/softwares/LaTex2024/texlive/
-2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/softwares/LaTex20
-24/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/softwa
-res/LaTex2024/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
-><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi6.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr12.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy10.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmsy6.pfb><d:/softwares/LaTex2024/texlive/2024/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/softwares/LaTex2024/tex
-live/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/softwares/La
-Tex2024/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on template_Article.pdf (41 pages, 1234671 bytes).
+/Fonts/simsun.ttc><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmbx12.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmex10.pfb><d:/softwares/LaTex2024/texlive/2024/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><d:/softwares/LaTex2024/texl
+ive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/softwares/LaTe
+x2024/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/soft
+wares/LaTex2024/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
+fb><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy6.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy7.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmtt10.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on template_Article.pdf (41 pages, 1232964 bytes).
 PDF statistics:
- 1102 PDF objects out of 1200 (max. 8388607)
- 830 compressed objects within 9 object streams
+ 1098 PDF objects out of 1200 (max. 8388607)
+ 827 compressed objects within 9 object streams
  135 named destinations out of 1000 (max. 500000)
  722 words of extra memory for PDF output out of 10000 (max. 10000000)
 

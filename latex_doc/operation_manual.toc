@@ -10,9 +10,9 @@
 \contentsline {subsection}{\numberline {2.3}注册企业账号}{7}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}登录系统}{8}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}退出登录}{10}{subsection.2.5}%
-\contentsline {section}{\numberline {3}主界面说明}{10}{section.3}%
-\contentsline {subsection}{\numberline {3.1}界面整体布局}{10}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}首页查询区}{11}{subsection.3.2}%
+\contentsline {section}{\numberline {3}主界面说明}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}界面整体布局}{11}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}首页查询区}{12}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}顶部导航与用户菜单}{12}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}个人中心、审核台与管理后台布局}{12}{subsection.3.4}%
 \contentsline {section}{\numberline {4}版权存证申请}{13}{section.4}%
@@ -36,7 +36,7 @@
 \contentsline {subsection}{\numberline {7.2}待复核列表与筛选}{26}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3}审核通过}{26}{subsection.7.3}%
 \contentsline {subsection}{\numberline {7.4}审核驳回}{27}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}审核结果与业务流转}{27}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.5}审核结果与业务流转}{28}{subsection.7.5}%
 \contentsline {subsection}{\numberline {7.6}审核注意事项}{28}{subsection.7.6}%
 \contentsline {section}{\numberline {8}平台管理后台}{28}{section.8}%
 \contentsline {subsection}{\numberline {8.1}进入管理后台}{28}{subsection.8.1}%
@@ -60,5 +60,4 @@
 \contentsline {section}{\numberline {12}附录}{39}{section.12}%
 \contentsline {subsection}{\numberline {12.1}附录A：角色与功能权限矩阵}{39}{subsection.12.1}%
 \contentsline {subsection}{\numberline {12.2}附录B：状态与提示信息对照}{40}{subsection.12.2}%
-\contentsline {subsection}{\numberline {12.3}附录C：操作手册截图清单}{41}{subsection.12.3}%
-\contentsline {subsection}{\numberline {12.4}附录D：操作建议}{42}{subsection.12.4}%
+\contentsline {subsection}{\numberline {12.3}附录C：操作建议}{41}{subsection.12.3}%

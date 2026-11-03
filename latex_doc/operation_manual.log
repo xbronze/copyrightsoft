@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.22)  29 OCT 2026 17:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.22)  2 NOV 2026 10:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -14,13 +14,11 @@ File: ctexbackend.cfg 2022/07/14 v2.5.10 Backend configuration file (CTEX)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/l3kernel/expl3.sty
 Package: expl3 2024-09-10 L3 programming layer (loader) 
 
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-x
-etex.def
-File: l3backend-xetex.def 2024-05-08 L3 backend support: XeTeX
-\g__graphics_track_int=\count190
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-p
+dftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count194
 \l__pdf_internal_box=\box52
-\g__pdf_backend_annotation_int=\count191
-\g__pdf_backend_link_int=\count192
 ))
 Document Class: ctexart 2022/07/14 v2.5.10 Chinese adapter for class article (C
 TEX)
@@ -37,11 +35,11 @@ Package: fix-cm 2020/11/24 v1.1t fixes to LaTeX
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding TS1 on input line 47.
 ))
-\l__ctex_tmp_int=\count193
+\l__ctex_tmp_int=\count195
 \l__ctex_tmp_box=\box53
 \l__ctex_tmp_dim=\dimen141
-\g__ctex_section_depth_int=\count194
-\g__ctex_font_size_int=\count195
+\g__ctex_section_depth_int=\count196
+\g__ctex_font_size_int=\count197
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/ctex/config/ctexopts.
 cfg
@@ -51,139 +49,155 @@ Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count196
-\c@section=\count197
-\c@subsection=\count198
-\c@subsubsection=\count199
-\c@paragraph=\count266
-\c@subparagraph=\count267
-\c@figure=\count268
-\c@table=\count269
+\c@part=\count198
+\c@section=\count199
+\c@subsection=\count266
+\c@subsubsection=\count267
+\c@paragraph=\count268
+\c@subparagraph=\count269
+\c@figure=\count270
+\c@table=\count271
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 \bibindent=\dimen142
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/ctex/engine/ctex-engi
-ne-xetex.def
-File: ctex-engine-xetex.def 2022/07/14 v2.5.10 XeLaTeX adapter (CTEX)
+ne-pdftex.def
+File: ctex-engine-pdftex.def 2022/07/14 v2.5.10 (pdf)LaTeX adapter (CTEX)
 
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.sty
-Package: xeCJK 2022/08/05 v3.9.1 Typesetting CJK scripts with XeLaTeX
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/l3packages/xtemplate/
-xtemplate.sty
-Package: xtemplate 2024-08-16 L3 Experimental prototype document functions
-)
-\l__xeCJK_tmp_int=\count270
-\l__xeCJK_tmp_box=\box54
-\l__xeCJK_tmp_dim=\dimen143
-\l__xeCJK_tmp_skip=\skip51
-\g__xeCJK_space_factor_int=\count271
-\l__xeCJK_begin_int=\count272
-\l__xeCJK_end_int=\count273
-\c__xeCJK_CJK_class_int=\XeTeXcharclass1
-\c__xeCJK_FullLeft_class_int=\XeTeXcharclass2
-\c__xeCJK_FullRight_class_int=\XeTeXcharclass3
-\c__xeCJK_HalfLeft_class_int=\XeTeXcharclass4
-\c__xeCJK_HalfRight_class_int=\XeTeXcharclass5
-\c__xeCJK_NormalSpace_class_int=\XeTeXcharclass6
-\c__xeCJK_CM_class_int=\XeTeXcharclass7
-\c__xeCJK_HangulJamo_class_int=\XeTeXcharclass8
-\l__xeCJK_last_skip=\skip52
-\c__xeCJK_none_node=\count274
-\g__xeCJK_node_int=\count275
-\c__xeCJK_CJK_node_dim=\dimen144
-\c__xeCJK_CJK-space_node_dim=\dimen145
-\c__xeCJK_default_node_dim=\dimen146
-\c__xeCJK_CJK-widow_node_dim=\dimen147
-\c__xeCJK_normalspace_node_dim=\dimen148
-\c__xeCJK_default-space_node_skip=\skip53
-\l__xeCJK_ccglue_skip=\skip54
-\l__xeCJK_ecglue_skip=\skip55
-\l__xeCJK_punct_kern_skip=\skip56
-\l__xeCJK_indent_box=\box55
-\l__xeCJK_last_penalty_int=\count276
-\l__xeCJK_last_bound_dim=\dimen149
-\l__xeCJK_last_kern_dim=\dimen150
-\l__xeCJK_widow_penalty_int=\count277
-
-LaTeX template Info: Declaring template type 'xeCJK/punctuation' taking 0
-(template)           argument(s) on line 2396.
-
-\l__xeCJK_fixed_punct_width_dim=\dimen151
-\l__xeCJK_mixed_punct_width_dim=\dimen152
-\l__xeCJK_middle_punct_width_dim=\dimen153
-\l__xeCJK_fixed_margin_width_dim=\dimen154
-\l__xeCJK_mixed_margin_width_dim=\dimen155
-\l__xeCJK_middle_margin_width_dim=\dimen156
-\l__xeCJK_bound_punct_width_dim=\dimen157
-\l__xeCJK_bound_margin_width_dim=\dimen158
-\l__xeCJK_margin_minimum_dim=\dimen159
-\l__xeCJK_kerning_total_width_dim=\dimen160
-\l__xeCJK_same_align_margin_dim=\dimen161
-\l__xeCJK_different_align_margin_dim=\dimen162
-\l__xeCJK_kerning_margin_width_dim=\dimen163
-\l__xeCJK_kerning_margin_minimum_dim=\dimen164
-\l__xeCJK_bound_dim=\dimen165
-\l__xeCJK_reverse_bound_dim=\dimen166
-\l__xeCJK_margin_dim=\dimen167
-\l__xeCJK_minimum_bound_dim=\dimen168
-\l__xeCJK_kerning_margin_dim=\dimen169
-\g__xeCJK_family_int=\count278
-\l__xeCJK_fam_int=\count279
-\g__xeCJK_fam_allocation_int=\count280
-\l__xeCJK_verb_case_int=\count281
-\l__xeCJK_verb_exspace_skip=\skip57
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec.sty
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/l3packages/xparse/xpa
-rse.sty
-Package: xparse 2024-08-16 L3 Experimental document command parser
-)
-Package: fontspec 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec-xet
-ex.sty
-Package: fontspec-xetex 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTe
-X
-\l__fontspec_script_int=\count282
-\l__fontspec_language_int=\count283
-\l__fontspec_strnum_int=\count284
-\l__fontspec_tmp_int=\count285
-\l__fontspec_tmpa_int=\count286
-\l__fontspec_tmpb_int=\count287
-\l__fontspec_tmpc_int=\count288
-\l__fontspec_em_int=\count289
-\l__fontspec_emdef_int=\count290
-\l__fontspec_strong_int=\count291
-\l__fontspec_strongdef_int=\count292
-\l__fontspec_tmpa_dim=\dimen170
-\l__fontspec_tmpb_dim=\dimen171
-\l__fontspec_tmpc_dim=\dimen172
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-)
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec.cfg
-))) (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.cfg
-File: xeCJK.cfg 2022/08/05 v3.9.1 Configuration file for xeCJK package
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/CJKutf8.
+sty
+Package: CJKutf8 2021/10/16 4.8.5
+ (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
 ))
-\ccwd=\dimen173
-\l__ctex_ccglue_skip=\skip58
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
 )
-\l__ctex_ziju_dim=\dimen174
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/CJK.sty
+Package: CJK 2021/10/16 4.8.5
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/mule/MUL
+Eenc.sty
+Package: MULEenc 2021/10/16 4.8.5
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/CJK.enc
+File: CJK.enc 2021/10/16 4.8.5
+Now handling font encoding C00 ...
+... no UTF-8 mapping file for font encoding C00
+Now handling font encoding C05 ...
+... no UTF-8 mapping file for font encoding C05
+Now handling font encoding C09 ...
+... no UTF-8 mapping file for font encoding C09
+Now handling font encoding C10 ...
+... no UTF-8 mapping file for font encoding C10
+Now handling font encoding C20 ...
+... no UTF-8 mapping file for font encoding C20
+Now handling font encoding C19 ...
+... no UTF-8 mapping file for font encoding C19
+Now handling font encoding C40 ...
+... no UTF-8 mapping file for font encoding C40
+Now handling font encoding C42 ...
+... no UTF-8 mapping file for font encoding C42
+Now handling font encoding C43 ...
+... no UTF-8 mapping file for font encoding C43
+Now handling font encoding C50 ...
+... no UTF-8 mapping file for font encoding C50
+Now handling font encoding C52 ...
+... no UTF-8 mapping file for font encoding C52
+Now handling font encoding C49 ...
+... no UTF-8 mapping file for font encoding C49
+Now handling font encoding C60 ...
+... no UTF-8 mapping file for font encoding C60
+Now handling font encoding C61 ...
+... no UTF-8 mapping file for font encoding C61
+Now handling font encoding C63 ...
+... no UTF-8 mapping file for font encoding C63
+Now handling font encoding C64 ...
+... no UTF-8 mapping file for font encoding C64
+Now handling font encoding C65 ...
+... no UTF-8 mapping file for font encoding C65
+Now handling font encoding C70 ...
+... no UTF-8 mapping file for font encoding C70
+Now handling font encoding C31 ...
+... no UTF-8 mapping file for font encoding C31
+Now handling font encoding C32 ...
+... no UTF-8 mapping file for font encoding C32
+Now handling font encoding C33 ...
+... no UTF-8 mapping file for font encoding C33
+Now handling font encoding C34 ...
+... no UTF-8 mapping file for font encoding C34
+Now handling font encoding C35 ...
+... no UTF-8 mapping file for font encoding C35
+Now handling font encoding C36 ...
+... no UTF-8 mapping file for font encoding C36
+Now handling font encoding C37 ...
+... no UTF-8 mapping file for font encoding C37
+Now handling font encoding C80 ...
+... no UTF-8 mapping file for font encoding C80
+Now handling font encoding C81 ...
+... no UTF-8 mapping file for font encoding C81
+Now handling font encoding C01 ...
+... no UTF-8 mapping file for font encoding C01
+Now handling font encoding C11 ...
+... no UTF-8 mapping file for font encoding C11
+Now handling font encoding C21 ...
+... no UTF-8 mapping file for font encoding C21
+Now handling font encoding C41 ...
+... no UTF-8 mapping file for font encoding C41
+Now handling font encoding C62 ...
+... no UTF-8 mapping file for font encoding C62
+)
+\CJK@indent=\box54
+) (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjkpunct/CJKpunct.sty
+Package: CJKpunct 2016/05/14 4.8.4
+\CJKpunct@cnta=\count272
+\CJKpunct@cntb=\count273
+\CJKpunct@cntc=\count274
+\CJKpunct@cntd=\count275
+\CJKpunct@cnte=\count276
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2026 (decimal 8230)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjkpunct/CJKpunct.spa
+))
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/CJKspace
+.sty
+Package: CJKspace 2021/10/16 3.8.0
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/UTF8/UTF
+8.bdg
+File: UTF8.bdg 2021/10/16 4.8.5
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/ctex/ctexspa.def
+File: ctexspa.def 2022/07/14 v2.5.10 Space info for CJKpunct (CTEX)
+)
+\ccwd=\dimen143
+\l__ctex_ccglue_skip=\skip51
+)
+\l__ctex_ziju_dim=\dimen144
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/zhnumber/zhnumber.sty
 Package: zhnumber 2022/07/14 v3.0 Typesetting numbers with Chinese glyphs
-\l__zhnum_scale_int=\count293
-\l__zhnum_tmp_int=\count294
+\l__zhnum_scale_int=\count277
+\l__zhnum_tmp_int=\count278
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/zhnumber/zhnumber-utf
 8.cfg
 File: zhnumber-utf8.cfg 2022/07/14 v3.0 Chinese numerals with UTF8 encoding
 ))
-\l__ctex_heading_skip=\skip59
+\l__ctex_heading_skip=\skip52
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/ctex/scheme/ctex-sche
 me-chinese-article.def
@@ -198,37 +212,6 @@ File: ctex-name-utf8.cfg 2022/07/14 v2.5.10 Caption with encoding UTF-8 (CTEX)
 tset-windows.def
 File: ctex-fontset-windows.def 2022/07/14 v2.5.10 Windows fonts definition (CTE
 X)
-
-Package fontspec Info: 
-(fontspec)             Could not resolve font "KaiTi/B" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimHei/I" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimSun/BI" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
-(fontspec)             Font family 'SimSun(0)' created for font 'SimSun' with
-(fontspec)             options
-(fontspec)             [Script={CJK},BoldFont={SimHei},ItalicFont={KaiTi}].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"SimSun/OT:script=hani;language=dflt;"
-(fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->"SimHei/OT:script=hani;language=dflt;"
-(fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->"KaiTi/OT:script=hani;language=dflt;"
-
 ))
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/ctex/config/ctex.cfg
 File: ctex.cfg 2022/07/14 v2.5.10 Configuration file (CTEX)
@@ -237,26 +220,23 @@ File: ctex.cfg 2022/07/14 v2.5.10 Configuration file (CTEX)
 Package: geometry 2020/01/02 v5.9 Page Geometry
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
-\KV@toks@=\toks17
+\KV@toks@=\toks19
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
-))
-\Gm@cnth=\count295
-\Gm@cntv=\count296
-\c@Gm@tempcnt=\count297
-\Gm@bindingoffset=\dimen175
-\Gm@wd@mp=\dimen176
-\Gm@odd@mp=\dimen177
-\Gm@even@mp=\dimen178
-\Gm@layoutwidth=\dimen179
-\Gm@layoutheight=\dimen180
-\Gm@layouthoffset=\dimen181
-\Gm@layoutvoffset=\dimen182
-\Gm@dimlist=\toks18
+)
+\Gm@cnth=\count279
+\Gm@cntv=\count280
+\c@Gm@tempcnt=\count281
+\Gm@bindingoffset=\dimen145
+\Gm@wd@mp=\dimen146
+\Gm@odd@mp=\dimen147
+\Gm@even@mp=\dimen148
+\Gm@layoutwidth=\dimen149
+\Gm@layoutheight=\dimen150
+\Gm@layouthoffset=\dimen151
+\Gm@layoutvoffset=\dimen152
+\Gm@dimlist=\toks20
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
@@ -290,7 +270,7 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode not found.
+Package pdftexcmds Info: \pdfdraftmode found.
 ))
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
@@ -309,30 +289,34 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 ty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count298
+\c@section@level=\count282
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count299
+\etb@tempcnta=\count283
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/stringenc/stringenc
 .sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\@linkdim=\dimen183
-\Hy@linkcounter=\count300
-\Hy@pagecounter=\count301
+\@linkdim=\dimen153
+\Hy@linkcounter=\count284
+\Hy@pagecounter=\count285
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2024-07-10 v7.01j Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count302
+\Hy@SavedSpaceFactor=\count286
  (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2024-07-10 v7.01j Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
 )
 Package hyperref Info: Option `unicode' set `true' on input line 4040.
 Package hyperref Info: Hyper figures OFF on input line 4157.
@@ -342,13 +326,13 @@ Package hyperref Info: Plain pages OFF on input line 4172.
 Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4424.
-\c@Hy@tempcnt=\count303
+\c@Hy@tempcnt=\count287
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen184
+\XeTeXLinkMargin=\dimen154
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -358,9 +342,9 @@ lc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count304
-\Field@Width=\dimen185
-\Fld@charsize=\dimen186
+\Fld@menulength=\count288
+\Field@Width=\dimen155
+\Fld@charsize=\dimen156
 Package hyperref Info: Hyper figures OFF on input line 6042.
 Package hyperref Info: Link nesting OFF on input line 6047.
 Package hyperref Info: Hyper index ON on input line 6050.
@@ -373,23 +357,14 @@ Package hyperref Info: PDF/A mode OFF on input line 6072.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count305
-\c@Item=\count306
-\c@Hfootnote=\count307
+\Hy@abspage=\count289
+\c@Item=\count290
+\c@Hfootnote=\count291
 )
-Package hyperref Info: Driver (autodetected): hxetex.
+Package hyperref Info: Driver (autodetected): hpdftex.
 
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/hyperref/hxetex.def
-File: hxetex.def 2024-07-10 v7.01j Hyperref driver for XeTeX
-\pdfm@box=\box56
-\c@Hy@AnnotLevel=\count308
-\HyField@AnnotCount=\count309
-\Fld@listcount=\count310
-\c@bookmark@seq@number=\count311
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/rerunfilecheck/rerunf
-ilecheck.sty
-Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-07-10 v7.01j Hyperref driver for pdfTeX
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/atveryend-ltx.st
 y
@@ -397,6 +372,13 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
+\Fld@listcount=\count292
+\c@bookmark@seq@number=\count293
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/rerunfilecheck/rerunf
+ilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/uniquecounter/uniqu
 ecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
@@ -404,16 +386,16 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 85.
 )
-\Hy@SectionHShift=\skip60
+\Hy@SectionHShift=\skip53
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\labelindent=\skip61
-\enit@outerparindent=\dimen187
-\enit@toks=\toks19
-\enit@inbox=\box57
-\enit@count@id=\count312
-\enitdp@description=\count313
+\labelindent=\skip54
+\enit@outerparindent=\dimen157
+\enit@toks=\toks21
+\enit@inbox=\box55
+\enit@count@id=\count294
+\enitdp@description=\count295
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
@@ -427,108 +409,108 @@ Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 .cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: xetex.def on input line 106.
+Package graphics Info: Driver file: pdftex.def on input line 106.
 
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/graphics-def/xetex.de
-f
-File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/graphics-def/pdftex.d
+ef
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen188
-\Gin@req@width=\dimen189
+\Gin@req@height=\dimen158
+\Gin@req@width=\dimen159
 ) (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count314
-\float@exts=\toks20
-\float@box=\box58
-\@float@everytoks=\toks21
-\@floatcapt=\box59
+\c@float@type=\count296
+\float@exts=\toks22
+\float@box=\box56
+\@float@everytoks=\toks23
+\@floatcapt=\box57
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2024/07/23 v4.3.1 Extensive control of page headers and foote
 rs
-\f@nch@headwidth=\skip62
-\f@nch@O@elh=\skip63
-\f@nch@O@erh=\skip64
-\f@nch@O@olh=\skip65
-\f@nch@O@orh=\skip66
-\f@nch@O@elf=\skip67
-\f@nch@O@erf=\skip68
-\f@nch@O@olf=\skip69
-\f@nch@O@orf=\skip70
+\f@nch@headwidth=\skip55
+\f@nch@O@elh=\skip56
+\f@nch@O@erh=\skip57
+\f@nch@O@olh=\skip58
+\f@nch@O@orh=\skip59
+\f@nch@O@elf=\skip60
+\f@nch@O@erf=\skip61
+\f@nch@O@olf=\skip62
+\f@nch@O@orf=\skip63
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2023/10/27 v2.16 Sectioning titles
-\ttl@box=\box60
-\beforetitleunit=\skip71
-\aftertitleunit=\skip72
-\ttl@plus=\dimen190
-\ttl@minus=\dimen191
-\ttl@toksa=\toks22
-\titlewidth=\dimen192
-\titlewidthlast=\dimen193
-\titlewidthfirst=\dimen194
+\ttl@box=\box58
+\beforetitleunit=\skip64
+\aftertitleunit=\skip65
+\ttl@plus=\dimen160
+\ttl@minus=\dimen161
+\ttl@toksa=\toks24
+\titlewidth=\dimen162
+\titlewidthlast=\dimen163
+\titlewidthfirst=\dimen164
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/tools/indentfirst.sty
 Package: indentfirst 2023/07/02 v1.03 Indent first paragraph (DPC)
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen195
-\lightrulewidth=\dimen196
-\cmidrulewidth=\dimen197
-\belowrulesep=\dimen198
-\belowbottomsep=\dimen199
-\aboverulesep=\dimen256
-\abovetopsep=\dimen257
-\cmidrulesep=\dimen258
-\cmidrulekern=\dimen259
-\defaultaddspace=\dimen260
-\@cmidla=\count315
-\@cmidlb=\count316
-\@aboverulesep=\dimen261
-\@belowrulesep=\dimen262
-\@thisruleclass=\count317
-\@lastruleclass=\count318
-\@thisrulewidth=\dimen263
+\heavyrulewidth=\dimen165
+\lightrulewidth=\dimen166
+\cmidrulewidth=\dimen167
+\belowrulesep=\dimen168
+\belowbottomsep=\dimen169
+\aboverulesep=\dimen170
+\abovetopsep=\dimen171
+\cmidrulesep=\dimen172
+\cmidrulekern=\dimen173
+\defaultaddspace=\dimen174
+\@cmidla=\count297
+\@cmidlb=\count298
+\@aboverulesep=\dimen175
+\@belowrulesep=\dimen176
+\@thisruleclass=\count299
+\@lastruleclass=\count300
+\@thisrulewidth=\dimen177
 ) (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/tools/array.sty
 Package: array 2024/06/14 v2.6d Tabular extension package (FMi)
-\col@sep=\dimen264
-\ar@mcellbox=\box61
-\extrarowheight=\dimen265
-\NC@list=\toks23
-\extratabsurround=\skip73
-\backup@length=\skip74
-\ar@cellbox=\box62
+\col@sep=\dimen178
+\ar@mcellbox=\box59
+\extrarowheight=\dimen179
+\NC@list=\toks25
+\extratabsurround=\skip66
+\backup@length=\skip67
+\ar@cellbox=\box60
 )
-\TX@col@width=\dimen266
-\TX@old@table=\dimen267
-\TX@old@col=\dimen268
-\TX@target=\dimen269
-\TX@delta=\dimen270
-\TX@cols=\count319
-\TX@ftn=\toks24
+\TX@col@width=\dimen180
+\TX@old@table=\dimen181
+\TX@old@col=\dimen182
+\TX@target=\dimen183
+\TX@delta=\dimen184
+\TX@cols=\count301
+\TX@ftn=\toks26
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2024-04-26 v4.20 Multi-page Table package (DPC)
-\LTleft=\skip75
-\LTright=\skip76
-\LTpre=\skip77
-\LTpost=\skip78
-\LTchunksize=\count320
-\LTcapwidth=\dimen271
-\LT@head=\box63
-\LT@firsthead=\box64
-\LT@foot=\box65
-\LT@lastfoot=\box66
-\LT@gbox=\box67
-\LT@cols=\count321
-\LT@rows=\count322
-\c@LT@tables=\count323
-\c@LT@chunks=\count324
-\LT@p@ftn=\toks25
+\LTleft=\skip68
+\LTright=\skip69
+\LTpre=\skip70
+\LTpost=\skip71
+\LTchunksize=\count302
+\LTcapwidth=\dimen185
+\LT@head=\box61
+\LT@firsthead=\box62
+\LT@foot=\box63
+\LT@lastfoot=\box64
+\LT@gbox=\box65
+\LT@cols=\count303
+\LT@rows=\count304
+\c@LT@tables=\count305
+\c@LT@chunks=\count306
+\LT@p@ftn=\toks27
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
@@ -537,11 +519,12 @@ Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 g
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package xcolor Info: Driver file: xetex.def on input line 274.
+Package xcolor Info: Driver file: pdftex.def on input line 274.
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.lt
 x)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
 Package xcolor Info: Model `RGB' extended on input line 1365.
 Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
 Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
@@ -556,65 +539,61 @@ b
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
 Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
-\FV@CodeLineNo=\count325
+\FV@CodeLineNo=\count307
 \FV@InFile=\read2
-\FV@TabBox=\box68
-\c@FancyVerbLine=\count326
-\FV@StepNumber=\count327
+\FV@TabBox=\box66
+\c@FancyVerbLine=\count308
+\FV@StepNumber=\count309
 \FV@OutFile=\write3
 ) (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/upquote/upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/textcomp.sty
-Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
-))
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/lineno/lineno.sty
+) (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/lineno/lineno.sty
 Package: lineno 2023/05/20 line numbers on paragraphs v5.3
-Invalid UTF-8 byte or sequence at line 292 replaced by U+FFFD.
-\linenopenalty=\count328
-\output=\toks26
-\linenoprevgraf=\count329
-\linenumbersep=\dimen272
-\linenumberwidth=\dimen273
-\c@linenumber=\count330
-\c@pagewiselinenumber=\count331
-\c@LN@truepage=\count332
-\c@internallinenumber=\count333
-\c@internallinenumbers=\count334
-\quotelinenumbersep=\dimen274
-\bframerule=\dimen275
-\bframesep=\dimen276
-\bframebox=\box69
+\linenopenalty=\count310
+\output=\toks28
+\linenoprevgraf=\count311
+\linenumbersep=\dimen186
+\linenumberwidth=\dimen187
+\c@linenumber=\count312
+\c@pagewiselinenumber=\count313
+\c@LN@truepage=\count314
+\c@internallinenumber=\count315
+\c@internallinenumbers=\count316
+\quotelinenumbersep=\dimen188
+\bframerule=\dimen189
+\bframesep=\dimen190
+\bframebox=\box67
 LaTeX Info: Redefining \\ on input line 3180.
 )
-\c@FancyVerbWriteLine=\count335
-\c@FancyVerbBufferIndex=\count336
-\c@FancyVerbBufferLength=\count337
-\c@FancyVerbBufferLine=\count338
-\c@FV@oldbufferlength=\count339
-\c@FV@TrueTabGroupLevel=\count340
-\c@FV@TrueTabCounter=\count341
-\FV@TabBox@Group=\box70
-\FV@TmpLength=\skip79
-\c@FV@HighlightLinesStart=\count342
-\c@FV@HighlightLinesStop=\count343
-\FV@LoopCount=\count344
-\FV@NCharsBox=\box71
-\FV@BreakIndent=\dimen277
-\FV@BreakIndentNChars=\count345
-\FV@BreakSymbolSepLeft=\dimen278
-\FV@BreakSymbolSepLeftNChars=\count346
-\FV@BreakSymbolSepRight=\dimen279
-\FV@BreakSymbolSepRightNChars=\count347
-\FV@BreakSymbolIndentLeft=\dimen280
-\FV@BreakSymbolIndentLeftNChars=\count348
-\FV@BreakSymbolIndentRight=\dimen281
-\FV@BreakSymbolIndentRightNChars=\count349
-\c@FancyVerbLineBreakLast=\count350
-\FV@LineBox=\box72
-\FV@LineIndentBox=\box73
-\c@FV@BreakBufferDepth=\count351
-\FV@LineWidth=\dimen282
+\c@FancyVerbWriteLine=\count317
+\c@FancyVerbBufferIndex=\count318
+\c@FancyVerbBufferLength=\count319
+\c@FancyVerbBufferLine=\count320
+\c@FV@oldbufferlength=\count321
+\c@FV@TrueTabGroupLevel=\count322
+\c@FV@TrueTabCounter=\count323
+\FV@TabBox@Group=\box68
+\FV@TmpLength=\skip72
+\c@FV@HighlightLinesStart=\count324
+\c@FV@HighlightLinesStop=\count325
+\FV@LoopCount=\count326
+\FV@NCharsBox=\box69
+\FV@BreakIndent=\dimen191
+\FV@BreakIndentNChars=\count327
+\FV@BreakSymbolSepLeft=\dimen192
+\FV@BreakSymbolSepLeftNChars=\count328
+\FV@BreakSymbolSepRight=\dimen193
+\FV@BreakSymbolSepRightNChars=\count329
+\FV@BreakSymbolIndentLeft=\dimen194
+\FV@BreakSymbolIndentLeftNChars=\count330
+\FV@BreakSymbolIndentRight=\dimen195
+\FV@BreakSymbolIndentRightNChars=\count331
+\c@FancyVerbLineBreakLast=\count332
+\FV@LineBox=\box70
+\FV@LineIndentBox=\box71
+\c@FV@BreakBufferDepth=\count333
+\FV@LineWidth=\dimen196
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/needspace/needspace.s
 ty
@@ -628,13 +607,13 @@ y
 sty
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfut
 il-common.tex
-\pgfutil@everybye=\toks27
-\pgfutil@tempdima=\dimen283
-\pgfutil@tempdimb=\dimen284
+\pgfutil@everybye=\toks29
+\pgfutil@tempdima=\dimen197
+\pgfutil@tempdimb=\dimen198
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfut
 il-latex.def
-\pgfutil@abb=\box74
+\pgfutil@abb=\box72
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfrc
 s.code.tex
@@ -654,59 +633,53 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfke
 ys.code.tex
-\pgfkeys@pathtoks=\toks28
-\pgfkeys@temptoks=\toks29
+\pgfkeys@pathtoks=\toks30
+\pgfkeys@temptoks=\toks31
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfke
 yslibraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks30
+\pgfkeys@tmptoks=\toks32
 ))
-\pgf@x=\dimen285
-\pgf@y=\dimen286
-\pgf@xa=\dimen287
-\pgf@ya=\dimen288
-\pgf@xb=\dimen289
-\pgf@yb=\dimen290
-\pgf@xc=\dimen291
-\pgf@yc=\dimen292
-\pgf@xd=\dimen293
-\pgf@yd=\dimen294
+\pgf@x=\dimen199
+\pgf@y=\dimen256
+\pgf@xa=\dimen257
+\pgf@ya=\dimen258
+\pgf@xb=\dimen259
+\pgf@yb=\dimen260
+\pgf@xc=\dimen261
+\pgf@yc=\dimen262
+\pgf@xd=\dimen263
+\pgf@yd=\dimen264
 \w@pgf@writea=\write4
 \r@pgf@reada=\read3
-\c@pgf@counta=\count352
-\c@pgf@countb=\count353
-\c@pgf@countc=\count354
-\c@pgf@countd=\count355
-\t@pgf@toka=\toks31
-\t@pgf@tokb=\toks32
-\t@pgf@tokc=\toks33
-\pgf@sys@id@count=\count356
+\c@pgf@counta=\count334
+\c@pgf@countb=\count335
+\c@pgf@countc=\count336
+\c@pgf@countd=\count337
+\t@pgf@toka=\toks33
+\t@pgf@tokb=\toks34
+\t@pgf@tokc=\toks35
+\pgf@sys@id@count=\count338
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
 .cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
-Driver file for pgf: pgfsys-xetex.def
+Driver file for pgf: pgfsys-pdftex.def
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
-sys-xetex.def
-File: pgfsys-xetex.def 2023-01-15 v3.1.10 (3.1.10)
-
-(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
-sys-dvipdfmx.def
-File: pgfsys-dvipdfmx.def 2023-01-15 v3.1.10 (3.1.10)
+sys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
 sys-common-pdf.def
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
-)
-\pgfsys@objnum=\count357
 )))
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
 syssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count358
-\pgfsyssoftpath@bigbuffer@items=\count359
+\pgfsyssoftpath@smallbuffer@items=\count339
+\pgfsyssoftpath@bigbuffer@items=\count340
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf
 sysprotocol.code.tex
@@ -722,12 +695,12 @@ de.tex
 l.code.tex)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathpar
 ser.code.tex
-\pgfmath@dimen=\dimen295
-\pgfmath@count=\count360
-\pgfmath@box=\box75
-\pgfmath@toks=\toks34
-\pgfmath@stack@operand=\toks35
-\pgfmath@stack@operation=\toks36
+\pgfmath@dimen=\dimen265
+\pgfmath@count=\count341
+\pgfmath@box=\box73
+\pgfmath@toks=\toks36
+\pgfmath@stack@operand=\toks37
+\pgfmath@stack@operation=\toks38
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfun
 ctions.code.tex)
@@ -751,59 +724,59 @@ ctions.integerarithmetics.code.tex)
 c.code.tex)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathflo
 at.code.tex
-\c@pgfmathroundto@lastzeros=\count361
+\c@pgfmathroundto@lastzeros=\count342
 ))
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfint.cod
 e.tex)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 orepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@picminx=\dimen296
-\pgf@picmaxx=\dimen297
-\pgf@picminy=\dimen298
-\pgf@picmaxy=\dimen299
-\pgf@pathminx=\dimen300
-\pgf@pathmaxx=\dimen301
-\pgf@pathminy=\dimen302
-\pgf@pathmaxy=\dimen303
-\pgf@xx=\dimen304
-\pgf@xy=\dimen305
-\pgf@yx=\dimen306
-\pgf@yy=\dimen307
-\pgf@zx=\dimen308
-\pgf@zy=\dimen309
+\pgf@picminx=\dimen266
+\pgf@picmaxx=\dimen267
+\pgf@picminy=\dimen268
+\pgf@picmaxy=\dimen269
+\pgf@pathminx=\dimen270
+\pgf@pathmaxx=\dimen271
+\pgf@pathminy=\dimen272
+\pgf@pathmaxy=\dimen273
+\pgf@xx=\dimen274
+\pgf@xy=\dimen275
+\pgf@yx=\dimen276
+\pgf@yy=\dimen277
+\pgf@zx=\dimen278
+\pgf@zy=\dimen279
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 orepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@path@lastx=\dimen310
-\pgf@path@lasty=\dimen311
+\pgf@path@lastx=\dimen280
+\pgf@path@lasty=\dimen281
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 orepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@shorten@end@additional=\dimen312
-\pgf@shorten@start@additional=\dimen313
+\pgf@shorten@end@additional=\dimen282
+\pgf@shorten@start@additional=\dimen283
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 orescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box76
-\pgf@hbox=\box77
-\pgf@layerbox@main=\box78
-\pgf@picture@serial@count=\count362
+\pgfpic=\box74
+\pgf@hbox=\box75
+\pgf@layerbox@main=\box76
+\pgf@picture@serial@count=\count343
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 oregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgflinewidth=\dimen314
+\pgflinewidth=\dimen284
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 oretransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@pt@x=\dimen315
-\pgf@pt@y=\dimen316
-\pgf@pt@temp=\dimen317
+\pgf@pt@x=\dimen285
+\pgf@pt@y=\dimen286
+\pgf@pt@temp=\dimen287
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 orequick.code.tex
@@ -820,14 +793,14 @@ File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 orearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowsep=\dimen318
+\pgfarrowsep=\dimen288
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 oreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@max=\dimen319
-\pgf@sys@shading@range@num=\count363
-\pgf@shadingcount=\count364
+\pgf@max=\dimen289
+\pgf@sys@shading@range@num=\count344
+\pgf@shadingcount=\count345
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 oreimage.code.tex
@@ -836,7 +809,7 @@ File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 oreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box79
+\pgfexternal@startupbox=\box77
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfc
 orelayers.code.tex
@@ -857,7 +830,7 @@ File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodu
 leshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodeparttextbox=\box80
+\pgfnodeparttextbox=\box78
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodu
 leplot.code.tex
@@ -866,8 +839,8 @@ File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgf
 comp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
-\pgf@nodesepstart=\dimen320
-\pgf@nodesepend=\dimen321
+\pgf@nodesepstart=\dimen290
+\pgf@nodesepend=\dimen291
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgf
 comp-version-1-18.sty
@@ -885,10 +858,10 @@ de.tex))
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgffo
 r.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
-\pgffor@iter=\dimen322
-\pgffor@skip=\dimen323
-\pgffor@stack=\toks37
-\pgffor@toks=\toks38
+\pgffor@iter=\dimen292
+\pgffor@skip=\dimen293
+\pgffor@stack=\toks39
+\pgffor@toks=\toks40
 ))
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/t
 ikz/tikz.code.tex
@@ -897,34 +870,34 @@ Package: tikz 2023-01-15 v3.1.10 (3.1.10)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgfli
 braryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count365
-\pgfplotmarksize=\dimen324
+\pgf@plot@mark@count=\count346
+\pgfplotmarksize=\dimen294
 )
-\tikz@lastx=\dimen325
-\tikz@lasty=\dimen326
-\tikz@lastxsaved=\dimen327
-\tikz@lastysaved=\dimen328
-\tikz@lastmovetox=\dimen329
-\tikz@lastmovetoy=\dimen330
-\tikzleveldistance=\dimen331
-\tikzsiblingdistance=\dimen332
-\tikz@figbox=\box81
-\tikz@figbox@bg=\box82
-\tikz@tempbox=\box83
-\tikz@tempbox@bg=\box84
-\tikztreelevel=\count366
-\tikznumberofchildren=\count367
-\tikznumberofcurrentchild=\count368
-\tikz@fig@count=\count369
+\tikz@lastx=\dimen295
+\tikz@lasty=\dimen296
+\tikz@lastxsaved=\dimen297
+\tikz@lastysaved=\dimen298
+\tikz@lastmovetox=\dimen299
+\tikz@lastmovetoy=\dimen300
+\tikzleveldistance=\dimen301
+\tikzsiblingdistance=\dimen302
+\tikz@figbox=\box79
+\tikz@figbox@bg=\box80
+\tikz@tempbox=\box81
+\tikz@tempbox@bg=\box82
+\tikztreelevel=\count347
+\tikznumberofchildren=\count348
+\tikznumberofcurrentchild=\count349
+\tikz@fig@count=\count350
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodu
 lematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count370
-\pgfmatrixcurrentcolumn=\count371
-\pgf@matrix@numberofcolumns=\count372
+\pgfmatrixcurrentrow=\count351
+\pgfmatrixcurrentcolumn=\count352
+\pgf@matrix@numberofcolumns=\count353
 )
-\tikz@expandcount=\count373
+\tikz@expandcount=\count354
 
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/t
 ikz/libraries/tikzlibrarytopaths.code.tex
@@ -933,10 +906,10 @@ File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgfli
 braryarrows.meta.code.tex
 File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowinset=\dimen333
-\pgfarrowlength=\dimen334
-\pgfarrowwidth=\dimen335
-\pgfarrowlinewidth=\dimen336
+\pgfarrowinset=\dimen303
+\pgfarrowlength=\dimen304
+\pgfarrowwidth=\dimen305
+\pgfarrowlinewidth=\dimen306
 )
 (d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/t
 ikz/libraries/tikzlibrarypositioning.code.tex
@@ -951,7 +924,15 @@ s/pgflibraryshapes.geometric.code.tex
 File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))
 Package hyperref Info: Option `colorlinks' set `true' on input line 32.
- (./operation_manual.aux)
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/UTF8/UTF
+8.enc
+File: UTF8.enc 2021/10/16 4.8.5
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/cjk/texinput/UTF8/UTF
+8.chr
+File: UTF8.chr 2021/10/16 4.8.5
+) (./operation_manual.aux)
 \openout1 = `operation_manual.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 120.
@@ -964,80 +945,83 @@ LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 120.
 LaTeX Font Info:    ... okay on input line 120.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 120.
 LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
 LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 120.
 LaTeX Font Info:    ... okay on input line 120.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C00/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C05/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C09/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C10/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C20/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C19/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C40/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C42/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C43/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C50/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C52/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C49/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C60/mj/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C61/mj/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C63/mj/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C64/mj/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C65/mj/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C70/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C31/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C32/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C33/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C34/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C35/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C36/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C37/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C80/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C81/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C01/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C11/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C21/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C41/song/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for C62/song/m/n on input line 120.
 LaTeX Font Info:    ... okay on input line 120.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 120.
 LaTeX Font Info:    ... okay on input line 120.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 120.
 LaTeX Font Info:    ... okay on input line 120.
 
-Package fontspec Info: 
-(fontspec)             Adjusting the maths setup (use [no-math] to avoid
-(fontspec)             this).
-
-\symlegacymaths=\mathgroup4
-LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 120.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 120.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 120.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 120.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 120.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 120.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 120.
-LaTeX Font Info:    Redeclaring math accent \check on input line 120.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 120.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 120.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \colon on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 120.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 120.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 120.
-LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 120.
-
-LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 120.
-LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 120.
-LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/m/n on input line 120.
-LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 120.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 120.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 120.
-LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 120.
-LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 120.
-LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 120.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 120.
-LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 120.
-LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 120.
-
 *geometry* driver: auto-detecting
-*geometry* detected driver: xetex
+*geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
-* driver: xetex
+* driver: pdftex
 * paper: a4paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -1074,39 +1058,50 @@ Package hyperref Info: Link coloring ON on input line 120.
 \openout5 = `operation_manual.out'.
 
 
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimSun/BI" (it probably doesn't
-(fontspec)             exist).
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.
+mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count355
+\scratchdimen=\dimen307
+\scratchbox=\box83
+\nofMPsegments=\count356
+\nofMParguments=\count357
+\everyMPshowfont=\toks41
+\MPscratchCnt=\count358
+\MPscratchDim=\dimen308
+\MPnumerator=\count359
+\makeMPintoPDFobject=\count360
+\everyMPtoPDFconversion=\toks42
+)
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf
+-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-
+sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    Trying to load font information for C70+zhsong on input lin
+e 127.
+
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/zhmetrics/c70zhsong.f
+d
+File: c70zhsong.fd 2009/09/23 4.8.2
+)
+Package CJKpunct Info: use punctuation spaces for family 'zhsong' with punctsty
+le (quanjiao) on input line 129.
 
 
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimSun/B" (it probably doesn't
-(fontspec)             exist).
 
-
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimSun/I" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
-(fontspec)             Font family 'SimSun(1)' created for font 'SimSun' with
-(fontspec)             options [Script={CJK}].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"SimSun/OT:script=hani;language=dflt;"
-
-
-
-LaTeX Font Warning: Font shape `TU/SimSun(1)/b/n' undefined
-(Font)              using `TU/SimSun(1)/m/n' instead on input line 127.
-
-
-
-[1
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/generic/ctex/zhmap/ctex-zhm
+ap-windows.tex
+File: ctex-zhmap-windows.tex 2022/07/14 v2.5.10 Windows font map loader for pdf
+TeX and DVIPDFMx (CTEX)
+{d:/softwares/LaTex2024/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.m
+ap}{UGBK.sfd}{Unicode.sfd}) [1
 
 ] (./operation_manual.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -1117,6 +1112,11 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 2.
 
 
+LaTeX Font Info:    Trying to load font information for C70+rm on input line 29
+.
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/ctex/fd/c70rm.fd
+File: c70rm.fd 2022/07/14 v2.5.10 Chinese font definition (CTEX)
+)
 [1]
 
 [2])
@@ -1127,331 +1127,709 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [3]
 
-[1]
 
-[2]
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.177 
+       [1]
 
-[3]
+[2
+pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.181 \Needspace{12\baselineskip}
+                                 ]
+(d:/softwares/LaTex2024/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd)
 
-[4]
-File: figures/02-login.png Graphic file (type bmp)
-<figures/02-login.png>
+[3
+pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.226 \Needspace{16\baselineskip}
+                                 
+pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.226 \Needspace{16\baselineskip}
+                                 ]
+
+[4
+pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.259 ...�示当前用户名及下拉菜单。\par
+                                                  ]
+<figures/02-login.png, id=518, 838.63312pt x 693.34032pt>
+File: figures/02-login.png Graphic file (type png)
+<use figures/02-login.png>
+Package pdftex.def Info: figures/02-login.png  used on input line 277.
+(pdftex.def)             Requested size: 422.58112pt x 349.36708pt.
 
 
 [5]
 
-[6]
-File: figures/op-register-enterprise.png Graphic file (type bmp)
-<figures/op-register-enterprise.png>
+[6
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.281 \Needspace{16\baselineskip}
+                                  <./figures/02-login.png (PNG copy)>]
+<figures/op-register-enterprise.png, id=536, 721.19438pt x 678.28406pt>
+File: figures/op-register-enterprise.png Graphic file (type png)
+<use figures/op-register-enterprise.png>
+Package pdftex.def Info: figures/op-register-enterprise.png  used on input line
+ 314.
+(pdftex.def)             Requested size: 422.58112pt x 397.43108pt.
 
 
-[7]
+[7
+pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.314 }
+       ]
 
-[8]
-File: figures/op-login.png Graphic file (type bmp)
-<figures/op-login.png>
+[8
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.325   \item �
+               ��击【登录】按钮，或在输入框中按回车键提�...
+ <./figures/op-register-enterprise.png (PNG copy)>]
+<figures/op-login.png, id=553, 721.19438pt x 678.28406pt>
+File: figures/op-login.png Graphic file (type png)
+<use figures/op-login.png>
+Package pdftex.def Info: figures/op-login.png  used on input line 331.
+(pdftex.def)             Requested size: 422.58112pt x 397.43108pt.
 
 
-[9]
+[9
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.335 \Needspace{14\baselineskip}
+                                  <./figures/op-login.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 351--351
-[]|\TU/SimSun(0)/m/n/12 审 核 员  |（\TU/lmr/m/n/12 AUDI-
+[]|\C70/rm/m/n/12/7b � \C70/rm/m/n/12/74 ^^F \C70/rm/m/n/12/54 X
  []
 
-File: figures/09-hash-query-result.png Graphic file (type bmp)
-<figures/09-hash-query-result.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 351--351
+[]|\C70/rm/m/n/12/5b � \C70/rm/m/n/12/68 8 \C70/rm/m/n/12/54 X
+ []
 
 
-[10]
+Underfull \hbox (badness 10000) in paragraph at lines 351--351
+|\C70/rm/m/n/12/ff ^^H|\OT1/cmr/m/n/12 AUDITOR|\C70/rm/m/n/12/ff 	|
+ []
 
-[11]
+
+
+[10
+pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.368 ...��首页如图\ref{fig:home}所示。\par
+                                                  ]
+<figures/09-hash-query-result.png, id=575, 851.43094pt x 693.34032pt>
+File: figures/09-hash-query-result.png Graphic file (type png)
+<use figures/09-hash-query-result.png>
+Package pdftex.def Info: figures/09-hash-query-result.png  used on input line 3
+72.
+(pdftex.def)             Requested size: 422.58112pt x 344.11964pt.
+
+Overfull \hbox (5.48602pt too wide) in paragraph at lines 378--379
+[]\C70/zhsong/bx/n/12.045/98 v[][] \C70/zhsong/bx/n/12.045/90 �[][] \C70/zhsong
+/bx/n/12.045/5b �[][] \C70/zhsong/bx/n/12.045/82 *[][] \C70/zhsong/bx/n/12.045/
+68 ^^O[][]|\C70/zhsong/m/n/12.045/ff ^^Z| \C70/zhsong/m/n/12.045/5d � \C70/zhso
+ng/bx/n/12.045/4f � \C70/zhsong/bx/n/12.045/4e : \C70/zhsong/bx/n/12.045/5e s \
+C70/zhsong/bx/n/12.045/53 � \C70/zhsong/bx/n/12.045/68 ^^G \C70/zhsong/bx/n/12.
+045/8b � |\C70/zhsong/m/n/12.045/20 ^^\|\C70/zhsong/bx/n/12.045/72 H \C70/zhson
+g/bx/n/12.045/67 C \C70/zhsong/bx/n/12.045/4e � \C70/zhsong/m/n/12.045/94 �|\C7
+0/zhsong/m/n/12.045/20 ^^]||\C70/zhsong/m/n/12.045/ff ^^L| \C70/zhsong/m/n/12.0
+45/70 � \C70/zhsong/bx/n/12.045/51 � \C70/zhsong/bx/n/12.045/53 � \C70/zhsong/m
+/n/12.045/8f � \C70/zhsong/m/n/12.045/56 � \C70/zhsong/m/n/12.045/99 � \C70/zhs
+ong/bx/n/12.045/98 u|\C70/zhsong/m/n/12.045/ff ^^[| \C70/zhsong/bx/n/12.045/4e 
+- \C70/zhsong/bx/n/12.045/90 � \C70/zhsong/bx/n/12.045/4e : |\C70/zhsong/m/n/12
+.045/20 ^^\|\C70/zhsong/m/n/12.045/99 � \C70/zhsong/bx/n/12.045/98 u|\C70/zhson
+g/m/n/12.045/20 ^^]||^^\|\C70/zhsong/bx/n/12.045/72 H
+ []
+
+
+
+[11
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.380   \item \textbf
+                     {页脚}：展示平台版权信息与系统说明文�...
+{d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-sup
+er-ts1.enc} <./figures/09-hash-query-result.png (PNG copy)>]
 Underfull \hbox (badness 1082) in paragraph at lines 406--406
-[]|\TU/SimSun(0)/m/n/12 已 登 录 且 角 色 为 个 人
+[]|\C70/rm/m/n/12/5d � \C70/rm/m/n/12/76 { \C70/rm/m/n/12/5f U \C70/rm/m/n/12/4
+e ^^T \C70/rm/m/n/12/89 � \C70/rm/m/n/12/82 r \C70/rm/m/n/12/4e : * �
  []
 
 
 
-[12]
-Underfull \hbox (badness 1616) in paragraph at lines 426--426
-[]|\TU/SimSun(0)/m/n/12 我 的 版 权 记 录、|  企 业
- []
+[12
+pdfTeX warning (ext4): destination with the same identifier (name{table.7}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.412 \Needspace{18\baselineskip}
+                                 ]
+
+[13
+pdfTeX warning (ext4): destination with the same identifier (name{table.8}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.444   \item �
+               ��“上传文件”区域拖拽文件至虚线框内，或�...
+]
+<figures/04-apply-form.png, id=602, 851.43094pt x 693.34032pt>
+File: figures/04-apply-form.png Graphic file (type png)
+<use figures/04-apply-form.png>
+Package pdftex.def Info: figures/04-apply-form.png  used on input line 453.
+(pdftex.def)             Requested size: 422.58112pt x 344.11964pt.
 
 
-Underfull \hbox (badness 1616) in paragraph at lines 426--426
-[]|\TU/SimSun(0)/m/n/12 管 理 后 台  |（管 理 员 可
- []
+[14
+pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.454 
+       <./figures/04-apply-form.png (PNG copy)>]
+<figures/op-apply-result.png, id=615, 721.19438pt x 837.88031pt>
+File: figures/op-apply-result.png Graphic file (type png)
+<use figures/op-apply-result.png>
+Package pdftex.def Info: figures/op-apply-result.png  used on input line 457.
+(pdftex.def)             Requested size: 422.58112pt x 490.94429pt.
 
 
+[15
+pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.461 \Needspace{14\baselineskip}
+                                  <./figures/op-apply-result.png>]
 
-[13]
-File: figures/04-apply-form.png Graphic file (type bmp)
-<figures/04-apply-form.png>
+[16
+pdfTeX warning (ext4): destination with the same identifier (name{table.9}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.481 \Needspace{18\baselineskip}
+                                 ]
+
+[17
+pdfTeX warning (ext4): destination with the same identifier (name{table.10}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.516   \item �
+               ��“请输入文件哈希值（SHA-256）”输入框中粘�...
+]
+<figures/op-hash-query-result.png, id=641, 721.19438pt x 678.28406pt>
+File: figures/op-hash-query-result.png Graphic file (type png)
+<use figures/op-hash-query-result.png>
+Package pdftex.def Info: figures/op-hash-query-result.png  used on input line 5
+27.
+(pdftex.def)             Requested size: 422.58112pt x 397.43108pt.
 
 
-[14]
-File: figures/op-apply-result.png Graphic file (type bmp)
-<figures/op-apply-result.png>
+[18
+pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.529 
+       <./figures/op-hash-query-result.png (PNG copy)>]
 
-
-[15]
-
-[16]
-
-[17]
-File: figures/op-hash-query-result.png Graphic file (type bmp)
-<figures/op-hash-query-result.png>
-
-
-[18]
-
-[19]
-File: figures/op-my-records.png Graphic file (type bmp)
-<figures/op-my-records.png>
+[19
+pdfTeX warning (ext4): destination with the same identifier (name{table.11}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.567 ...述及创建/更新时间等信息。\par
+                                                  ]
+<figures/op-my-records.png, id=661, 1049.42062pt x 678.28406pt>
+File: figures/op-my-records.png Graphic file (type png)
+<use figures/op-my-records.png>
+Package pdftex.def Info: figures/op-my-records.png  used on input line 585.
+(pdftex.def)             Requested size: 422.58112pt x 273.13037pt.
 
 
 [20]
 
-[21]
-File: figures/07-onchain-success.png Graphic file (type bmp)
-<figures/07-onchain-success.png>
+[21
+pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.589 \Needspace{16\baselineskip}
+                                  <./figures/op-my-records.png (PNG copy)>]
+<figures/07-onchain-success.png, id=681, 1445.4pt x 699.36281pt>
+File: figures/07-onchain-success.png Graphic file (type png)
+<use figures/07-onchain-success.png>
+Package pdftex.def Info: figures/07-onchain-success.png  used on input line 614
+.
+(pdftex.def)             Requested size: 422.58112pt x 204.46408pt.
 
 
-[22]
-File: figures/op-enterprise-records.png Graphic file (type bmp)
-<figures/op-enterprise-records.png>
+[22
+pdfTeX warning (ext4): destination with the same identifier (name{table.12}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.620   \item \textbf
+                     {相似度评分}：系统与历史样本比对得到�...
+
+pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.620   \item \textbf
+                     {相似度评分}：系统与历史样本比对得到�...
+ <./figures/07-onchain-success.png (PNG copy)>]
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12.045> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 626.
+
+Overfull \hbox (1.50017pt too wide) in paragraph at lines 626--626
+[]\C70/zhsong/bx/n/12.045/72 H \C70/zhsong/bx/n/12.045/67 C \C70/zhsong/bx/n/12
+.045/8b � \C70/zhsong/bx/n/12.045/60 � \C70/zhsong/bx/n/12.045/98 u \C70/zhsong
+/bx/n/12.045/4e � \C70/zhsong/bx/n/12.045/72 � \C70/zhsong/m/n/12.045/7a � \C70
+/zhsong/bx/n/12.045/98 u \C70/zhsong/m/n/12.045/97 b \C70/zhsong/m/n/12.045/5f 
+b ^^O \C70/zhsong/m/n/12.045/5c U \C70/zhsong/m/n/12.045/79 : \C70/zhsong/bx/n/
+12.045/53 U \C70/zhsong/bx/n/12.045/67 a \C70/zhsong/bx/n/12.045/72 H \C70/zhso
+ng/bx/n/12.045/67 C \C70/zhsong/bx/n/12.045/8b � \C70/zhsong/m/n/12.045/5f U|\C
+70/zhsong/m/n/12.045/ff ^^L| \C70/zhsong/bx/n/12.045/53 � \C70/zhsong/bx/n/12.0
+45/90 ^^Z \C70/zhsong/m/n/12.045/8f � |\C70/zhsong/bx/n/12.045/20 ^^\|\OT1/cmr/
+m/n/12.045 /copyright/\OMS/cmsy/m/n/12.045 f\C70/zhsong/bx/n/12.045/75 3 \C70/z
+hsong/bx/n/12.045/8b � \C70/zhsong/m/n/12.045/7f ^^V \C70/zhsong/bx/n/12.045/53
+ �\OMS/cmsy/m/n/12.045 g|\C70/zhsong/bx/n/12.045/20 ^^]|
+ []
+
+<figures/op-enterprise-records.png, id=688, 1049.42062pt x 678.28406pt>
+File: figures/op-enterprise-records.png Graphic file (type png)
+<use figures/op-enterprise-records.png>
+Package pdftex.def Info: figures/op-enterprise-records.png  used on input line 
+640.
+(pdftex.def)             Requested size: 422.58112pt x 273.13037pt.
 
 
 [23]
-File: figures/op-enterprise-members.png Graphic file (type bmp)
-<figures/op-enterprise-members.png>
+<figures/op-enterprise-members.png, id=697, 1049.42062pt x 678.28406pt>
+File: figures/op-enterprise-members.png Graphic file (type png)
+<use figures/op-enterprise-members.png>
+Package pdftex.def Info: figures/op-enterprise-members.png  used on input line 
+656.
+(pdftex.def)             Requested size: 422.58112pt x 273.13037pt.
 
 
-[24]
+[24
+pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.656 }
+        <./figures/op-enterprise-records.png (PNG copy)>]
 
-[25]
-File: figures/14-audit-list.png Graphic file (type bmp)
-<figures/14-audit-list.png>
+[25
+pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.677   \item �
+               ��“审核状态”下拉框选择“待审核”“已通�...
+ <./figures/op-enterprise-members.png (PNG copy)>]
+<figures/14-audit-list.png, id=719, 1445.4pt x 699.36281pt>
+File: figures/14-audit-list.png Graphic file (type png)
+<use figures/14-audit-list.png>
+Package pdftex.def Info: figures/14-audit-list.png  used on input line 684.
+(pdftex.def)             Requested size: 422.58112pt x 204.46408pt.
 
 
-[26]
-File: figures/op-audit-dialog.png Graphic file (type bmp)
-<figures/op-audit-dialog.png>
+[26
+pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.695 \end{enumerate}
+                      <./figures/14-audit-list.png (PNG copy)>]
+<figures/op-audit-dialog.png, id=731, 1049.42062pt x 678.28406pt>
+File: figures/op-audit-dialog.png Graphic file (type png)
+<use figures/op-audit-dialog.png>
+Package pdftex.def Info: figures/op-audit-dialog.png  used on input line 709.
+(pdftex.def)             Requested size: 422.58112pt x 273.13037pt.
 
 
-[27]
-Underfull \hbox (badness 1057) in paragraph at lines 726--726
-[]|\TU/lmr/m/n/12 REJECTED / \TU/SimSun(0)/m/n/12 审
+[27
+pdfTeX warning (ext4): destination with the same identifier (name{figure.13}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.714 \Needspace{12\baselineskip}
+                                  <./figures/op-audit-dialog.png (PNG copy)>]
+Underfull \hbox (badness 1052) in paragraph at lines 726--726
+[]|\OT1/cmr/m/n/12 REJECTED / \C70/rm/m/n/12/5b �
  []
 
-File: figures/16-admin-dashboard.png Graphic file (type bmp)
-<figures/16-admin-dashboard.png>
+<figures/16-admin-dashboard.png, id=745, 1445.4pt x 699.36281pt>
+File: figures/16-admin-dashboard.png Graphic file (type png)
+<use figures/16-admin-dashboard.png>
+Package pdftex.def Info: figures/16-admin-dashboard.png  used on input line 748
+.
+(pdftex.def)             Requested size: 422.58112pt x 204.46408pt.
 
 
-[28]
-File: figures/op-admin-user-dialog.png Graphic file (type bmp)
-<figures/op-admin-user-dialog.png>
+[28
+pdfTeX warning (ext4): destination with the same identifier (name{table.13}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.748 }
+       ]
+<figures/op-admin-user-dialog.png, id=755, 1049.42062pt x 678.28406pt>
+File: figures/op-admin-user-dialog.png Graphic file (type png)
+<use figures/op-admin-user-dialog.png>
+Package pdftex.def Info: figures/op-admin-user-dialog.png  used on input line 7
+65.
+(pdftex.def)             Requested size: 422.58112pt x 273.13037pt.
 
 
-[29]
-File: figures/op-admin-role-dialog.png Graphic file (type bmp)
-<figures/op-admin-role-dialog.png>
+[29
+pdfTeX warning (ext4): destination with the same identifier (name{figure.14}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.765 }
+        <./figures/16-admin-dashboard.png (PNG copy)>]
+<figures/op-admin-role-dialog.png, id=768, 843.15pt x 488.57532pt>
+File: figures/op-admin-role-dialog.png Graphic file (type png)
+<use figures/op-admin-role-dialog.png>
+Package pdftex.def Info: figures/op-admin-role-dialog.png  used on input line 7
+69.
+(pdftex.def)             Requested size: 422.58112pt x 244.876pt.
 
 
-[30]
-File: figures/op-admin-copyrights.png Graphic file (type bmp)
-<figures/op-admin-copyrights.png>
+[30
+pdfTeX warning (ext4): destination with the same identifier (name{figure.15}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.771 ...�误后执行，并保留操作记录。}
+                                                  
+pdfTeX warning (ext4): destination with the same identifier (name{figure.16}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.771 ...�误后执行，并保留操作记录。}
+                                                   <./figures/op-admin-user-dia
+log.png (PNG copy)> <./figures/op-admin-role-dialog.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 778--779
+
+ []
+
+<figures/op-admin-copyrights.png, id=775, 849.1725pt x 505.13719pt>
+File: figures/op-admin-copyrights.png Graphic file (type png)
+<use figures/op-admin-copyrights.png>
+Package pdftex.def Info: figures/op-admin-copyrights.png  used on input line 78
+5.
+(pdftex.def)             Requested size: 422.58112pt x 251.37326pt.
 
 
-[31]
+[31
+pdfTeX warning (ext4): destination with the same identifier (name{figure.17}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.790   \item �
+               ��色调整受主体边界约束：企业开发者必须绑�...
+ <./figures/op-admin-copyrights.png (PNG copy)>]
 
-[32]
-File: figures/op-profile-info.png Graphic file (type bmp)
-<figures/op-profile-info.png>
+[32
+pdfTeX warning (ext4): destination with the same identifier (name{table.14}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.823   \item �
+               ��击【保存修改】提交，页面提示“保存成功�...
+]
+<figures/op-profile-info.png, id=795, 868.74562pt x 678.28406pt>
+File: figures/op-profile-info.png Graphic file (type png)
+<use figures/op-profile-info.png>
+Package pdftex.def Info: figures/op-profile-info.png  used on input line 829.
+(pdftex.def)             Requested size: 422.58112pt x 329.94025pt.
 
 
-[33]
+[33
+pdfTeX warning (ext4): destination with the same identifier (name{figure.18}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.839   \item �
+               ��次输入新密码进行确认，两次输入必须一致； <
+./figures/op-profile-info.png (PNG copy)>]
 
 [34]
 
-[35]
+[35
+pdfTeX warning (ext4): destination with the same identifier (name{figure.19}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.891   \item �
+               ��统完成相似性评估，判定为低风险后自动进�...
+]
+Underfull \hbox (badness 10000) in paragraph at lines 917--918
+
+ []
+
+
 
 [36]
 Underfull \hbox (badness 3884) in paragraph at lines 938--938
-[]|\TU/SimSun(0)/m/n/12 提 示 用 户 名 或 密 码
+[]|\C70/rm/m/n/12/63 � \C70/rm/m/n/12/79 : \C70/rm/m/n/12/75 ( \C70/rm/m/n/12/6
+2 7 \C70/rm/m/n/12/54 ^^M \C70/rm/m/n/12/62 ^^V \C70/rm/m/n/12/5b � \C70/rm/m/n
+/12/78 ^^A
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 938--938
+[]|\C70/rm/m/n/12/8d & \C70/rm/m/n/12/53 � \C70/rm/m/n/12/5b � \C70/rm/m/n/12/7
+8 ^^A \C70/rm/m/n/12/8f � \C70/rm/m/n/12/51 e \C70/rm/m/n/12/67 	 \C70/rm/m/n/1
+2/8b �|\C70/rm/m/n/12/ff ^^L|
  []
 
 
 Underfull \hbox (badness 3884) in paragraph at lines 938--938
-[]|\TU/SimSun(0)/m/n/12 登 录 后 立 即 跳 回 登
+[]|\C70/rm/m/n/12/76 { \C70/rm/m/n/12/5f U \C70/rm/m/n/12/54 ^^N \C70/rm/m/n/12
+/7a � \C70/rm/m/n/12/53 s \C70/rm/m/n/12/8d � \C70/rm/m/n/12/56 � \C70/rm/m/n/1
+2/76 {
  []
 
 
 Underfull \hbox (badness 1082) in paragraph at lines 938--938
-[]|\TU/SimSun(0)/m/n/12 登 录 令 牌 失 效 或 本 地
+[]|\C70/rm/m/n/12/76 { \C70/rm/m/n/12/5f U \C70/rm/m/n/12/4e � \C70/rm/m/n/12/7
+2 L \C70/rm/m/n/12/59 1 \C70/rm/m/n/12/65 H \C70/rm/m/n/12/62 ^^V \C70/rm/m/n/1
+2/67 , \C70/rm/m/n/12/57 0
  []
 
 
 Underfull \hbox (badness 1082) in paragraph at lines 938--938
-[]|\TU/SimSun(0)/m/n/12 当 前 角 色 不 是 个 人 开
+[]|\C70/rm/m/n/12/5f S \C70/rm/m/n/12/52 M \C70/rm/m/n/12/89 � \C70/rm/m/n/12/8
+2 r \C70/rm/m/n/12/4e ^^M \C70/rm/m/n/12/66 / \C70/rm/m/n/12/4e * � \C70/rm/m/n
+/12/5f ^^@
  []
 
 
 Underfull \hbox (badness 3884) in paragraph at lines 938--938
-[]|\TU/SimSun(0)/m/n/12 注 册 时 提 示 用 户 名
+[]|\C70/rm/m/n/12/6c � \C70/rm/m/n/12/51 � \C70/rm/m/n/12/65 � \C70/rm/m/n/12/6
+3 � \C70/rm/m/n/12/79 : \C70/rm/m/n/12/75 ( \C70/rm/m/n/12/62 7 \C70/rm/m/n/12/
+54 ^^M
  []
 
 
 
-[37]
+[37
+pdfTeX warning (ext4): destination with the same identifier (name{table.15}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.942 \Needspace{18\baselineskip}
+                                 ]
 Underfull \hbox (badness 1082) in paragraph at lines 957--957
-[]|\TU/SimSun(0)/m/n/12 文 件 内 容 与 平 台 已 确
+[]|\C70/rm/m/n/12/65 � \C70/rm/m/n/12/4e � \C70/rm/m/n/12/51 � \C70/rm/m/n/12/5
+b � \C70/rm/m/n/12/4e ^^N \C70/rm/m/n/12/5e s \C70/rm/m/n/12/53 � \C70/rm/m/n/1
+2/5d � \C70/rm/m/n/12/78 n
  []
 
 
 Underfull \hbox (badness 1082) in paragraph at lines 957--957
-[]|\TU/SimSun(0)/m/n/12 未 选 择 文 件 或 软 件 名
+[]|\C70/rm/m/n/12/67 * \C70/rm/m/n/12/90 	 \C70/rm/m/n/12/62 � \C70/rm/m/n/12/6
+5 � \C70/rm/m/n/12/4e � \C70/rm/m/n/12/62 ^^V \C70/rm/m/n/12/8f o \C70/rm/m/n/1
+2/4e � \C70/rm/m/n/12/54 ^^M
  []
 
 
 Underfull \hbox (badness 3884) in paragraph at lines 957--957
-[]|\TU/SimSun(0)/m/n/12 上 传 失 败 或 长 时 间
+[]|\C70/rm/m/n/12/4e 
+ \C70/rm/m/n/12/4f   \C70/rm/m/n/12/59 1 \C70/rm/m/n/12/8d % \C70/rm/m/n/12/62 
+^^V \C70/rm/m/n/12/95 ^^? \C70/rm/m/n/12/65 � \C70/rm/m/n/12/95 �
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 957--957
+[]|\C70/rm/m/n/12/75 3 \C70/rm/m/n/12/8b � \C70/rm/m/n/12/54 } \C70/rm/m/n/12/4
+e - - \C70/rm/m/n/12/9a � \C70/rm/m/n/12/98 � \C70/rm/m/n/12/96 i|\C70/rm/m/n/1
+2/ff ^^L|
  []
 
 
 Underfull \hbox (badness 1082) in paragraph at lines 957--957
-[]|\TU/SimSun(0)/m/n/12 链 上 服 务 异 常 或 交 易
+[]|\C70/rm/m/n/12/94 � \C70/rm/m/n/12/4e 
+ \C70/rm/m/n/12/67 ^^M \C70/rm/m/n/12/52 � \C70/rm/m/n/12/5f ^^B \C70/rm/m/n/12
+/5e 8 \C70/rm/m/n/12/62 ^^V \C70/rm/m/n/12/4e � \C70/rm/m/n/12/66 ^^S
  []
 
 
 
-[38]
+[38
+pdfTeX warning (ext4): destination with the same identifier (name{table.16}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.961 \Needspace{20\baselineskip}
+                                 ]
 Underfull \hbox (badness 3884) in paragraph at lines 977--977
-[]|\TU/SimSun(0)/m/n/12 哈 希 查 询 提 示 未 找
+[]|\C70/rm/m/n/12/54 � \C70/rm/m/n/12/5e ^^L \C70/rm/m/n/12/67 � \C70/rm/m/n/12
+/8b � \C70/rm/m/n/12/63 � \C70/rm/m/n/12/79 : \C70/rm/m/n/12/67 * \C70/rm/m/n/1
+2/62 ~
  []
 
 
 Underfull \hbox (badness 3884) in paragraph at lines 977--977
-[]|\TU/SimSun(0)/m/n/12 查 询 结 果 无 交 易 哈
+[]|\C70/rm/m/n/12/67 � \C70/rm/m/n/12/8b � \C70/rm/m/n/12/7e � \C70/rm/m/n/12/6
+7 � \C70/rm/m/n/12/65 � \C70/rm/m/n/12/4e � \C70/rm/m/n/12/66 ^^S \C70/rm/m/n/1
+2/54 �
  []
 
 
 Underfull \hbox (badness 3884) in paragraph at lines 977--977
-[]|\TU/SimSun(0)/m/n/12 管 理 员 看 不 到 管 理
+[]|\C70/rm/m/n/12/7b � \C70/rm/m/n/12/74 ^^F \C70/rm/m/n/12/54 X \C70/rm/m/n/12
+/77  \C70/rm/m/n/12/4e ^^M \C70/rm/m/n/12/52 0 \C70/rm/m/n/12/7b � \C70/rm/m/n
+/12/74 ^^F
  []
 
 
 Underfull \hbox (badness 3884) in paragraph at lines 977--977
-[]|\TU/SimSun(0)/m/n/12 企 业 版 权 记 录 菜 单
+[]|\C70/rm/m/n/12/4f ^^A \C70/rm/m/n/12/4e ^^Z \C70/rm/m/n/12/72 H \C70/rm/m/n/
+12/67 C \C70/rm/m/n/12/8b � \C70/rm/m/n/12/5f U \C70/rm/m/n/12/83 � \C70/rm/m/n
+/12/53 U
  []
 
 
 Underfull \hbox (badness 3884) in paragraph at lines 977--977
-[]|\TU/SimSun(0)/m/n/12 修 改 密 码 后 被 迫 退
+[]|\C70/rm/m/n/12/4f � \C70/rm/m/n/12/65 9 \C70/rm/m/n/12/5b � \C70/rm/m/n/12/7
+8 ^^A \C70/rm/m/n/12/54 ^^N \C70/rm/m/n/12/88 � \C70/rm/m/n/12/8f � \C70/rm/m/n
+/12/90 ^^@
  []
 
 
 Underfull \hbox (badness 1082) in paragraph at lines 977--977
-[]|\TU/SimSun(0)/m/n/12 系 统 安 全 机 制 要 求 重
+[]|\C70/rm/m/n/12/7c � \C70/rm/m/n/12/7e � \C70/rm/m/n/12/5b � \C70/rm/m/n/12/5
+1 h \C70/rm/m/n/12/67 : \C70/rm/m/n/12/52 6 \C70/rm/m/n/12/89 � \C70/rm/m/n/12/
+6c B \C70/rm/m/n/12/91 �
  []
 
 
 
-[39]
+[39
+pdfTeX warning (ext4): destination with the same identifier (name{table.17}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.985 \Needspace{16\baselineskip}
+                                 ]
 
-[40]
-Underfull \hbox (badness 4805) in paragraph at lines 1025--1025
-[]|\TU/SimSun(0)/m/n/12 待 审 核\TU/lmr/m/n/12 /\TU/SimSun(0)/m/n/12 审 核 通 过\TU/lm
-r/m/n/12 /\TU/SimSun(0)/m/n/12 审
+[40
+pdfTeX warning (ext4): destination with the same identifier (name{table.18}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.1008 \Needspace{16\baselineskip}
+                                  ]
+Underfull \hbox (badness 4819) in paragraph at lines 1025--1025
+[]|\C70/rm/m/n/12/5f � \C70/rm/m/n/12/5b � \C70/rm/m/n/12/68 8\OT1/cmr/m/n/12 /
+\C70/rm/m/n/12/5b � \C70/rm/m/n/12/68 8 \C70/rm/m/n/12/90 ^^Z \C70/rm/m/n/12/8f
+ �\OT1/cmr/m/n/12 /\C70/rm/m/n/12/5b �
  []
 
 
-Underfull \hbox (badness 4805) in paragraph at lines 1025--1025
-[]|\TU/SimSun(0)/m/n/12 低 风 险\TU/lmr/m/n/12 /\TU/SimSun(0)/m/n/12 中 风 险\TU/lmr/
-m/n/12 /\TU/SimSun(0)/m/n/12 高 风
+Underfull \hbox (badness 4819) in paragraph at lines 1025--1025
+[]|\C70/rm/m/n/12/4f N \C70/rm/m/n/12/98 � \C70/rm/m/n/12/96 i\OT1/cmr/m/n/12 /
+\C70/rm/m/n/12/4e - \C70/rm/m/n/12/98 � \C70/rm/m/n/12/96 i\OT1/cmr/m/n/12 /\C7
+0/rm/m/n/12/9a � \C70/rm/m/n/12/98 �
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1035--1035
-[]|\TU/SimSun(0)/m/n/10.95 所 在 章
- []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1039--1039
-[]|\TU/SimSun(0)/m/n/10.95 所 在 章
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1045--1045
-[]|\TU/lmr/m/n/10.95 op-register-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
-[]|\TU/lmr/m/n/10.95 09-hash-query-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1050--1050
-[]|\TU/lmr/m/n/10.95 op-hash-query-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1052--1052
-[]|\TU/lmr/m/n/10.95 07-onchain-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1053--1053
-[]|\TU/lmr/m/n/10.95 op-enterprise-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1054--1054
-[]|\TU/lmr/m/n/10.95 op-enterprise-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1057--1057
-[]|\TU/lmr/m/n/10.95 16-admin-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1058--1058
-[]|\TU/lmr/m/n/10.95 op-admin-user-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1059--1059
-[]|\TU/lmr/m/n/10.95 op-admin-role-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1060--1060
-[]|\TU/lmr/m/n/10.95 op-admin-
- []
-
-[41]
-
-[42]
-
-[43] (./operation_manual.aux)
+[41
+pdfTeX warning (ext4): destination with the same identifier (name{table.19}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.1038 \end{document}
+                     ] (./operation_manual.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2022/07/14>
  ***********
-
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
 Package rerunfilecheck Info: File `operation_manual.out' has not changed.
-(rerunfilecheck)             Checksum: 520E1E11C3DE89A71D7D54FEED1E194E;7172.
+(rerunfilecheck)             Checksum: 758D306C06F83E90C64F3978D4FCBEF8;7019.
  ) 
 Here is how much of TeX's memory you used:
- 29639 strings out of 474234
- 682754 string characters out of 5736896
- 1050013 words of memory out of 5000000
- 51847 multiletter control sequences out of 15000+600000
- 564860 words of font info for 82 fonts, out of 8000000 for 9000
- 1348 hyphenation exceptions out of 8191
- 93i,12n,111p,1206b,798s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 30065 strings out of 473578
+ 590798 string characters out of 5722181
+ 930851 words of memory out of 5000000
+ 51755 multiletter control sequences out of 15000+600000
+ 645286 words of font info for 353 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 88i,12n,92p,1206b,800s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/s
+imsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows
+/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:
+/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun
+.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Font
+s/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Wind
+ows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc>
+<c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/sim
+sun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/F
+onts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/W
+indows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.t
+tc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/
+simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Window
+s/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c
+:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsu
+n.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fon
+ts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Win
+dows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc
+><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/si
+msun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/
+Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/
+Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.
+ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts
+/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windo
+ws/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><
+c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/sims
+un.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fo
+nts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Wi
+ndows/Fonts/simsun.ttc><d:/softwares/LaTex2024/texlive/2024/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmbx12.pfb><d:/softwares/LaTex2024/texlive/2024/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/softwares/LaTex2024/texlive/202
+4/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/softwares/LaTex2024/t
+exlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/softwares/
+LaTex2024/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on operation_manual.pdf (45 pages, 1464101 bytes).
+PDF statistics:
+ 1199 PDF objects out of 1200 (max. 8388607)
+ 959 compressed objects within 10 object streams
+ 275 named destinations out of 1000 (max. 500000)
+ 915 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-Output written on operation_manual.pdf (47 pages).
